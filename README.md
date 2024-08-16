@@ -2,6 +2,8 @@
 
 ```
 <head>
+  <!-- STEP 0: Include HLS.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <!-- STEP 1: Include the SDK -->
   <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/build/sdk-dai.iife.js"></script>
 </head>
@@ -65,7 +67,7 @@
             )
 
             onEventTracking('*', (payload) => {
-              eventLog.value.push(payload)
+              console.log('[LOG] ~ payload:', payload)
             })
           }
         },
