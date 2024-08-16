@@ -3,7 +3,7 @@
 ```
 <head>
   <!-- STEP 1: Include the SDK -->
-  <script src="https://dev-streaming.gviet.vn:8783/micro/cms/sdk-dai/sdk-dai.iife.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/build/sdk-dai.iife.js"></script>
 </head>
 
 <body>
