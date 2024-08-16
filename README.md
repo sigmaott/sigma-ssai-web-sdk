@@ -48,10 +48,26 @@
 
       // STEP 4: Create a new instance of the SDK
       window.SigmaDaiSdk.createSigmaDai({ video, adContainer, url }).then(
-        ({ onEventTracking }) => {
-          onEventTracking('*', (payload) => {
-            console.log('[LOG] ~ payload:', payload)
-          })
+        ({ onEventTracking, manifestUrl, hlsHelper }) => {
+          if (window.Hls.isSupported()) {
+            const hls = new window.Hls()
+
+            hls.loadSource(manifestUrl)
+            hls.attachMedia(video)
+
+            hls.on(
+              window.Hls.Events.FRAG_CHANGED,
+              hlsHelper.createHlsFragChanged(),
+            )
+            hls.on(
+              window.Hls.Events.FRAG_PARSING_METADATA,
+              hlsHelper.createHlsFragParsingMetadata(),
+            )
+
+            onEventTracking('*', (payload) => {
+              eventLog.value.push(payload)
+            })
+          }
         },
       )
     })
