@@ -39,7 +39,7 @@
 
       // STEP 6: Create a new instance of the Sigma SSAI SDK with the video and ad containers
       window.SigmaDaiSdk.createSigmaDai({ video, adContainer, url: manifestUrl })
-        .then(({ onEventTracking, manifestUrl, hlsHelper }) => {
+        .then(({ onEventTracking, manifestUrl, sigmaPlayer }) => {
           // Check if the HLS.js is supported in the browser
           if (window.Hls.isSupported()) {
             const hls = new window.Hls();
@@ -49,8 +49,7 @@
             hls.attachMedia(video);
 
             // STEP 8: Set up HLS event handlers to manage ad insertion and tracking
-            hls.on(window.Hls.Events.FRAG_CHANGED, hlsHelper.createHlsFragChanged());
-            hls.on(window.Hls.Events.FRAG_PARSING_METADATA, hlsHelper.createHlsFragParsingMetadata());
+            sigmaPlayer.attachHls(hls)
 
             // STEP 9: Set up event tracking for logging
             onEventTracking('*', (payload) => {
