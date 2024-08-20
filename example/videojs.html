@@ -41,7 +41,7 @@
           sigmaPlayer.attachVideojs(player)
 
           onEventTracking('*', (payload) => {
-            eventLog2.value.push(payload)
+            console.log('[LOG] Event Payload:', payload);
           })
         });
     });
