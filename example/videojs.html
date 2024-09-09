@@ -30,20 +30,35 @@
         'https://dai.sigma.video/manifest/manipulation/session/89b65b8d-f47e-4820-bb75-eee620ab8608/origin04/scte35-av4s-clear/master.m3u8';
 
       // STEP 6: Create a new instance of the Sigma SSAI SDK with the video and ad containers
-      window.SigmaDaiSdk.createSigmaDai({ video, adContainer, url })
-        .then(({ onEventTracking, manifestUrl, sigmaPlayer }) => {
-          const player = videojs(video)
-          player.src({
-            src: manifestUrl,
-            type: 'application/x-mpegURL',
-          })
+      function startSigmaDai() {
+        let destroySigmaDai = null;
+       
+        window.SigmaDaiSdk.createSigmaDai({ video, adContainer, url })
+          .then(({ onEventTracking, manifestUrl, sigmaPlayer, destroy }) => {
+            const player = videojs(video)
+            player.src({
+              src: manifestUrl,
+              type: 'application/x-mpegURL',
+            })
 
-          sigmaPlayer.attachVideojs(player)
+            sigmaPlayer.attachVideojs(player)
 
-          onEventTracking('*', (payload) => {
-            console.log('[LOG] Event Payload:', payload);
-          })
-        });
+            onEventTracking('*', (payload) => {
+              console.log('[LOG] Event Payload:', payload);
+            })
+            
+          });
+      }
+
+      startSigmaDai();
+
+      // Add a button to the page to destroy the Sigma DAI instance
+      const destroyButton = document.createElement('button');
+      destroyButton.textContent = 'Destroy Sigma DAI';
+      destroyButton.onclick = function () {
+        destroySigmaDai();
+      };
+      document.body.appendChild(destroyButton);
     });
   </script>
 </body>
