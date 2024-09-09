@@ -23,6 +23,8 @@
     // STEP 4: Initialize the SDK and set up video streaming and ads when the page loads
     window.addEventListener('load', function () {
       // Get references to the video and ad container elements
+      let destroySigmaDai = null;
+
       const video = document.querySelector('.videoElement');
       const adContainer = document.querySelector('.adContainer');
 
@@ -31,7 +33,6 @@
 
       // STEP 6: Create a new instance of the Sigma SSAI SDK with the video and ad containers
       function startSigmaDai() {
-        let destroySigmaDai = null;
         Date.prototype.__toString = Date.prototype.toString
         Date.prototype.toString = Date.prototype._toString
         window.SigmaDaiSdk.createSigmaDai({ video, adContainer, url })
@@ -43,6 +44,7 @@
             })
 
             sigmaPlayer.attachVideojs(player)
+            destroySigmaDai = destroy;
 
             onEventTracking('*', (payload) => {
               console.log('[LOG] Event Payload:', payload);
