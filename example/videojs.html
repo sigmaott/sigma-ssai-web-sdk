@@ -32,7 +32,8 @@
       // STEP 6: Create a new instance of the Sigma SSAI SDK with the video and ad containers
       function startSigmaDai() {
         let destroySigmaDai = null;
-       
+        Date.prototype.__toString = Date.prototype.toString
+        Date.prototype.toString = Date.prototype._toString
         window.SigmaDaiSdk.createSigmaDai({ video, adContainer, url })
           .then(({ onEventTracking, manifestUrl, sigmaPlayer, destroy }) => {
             const player = videojs(video)
@@ -46,7 +47,7 @@
             onEventTracking('*', (payload) => {
               console.log('[LOG] Event Payload:', payload);
             })
-            
+            Date.prototype.toString = Date.prototype.__toString
           });
       }
 
