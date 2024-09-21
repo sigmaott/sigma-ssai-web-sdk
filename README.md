@@ -37,6 +37,8 @@
       window.SigmaDaiSdk.createSigmaDai({ video, adContainer, url })
         .then(({ onEventTracking, manifestUrl, sigmaPlayer }) => {
           const player = videojs(video)
+
+          // STEP 7: Set the source of the player to the manifest URL
           player.src({
             src: manifestUrl,
             type: 'application/x-mpegURL',
