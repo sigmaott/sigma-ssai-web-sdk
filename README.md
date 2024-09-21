@@ -51,8 +51,12 @@
             type: 'application/x-mpegURL',
           })
 
+          // STEP 8: Attach the Sigma player to the video.js player
+          // BƯỚC 8: Gắn Sigma player vào video.js player
           sigmaPlayer.attachVideojs(player)
 
+          // STEP 9: Set up event tracking for all events
+          // BƯỚC 9: Thiết lập theo dõi sự kiện cho tất cả các sự kiện
           onEventTracking('*', (payload) => {
             console.log('[LOG] Event Payload:', payload);
           })
