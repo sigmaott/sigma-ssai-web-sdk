@@ -9,7 +9,7 @@
   <script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
 
   <!-- STEP 2: Include the Sigma SSAI Web SDK -->
-  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/build/sdk-dai.iife.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v2/build/sdk-dai.iife.js"></script>
 </head>
 
 <body>
@@ -62,7 +62,7 @@
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <!-- STEP 2: Include the Sigma SSAI Web SDK -->
-  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/build/sdk-dai.iife.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v2/build/sdk-dai.iife.js"></script>
 </head>
 
 <body>
