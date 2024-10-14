@@ -3,6 +3,8 @@
 <head>
   <!-- STEP 1: Include the SDK -->
   <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v4/build/sdk-dai.iife.js"></script>
+  <!-- HLS -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 
 <body>
@@ -47,21 +49,14 @@
 
       // STEP 4: Create a new instance of the SDK
       window.SigmaDaiSdk.createSigmaDai({ video, adContainer, url }).then(
-        ({ onEventTracking, manifestUrl, hlsHelper }) => {
+        ({ onEventTracking, manifestUrl, sigmaPlayer }) => {
           if (window.Hls.isSupported()) {
             const hls = new window.Hls()
 
             hls.loadSource(manifestUrl)
             hls.attachMedia(video)
 
-            hls.on(
-              window.Hls.Events.FRAG_CHANGED,
-              hlsHelper.createHlsFragChanged(),
-            )
-            hls.on(
-              window.Hls.Events.FRAG_PARSING_METADATA,
-              hlsHelper.createHlsFragParsingMetadata(),
-            )
+            sigmaPlayer.attachHls(hls)
 
             onEventTracking('*', (payload) => {
               eventLog.value.push(payload)
