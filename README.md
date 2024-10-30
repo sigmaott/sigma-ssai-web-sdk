@@ -1,6 +1,6 @@
 # sigma-ssai-web-sdk
 
-## Videojs Sample
+## Videojs Integration
 ```html
 <!DOCTYPE html>
 
@@ -66,7 +66,7 @@
 
 ```
 
-## Hls Sample
+## Hls Integration
 ```html
 <!DOCTYPE html>
 <head>
