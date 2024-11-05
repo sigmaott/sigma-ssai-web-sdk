@@ -1,6 +1,8 @@
 # sigma-ssai-web-sdk
 
 ## Videojs Integration
+
+> **Note:** VideoJS integration is not supported in Safari browsers. For Safari compatibility, please use the HLS.js integration instead.
 ```html
 <!DOCTYPE html>
 
