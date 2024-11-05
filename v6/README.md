@@ -1,154 +1,204 @@
-# sigma-ssai-web-sdk
+# Sigma SSAI Web SDK Integration
 
-## Videojs Integration
+**Phiên bản** : 1.0  
+**Ngày phát hành** : 05/11/2024  
+**Tác giả** : [Tên tác giả]  
+**Đơn vị** : [Tên tổ chức]
 
-> **Note:** VideoJS integration is not supported in Safari browsers. For Safari compatibility, please use the HLS.js integration instead.
+## Mục lục
+
+1. Giới thiệu
+2. Phạm vi
+3. Thuật ngữ và định nghĩa
+4. Yêu cầu
+5. Quy trình
+6. Tài liệu tham khảo
+7. Phụ lục (nếu có)
+
+## 1. Giới thiệu
+
+Tài liệu này cung cấp hướng dẫn chi tiết về cách tích hợp **Sigma SSAI Web SDK** vào các ứng dụng video, hỗ trợ chèn quảng cáo thông minh trong quá trình phát video. Mục tiêu chính của tài liệu là hướng dẫn người dùng qua các bước thiết lập SDK cho việc phát video và chèn quảng cáo từ các nguồn khác nhau, bao gồm VideoJS và HLS.js. Tài liệu này có tầm quan trọng lớn đối với các tổ chức triển khai video streaming với SSAI (Server-Side Ad Insertion) để cải thiện chất lượng và tính hiệu quả của các chiến dịch quảng cáo.
+
+## 2. Phạm vi
+
+Tài liệu này áp dụng cho các tổ chức hoặc cá nhân có nhu cầu tích hợp **Sigma SSAI Web SDK** vào hệ thống phát video trực tuyến của mình. Nó bao gồm hai phương pháp chính:  
+- **VideoJS Integration**: Sử dụng thư viện VideoJS để phát video và chèn quảng cáo.  
+- **HLS.js Integration**: Sử dụng thư viện HLS.js để phát các video dạng HLS và hỗ trợ chèn quảng cáo.
+
+Tài liệu không bao gồm việc triển khai các phương pháp ngoài VideoJS và HLS.js hoặc các tùy chọn phần mềm khác ngoài Sigma SSAI Web SDK.
+
+## 3. Thuật ngữ và định nghĩa
+
+| Thuật ngữ     | Định nghĩa                                                                 |
+| ------------- | -------------------------------------------------------------------------- |
+| **SSAI**      | Server-Side Ad Insertion, là phương pháp chèn quảng cáo vào luồng video ngay trên server. |
+| **SDK**       | Software Development Kit, bộ công cụ phần mềm hỗ trợ phát triển ứng dụng với các thư viện và API. |
+| **HLS**       | HTTP Live Streaming, một giao thức streaming video qua HTTP. |
+| **VideoJS**   | Thư viện mã nguồn mở hỗ trợ phát video trên trình duyệt với các tính năng như phát full-screen, chèn quảng cáo, và hỗ trợ nhiều định dạng video. |
+
+## 4. Yêu cầu
+
+Tài liệu này yêu cầu các điều kiện sau:
+- **Trình duyệt hỗ trợ**: Các trình duyệt web mới nhất hỗ trợ JavaScript, HTML5, và video playback.
+- **Thư viện**: Cần phải tải và sử dụng các thư viện VideoJS và HLS.js tương ứng.
+- **Phiên bản SDK**: Sigma SSAI Web SDK phiên bản 6.x trở lên.
+- **Video Stream**: Cần có một stream video HLS (M3U8 file) có chứa quảng cáo được chèn từ server.
+
+## 5. Quy trình
+
+Dưới đây là quy trình tích hợp **Sigma SSAI Web SDK** vào dự án của bạn. Quy trình được chia thành hai phần chính: **VideoJS Integration** và **HLS.js Integration**.
+
+### Lưu ý chung
+
+- **Tương thích Safari**: VideoJS không hỗ trợ luồng HLS trên trình duyệt Safari. Thay vào đó, hãy sử dụng phương pháp tích hợp HLS.js để đảm bảo tương thích với Safari.
+
+- **Theo dõi sự kiện**: Cả hai phương pháp tích hợp VideoJS và HLS.js đều hỗ trợ theo dõi sự kiện, cho phép bạn ghi lại các sự kiện quan trọng trong quá trình phát video và chèn quảng cáo.
+
+- **Hủy instance SDK**: Để tránh rò rỉ bộ nhớ, cần phải hủy instance Sigma SSAI SDK khi trang được tải lại bằng cách gọi hàm destroy.
+
+### 5.1. VideoJS Integration
+
+
+
+#### Bước 1: Thêm thư viện VideoJS
+
+Thêm các liên kết và script của thư viện VideoJS vào phần `<head>` của HTML.
+
 ```html
-<!DOCTYPE html>
+<link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
+```
 
-<head>
- <!-- STEP 1: Include the videojs library for streaming -->
-  <!-- BƯỚC 1: Thêm thư viện videojs cho streaming -->
-  <link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
-  <script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
+#### Bước 2: Thêm thư viện Sigma SSAI Web SDK
 
-  <!-- STEP 2: Include the Sigma SSAI Web SDK -->
-  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v6/build/sdk-dai.iife.js"></script>
-</head>
+Thêm thư viện Sigma SSAI Web SDK vào phần `<head>` của HTML.
 
-<body>
-  <!-- STEP 3: Create a container for the video and ad playback -->
-  <!-- BƯỚC 3: Tạo một container cho video và quảng cáo -->
-  <div style="position: relative; width: 720px; overflow: hidden; aspect-ratio: 16/9;">
-    <!-- Video Element -->
-    <video class="videoElement" muted controls playsinline preload="auto"
-      style="position: absolute; inset: 0; width: 100%; height: 100%;"></video>
-    <!-- Ad Container -->
-    <div class="adContainer"
-      style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; width: 100%;"></div>
-  </div>
+```html
+<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v6/build/sdk-dai.iife.js"></script>
 
-  <script>
-    // STEP 4: Initialize the SDK and set up video streaming and ads when the page loads
-    // BƯỚC 4: Khởi tạo SDK và thiết lập video streaming và quảng cáo khi trang tải xong
-    window.addEventListener('load', function () {
-      // Get references to the video and ad container elements
-      const video = document.querySelector('.videoElement');
-      const adContainer = document.querySelector('.adContainer');
-      let destroyFn;
 
-      const url =
-        'https://ssai-stream-dev.sigmaott.com/manifest/manipulation/session/97004de4-1971-4577-8f1b-eccb03737fa5/origin04/scte35-av4s-clear/master.m3u8';
+#### Bước 3: Tạo container cho video và quảng cáo
 
-      // STEP 6: Create a new instance of the Sigma SSAI SDK with the video and ad containers
-      // BƯỚC 6: Tạo một instance mới của Sigma SSAI SDK với video và ad containers
-      window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
-        .then(({ onEventTracking, sigmaPlayer, destroy }) => {
-          const player = videojs(video)
+Tạo một container HTML chứa phần tử video và phần tử cho quảng cáo:
 
-          // STEP 7:  IMPORTANT!!! Must set the source of the player to the manifest URL
-          // BƯỚC 7: QUAN TRỌNG!!! Phải đặt nguồn của player là URL của manifest
-          player.src({
-            src: url,
-            type: 'application/x-mpegURL',
-          })
+```html
+<div style="position: relative; width: 720px; overflow: hidden; aspect-ratio: 16/9;">
+  <!-- Video Element -->
+  <video class="videoElement" muted controls playsinline preload="auto"
+    style="position: absolute; inset: 0; width: 100%; height: 100%;"></video>
+  
+  <!-- Ad Container -->
+  <div class="adContainer" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; width: 100%;"></div>
+</div>
+```
 
-          // STEP 8: Attach the Sigma player to the video.js player
-          // BƯỚC 8: Gắn Sigma player vào video.js player
-          sigmaPlayer.attachVideojs(player)
+#### Bước 4: Khởi tạo Sigma SSAI SDK khi trang tải
 
-          // STEP 9: Set up event tracking for all events
-          // BƯỚC 9: Thiết lập theo dõi sự kiện cho tất cả các sự kiện
-          onEventTracking('*', (payload) => {
-            console.log('[LOG] Event Payload:', payload);
-          })
+Khi trang được tải, khởi tạo SDK và thiết lập video và quảng cáo.
 
-          destroyFn = destroy;
-        });
+```javascript 
+window.addEventListener('load', function () {
+  const video = document.querySelector('.videoElement');
+  const adContainer = document.querySelector('.adContainer');
+  let destroyFn;
+
+  const url = 'https://ssai-stream-dev.sigmaott.com/manifest/manipulation/session/97004de4-1971-4577-8f1b-eccb03737fa5/origin04/scte35-av4s-clear/master.m3u8';
+
+  window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
+    .then(({ onEventTracking, sigmaPlayer, destroy }) => {
+      const player = videojs(video);
+      
+      player.src({
+        src: url,
+        type: 'application/x-mpegURL',
+      });
+
+      sigmaPlayer.attachVideojs(player);
+
+      onEventTracking('*', (payload) => {
+        console.log('[LOG] Event Payload:', payload);
+      });
+
+      destroyFn = destroy;
     });
-  </script>
-</body>
+});
+```
+
+### 5.2. HLS.js Integration
+
+#### Bước 1: Thêm thư viện HLS.js
+
+Thêm thư viện HLS.js vào phần `<head>` của HTML.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+```
+
+#### Bước 2: Thêm thư viện Sigma SSAI Web SDK
+
+Thêm thư viện Sigma SSAI Web SDK vào phần `<head>` của HTML.
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v6/build/sdk-dai.iife.js"></script>
+```
+
+#### Bước 3: Tạo container cho video và quảng cáo
+
+Tạo một container HTML chứa phần tử video và phần tử cho quảng cáo.
+
+```html
+<div style="position: relative; width: 720px; overflow: hidden; aspect-ratio: 16/9;">
+  <video
+    class="videoElement"
+    muted
+    controls
+    playsinline
+    preload="auto"
+    style="position: absolute; inset: 0; width: 100%; height: 100%;"
+  ></video>
+  <div
+    class="adContainer"
+    style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; width: 100%;"
+  ></div>
+</div>
+```
+
+#### Bước 4: Khởi tạo SDK khi trang tải
+
+Khởi tạo Sigma SSAI SDK và thiết lập các container video và quảng cáo.
+
+```javascript
+window.addEventListener('load', function () {
+  const video = document.querySelector('.videoElement');
+  const adContainer = document.querySelector('.adContainer');
+
+  const url = 'https://ssai-stream-dev.sigmaott.com/manifest/manipulation/session/97004de4-1971-4577-8f1b-eccb03737fa5/origin04/scte35-av4s-clear/master.m3u8';
+
+  window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
+    .then(({ onEventTracking, sigmaPlayer, destroy }) => {
+      if (window.Hls.isSupported()) {
+        const hls = new window.Hls();
+        sigmaPlayer.attachHls(hls);
+
+        hls.loadSource(url);
+        hls.attachMedia(video);
+
+        onEventTracking('*', (payload) => {
+          console.log('[LOG] Event Payload:', payload);
+        });
+
+        destroyFn = destroy;
+      }
+    });
+});
 
 ```
 
+## 6. Tài liệu tham khảo
 
-## Hls Integration
-```html
-<!DOCTYPE html>
-<head>
-  <!-- STEP 1: Include the HLS.js library for streaming -->
-  <!-- BƯỚC 1: Thêm thư viện HLS.js cho streaming -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+- Sigma SSAI Web SDK Documentation.
+- HLS.js Documentation: https://github.com/video-dev/hls.js/
 
-  <!-- STEP 2: Include the Sigma SSAI Web SDK -->
-  <!-- BƯỚC 2: Thêm thư viện Sigma SSAI Web SDK -->
-  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v6/build/sdk-dai.iife.js"></script>
-</head>
+## 7. Phụ lục (nếu có)
 
-<body>
-  <!-- STEP 3: Create a container for the video and ad playback -->
-  <!-- BƯỚC 3: Tạo một container cho video và quảng cáo -->
-  <div style="position: relative; width: 720px; overflow: hidden; aspect-ratio: 16/9;">
-    <!-- Video Element -->
-    <video
-      class="videoElement"
-      muted
-      controls
-      playsinline
-      preload="auto"
-      style="position: absolute; inset: 0; width: 100%; height: 100%;"
-    ></video>
-    <!-- Ad Container -->
-    <div
-      class="adContainer"
-      style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; width: 100%;"
-    ></div>
-  </div>
-
-  <script>
-    // STEP 4: Initialize the SDK and set up video streaming and ads when the page loads
-    // BƯỚC 4: Khởi tạo SDK và thiết lập video streaming và quảng cáo khi trang tải xong
-    window.addEventListener('load', function () {
-      // Get references to the video and ad container elements
-      const video = document.querySelector('.videoElement');
-      const adContainer = document.querySelector('.adContainer');
-
-      // STEP 5: Set the URL of the HLS manifest (video stream with SSAI)
-      // BƯỚC 5: Đặt URL của HLS manifest (video stream với SSAI)
-      const url =
-        'https://ssai-stream-dev.sigmaott.com/manifest/manipulation/session/97004de4-1971-4577-8f1b-eccb03737fa5/origin04/scte35-av4s-clear/master.m3u8';
-      let destroyFn;
-      // STEP 6: Create a new instance of the Sigma SSAI SDK with the video and ad containers
-      // BƯỚC 6: Tạo một instance mới của Sigma SSAI SDK với video và ad containers
-      window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
-        .then(({ onEventTracking, sigmaPlayer, destroy }) => {
-          // Check if the HLS.js is supported in the browser
-          if (window.Hls.isSupported()) {
-            const hls = new window.Hls();
-            sigmaPlayer.attachHls(hls)
-
-            // STEP 7: Load the manifest URL and attach the HLS stream to the video element
-            // BƯỚC 7: Tải URL manifest và gắn HLS stream vào phần tử video
-            hls.loadSource(url);
-            hls.attachMedia(video);
-
-            // STEP 8: Set up HLS event handlers to manage ad insertion and tracking
-            // BƯỚC 8: Thiết lập các trình xử lý sự kiện HLS để quản lý việc chèn và theo dõi quảng cáo
-
-            // STEP 9: Set up event tracking for logging
-            // BƯỚC 9: Thiết lập theo dõi sự kiện để ghi log
-            onEventTracking('*', (payload) => {
-              console.log('[LOG] Event Payload:', payload);
-            });
-            destroyFn = destroy;
-          }
-        });
-
-      // Extra: Destroy the SDK instance when the page is unloaded
-      // Bổ sung: Hủy instance của SDK khi trang được tải xong
-      window.addEventListener('beforeunload', destroyFn);
-    });
-  </script>
-</body>
-
-```
+Không có phụ lục trong tài liệu này.
