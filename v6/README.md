@@ -1,5 +1,75 @@
 # sigma-ssai-web-sdk
 
+## Videojs Integration
+```html
+<!DOCTYPE html>
+
+<head>
+ <!-- STEP 1: Include the videojs library for streaming -->
+  <!-- BƯỚC 1: Thêm thư viện videojs cho streaming -->
+  <link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
+
+  <!-- STEP 2: Include the Sigma SSAI Web SDK -->
+  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v6/build/sdk-dai.iife.js"></script>
+</head>
+
+<body>
+  <!-- STEP 3: Create a container for the video and ad playback -->
+  <!-- BƯỚC 3: Tạo một container cho video và quảng cáo -->
+  <div style="position: relative; width: 720px; overflow: hidden; aspect-ratio: 16/9;">
+    <!-- Video Element -->
+    <video class="videoElement" muted controls playsinline preload="auto"
+      style="position: absolute; inset: 0; width: 100%; height: 100%;"></video>
+    <!-- Ad Container -->
+    <div class="adContainer"
+      style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; width: 100%;"></div>
+  </div>
+
+  <script>
+    // STEP 4: Initialize the SDK and set up video streaming and ads when the page loads
+    // BƯỚC 4: Khởi tạo SDK và thiết lập video streaming và quảng cáo khi trang tải xong
+    window.addEventListener('load', function () {
+      // Get references to the video and ad container elements
+      const video = document.querySelector('.videoElement');
+      const adContainer = document.querySelector('.adContainer');
+      let destroyFn;
+
+      const url =
+        'https://ssai-stream-dev.sigmaott.com/manifest/manipulation/session/97004de4-1971-4577-8f1b-eccb03737fa5/origin04/scte35-av4s-clear/master.m3u8';
+
+      // STEP 6: Create a new instance of the Sigma SSAI SDK with the video and ad containers
+      // BƯỚC 6: Tạo một instance mới của Sigma SSAI SDK với video và ad containers
+      window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
+        .then(({ onEventTracking, sigmaPlayer, destroy }) => {
+          const player = videojs(video)
+
+          // STEP 7:  IMPORTANT!!! Must set the source of the player to the manifest URL
+          // BƯỚC 7: QUAN TRỌNG!!! Phải đặt nguồn của player là URL của manifest
+          player.src({
+            src: url,
+            type: 'application/x-mpegURL',
+          })
+
+          // STEP 8: Attach the Sigma player to the video.js player
+          // BƯỚC 8: Gắn Sigma player vào video.js player
+          sigmaPlayer.attachVideojs(player)
+
+          // STEP 9: Set up event tracking for all events
+          // BƯỚC 9: Thiết lập theo dõi sự kiện cho tất cả các sự kiện
+          onEventTracking('*', (payload) => {
+            console.log('[LOG] Event Payload:', payload);
+          })
+
+          destroyFn = destroy;
+        });
+    });
+  </script>
+</body>
+
+```
+
+
 ## Hls Integration
 ```html
 <!DOCTYPE html>
