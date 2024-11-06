@@ -1,9 +1,9 @@
 # Sigma SSAI Web SDK Integration
 
-**Phiên bản** : 1.0  
+**Phiên bản** : 1.0.0  
 **Ngày phát hành** : 05/11/2024  
-**Tác giả** : [Tên tác giả]  
-**Đơn vị** : [Tên tổ chức]
+**Tác giả** : Thủ Đô Multimedia
+**Đơn vị** : Thủ Đô Multimedia
 
 ## Mục lục
 
