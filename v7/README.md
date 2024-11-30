@@ -74,7 +74,7 @@ Thêm các liên kết và script của thư viện VideoJS vào phần `<head>`
 Thêm thư viện Sigma SSAI Web SDK vào phần `<head>` của HTML.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v6/build/sdk-dai.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v7/build/sdk-dai.iife.js"></script>
 
 
 #### Bước 3: Tạo container cho video và quảng cáo
@@ -102,15 +102,22 @@ window.addEventListener('load', function () {
   const adContainer = document.querySelector('.adContainer');
   let destroyFn;
 
-  const url = 'https://ssai-stream-dev.sigmaott.com/manifest/manipulation/session/97004de4-1971-4577-8f1b-eccb03737fa5/origin04/scte35-av4s-clear/master.m3u8';
+  const url = 'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEndpoint=c1995593-784e-454e-b667-4b1ff441738e&sigma.dai.userId=abcd1234&sigma.dai.sessionId=xyz987';
+  const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(url)
 
   window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
-    .then(({ onEventTracking, sigmaPlayer, destroy }) => {
+    .then(({ onEventTracking, sigmaPlayer, destroy, cspm }) => {
       const player = videojs(video);
       
       player.src({
-        src: url,
+        src: playerUrl,
         type: 'application/x-mpegURL',
+        html5: {
+          vhs: {
+            overrideNative: true,
+            cspm,
+          },
+        },
       });
 
       sigmaPlayer.attachVideojs(player);
