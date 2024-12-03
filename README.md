@@ -179,7 +179,8 @@ window.addEventListener('load', function () {
   const video = document.querySelector('.videoElement');
   const adContainer = document.querySelector('.adContainer');
 
-  const url = 'https://ssai-stream-dev.sigmaott.com/manifest/manipulation/session/97004de4-1971-4577-8f1b-eccb03737fa5/origin04/scte35-av4s-clear/master.m3u8';
+  const url = 'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEndpoint=c1995593-784e-454e-b667-4b1ff441738e&sigma.dai.userId=abcd1234&sigma.dai.sessionId=xyz987';
+  const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(url)
 
   window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
     .then(({ onEventTracking, sigmaPlayer, destroy }) => {
