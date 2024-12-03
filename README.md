@@ -44,7 +44,14 @@ This document requires the following conditions:
 - **SDK Version**: Sigma SSAI Web SDK version 6.x or higher.
 - **Video Stream**: Requires an HLS video stream (M3U8 file) containing server-side inserted ads.
 
-## 5. Process
+## 5 Generating Video URL
+Once the SDK is initialized, generate the video URL by calling the generateUrl method with the videoUrl parameter:
+
+Note: If the videoUrl contains the query parameter sigma.dai.adsEndpoint, its value will override the adsEndpoint provided during initialization.
+
+Example: https://example.com/master.m3u8?sigma.dai.adsEndpoint=abc123
+
+## 6. Process
 
 Below is the process for integrating **Sigma SSAI Web SDK** into your project. The process is divided into two main parts: **VideoJS Integration** and **HLS.js Integration**.
 
@@ -56,7 +63,7 @@ Below is the process for integrating **Sigma SSAI Web SDK** into your project. T
 
 - **SDK Instance Cleanup**: To prevent memory leaks, destroy the Sigma SSAI SDK instance when the page is reloaded by calling the destroy function.
 
-### 5.1. VideoJS Integration
+### 6.1. VideoJS Integration
 
 #### Step 1: Add VideoJS Library
 
@@ -100,7 +107,8 @@ window.addEventListener('load', function () {
   const adContainer = document.querySelector('.adContainer');
   let destroyFn;
 
-  const url = 'https://ssai-stream-dev.sigmaott.com/manifest/manipulation/session/97004de4-1971-4577-8f1b-eccb03737fa5/origin04/scte35-av4s-clear/master.m3u8';
+  const url = 'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEn dpoint=c1995593-784e-454e-b667-4b1ff441738e&sigma.dai.userId=abcd1234&sigma.dai.sessionId=xyz987';
+  const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(url)
 
   window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
     .then(({ onEventTracking, sigmaPlayer, destroy }) => {
@@ -122,7 +130,7 @@ window.addEventListener('load', function () {
 });
 ```
 
-### 5.2. HLS.js Integration
+### 6.2. HLS.js Integration
 
 #### Step 1: Add HLS.js Library
 
@@ -170,7 +178,8 @@ window.addEventListener('load', function () {
   const video = document.querySelector('.videoElement');
   const adContainer = document.querySelector('.adContainer');
 
-  const url = 'https://ssai-stream-dev.sigmaott.com/manifest/manipulation/session/97004de4-1971-4577-8f1b-eccb03737fa5/origin04/scte35-av4s-clear/master.m3u8';
+  const url = 'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEn dpoint=c1995593-784e-454e-b667-4b1ff441738e&sigma.dai.userId=abcd1234&sigma.dai.sessionId=xyz987';
+  const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(url)
 
   window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
     .then(({ onEventTracking, sigmaPlayer, destroy }) => {
@@ -191,11 +200,7 @@ window.addEventListener('load', function () {
 });
 ```
 
-## 6. References
+## 7. References
 
 - Sigma SSAI Web SDK Documentation
 - HLS.js Documentation: https://github.com/video-dev/hls.js/
-
-## 7. Appendix (if any)
-
-No appendix in this document.
