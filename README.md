@@ -81,12 +81,12 @@ Create an HTML container with elements for video and ads:
 
 ```html
 <div style="position: relative; width: 720px; overflow: hidden; aspect-ratio: 16/9;">
- <!-- Video Element -->
- <video class="videoElement" muted controls playsinline preload="auto"
- style="position: absolute; inset: 0; width: 100%; height: 100%;"></video>
-
- <!-- Ad Container -->
- <div class="adContainer" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; width: 100%;"></div>
+  <!-- Video Element -->
+  <video class="videoElement" muted controls playsinline preload="auto"
+    style="position: absolute; inset: 0; width: 100%; height: 100%;"></video>
+  
+  <!-- Ad Container -->
+  <div class="adContainer" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; width: 100%;"></div>
 </div>
 ```
 
@@ -167,12 +167,10 @@ Initialize Sigma SSAI SDK and set up video and ad containers.
 
 ```javascript
 window.addEventListener('load', function () {
- const video = document.querySelector('.videoElement');
- const adContainer = document.querySelector('.adContainer');
- let destroyFn;
+  const video = document.querySelector('.videoElement');
+  const adContainer = document.querySelector('.adContainer');
 
- const url = 'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEn dpoint=c1995593-784e-454e-b667-4b1ff441738e&sigma.dai.userId=abcd1234&sigma.dai.sessionId=xyz987';
- const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(url)
+  const url = 'https://ssai-stream-dev.sigmaott.com/manifest/manipulation/session/97004de4-1971-4577-8f1b-eccb03737fa5/origin04/scte35-av4s-clear/master.m3u8';
 
   window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
     .then(({ onEventTracking, sigmaPlayer, destroy }) => {
