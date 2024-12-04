@@ -79,7 +79,7 @@ Add VideoJS library links and scripts to the HTML `<head>` section.
 Add the Sigma SSAI Web SDK library to the HTML `<head>` section.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v6/build/sdk-dai.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v7/build/sdk-dai.iife.js"></script>
 ```
 
 #### Step 3: Create Container for Video and Ads
@@ -112,6 +112,21 @@ window.addEventListener('load', function () {
 
   window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
     .then(({ onEventTracking, sigmaPlayer, destroy, cspm }) => {
+      const imaOptions = { adTagUrl: dfp_tags };
+      const playerConfig = {
+          sources: [{ type: "application/x-mpegURL", src: url }],
+          autoplay: false,
+          html5: {
+              vhs: {
+                  overrideNative: true,
+                  cspm,
+                  cacheEncryptionKeys: true
+              }
+          },
+          controls: content_type !== 1 && content_type !== 3
+      };
+
+      player = videojs(video, playerConfig);
       const player = videojs(video, {
         html5: {
           vhs: {
@@ -152,7 +167,7 @@ Add the HLS.js library to the HTML `<head>` section.
 Add the Sigma SSAI Web SDK library to the HTML `<head>` section.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v6/build/sdk-dai.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v7/build/sdk-dai.iife.js"></script>
 ```
 
 #### Step 3: Create Container for Video and Ads
