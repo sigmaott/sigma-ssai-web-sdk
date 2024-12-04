@@ -111,8 +111,15 @@ window.addEventListener('load', function () {
   const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(url)
 
   window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
-    .then(({ onEventTracking, sigmaPlayer, destroy }) => {
-      const player = videojs(video);
+    .then(({ onEventTracking, sigmaPlayer, destroy, cspm }) => {
+      const player = videojs(video, {
+        html5: {
+          vhs: {
+            overrideNative: true,
+            cspm,
+          },
+        },
+      });
       
       player.src({
         src: url,
