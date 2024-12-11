@@ -6163,7 +6163,7 @@ function nc(t) {
     c.async = !0, c.src = t, c.onload = i, c.onerror = s, document.body.appendChild(c);
   });
 }
-const oc = "https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/build/dist/wasm_exec.js";
+const oc = "https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.1/build/dist/wasm_exec.js";
 let Er = null;
 function na() {
   Er = null;
@@ -6250,7 +6250,7 @@ function uc({
     return {
       id: T,
       appConfig: {
-        sdkBaseUrl: yn("https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/build/dist/wta/index.html", { id: T })
+        sdkBaseUrl: yn("https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.1/build/dist/wta/index.html", { id: T })
       },
       icons: ne
     };
@@ -6428,7 +6428,7 @@ function uc({
 async function dc({ video: t, adContainer: i, adsUrl: s }) {
   await ic();
   const c = new br();
-  await c.init("https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/build/dist/sigma-cspm.wasm");
+  await c.init("https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.1/build/dist/sigma-cspm.wasm");
   function f() {
   }
   const { onEventTracking: m, destroy: P, videojsHelper: T, hlsHelper: D, getLog: W } = uc({
