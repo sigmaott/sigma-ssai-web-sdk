@@ -336,8 +336,8 @@ function da(t = {}) {
       const Re = (g.options.parseResponse ? "json" : g.options.responseType) || tu(g.response.headers.get("content-type") || "");
       switch (Re) {
         case "json": {
-          const Qe = await g.response.text(), R = g.options.parseResponse || uo;
-          g.response._data = R(Qe);
+          const Ze = await g.response.text(), R = g.options.parseResponse || uo;
+          g.response._data = R(Ze);
           break;
         }
         case "stream": {
@@ -1470,7 +1470,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       function Re() {
         M += 1;
       }
-      function Qe() {
+      function Ze() {
         M -= 1, re();
       }
       var R = function() {
@@ -1486,10 +1486,10 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 l ? o.reject(v) : (h = !0, u = v);
               });
             } catch (v) {
-              Qe(), this.reject(v);
+              Ze(), this.reject(v);
               return;
             }
-            Qe(), l = !0, d ? this.resolve(a) : h && this.reject(u);
+            Ze(), l = !0, d ? this.resolve(a) : h && this.reject(u);
           }
         }
         var r = e.prototype;
@@ -1552,7 +1552,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 p.resolved ? E.resolve(p.value) : E.reject(p.error), p.errorHandled = !0;
               } else D(w) ? w instanceof e && (w.resolved || w.rejected) ? w.resolved ? E.resolve(w.value) : E.reject(w.error) : u(w, E) : E.resolve(w);
             }
-            a.length = 0, this.dispatching = !1, Qe();
+            a.length = 0, this.dispatching = !1, Ze();
           }
         }, r.then = function(n, o) {
           if (n && typeof n != "function" && !n.call) throw new Error("Promise.then expected a function for success handler");
@@ -1652,9 +1652,9 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           try {
             u = n.apply(o, a || []);
           } catch (d) {
-            return Qe(), e.reject(d);
+            return Ze(), e.reject(d);
           }
-          return Qe(), e.resolve(u);
+          return Ze(), e.resolve(u);
         }, e.delay = function(n) {
           return new e(function(o) {
             setTimeout(o, n);
@@ -1689,14 +1689,14 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       function Ct(e) {
         return e === void 0 && (e = window), nt(e) === "about:";
       }
-      function Je(e) {
+      function Qe(e) {
         if (e === void 0 && (e = window), e) try {
           if (e.parent && e.parent !== e) return e.parent;
         } catch {
         }
       }
       function Te(e) {
-        if (e === void 0 && (e = window), e && !Je(e)) try {
+        if (e === void 0 && (e = window), e && !Qe(e)) try {
           return e.opener;
         } catch {
         }
@@ -1716,7 +1716,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         if (!n) throw new Error("Can not read window protocol");
         if (n === "file:") return "file://";
         if (n === "about:") {
-          var o = Je(e);
+          var o = Qe(e);
           return o && cr() ? ne(o) : "about://";
         }
         var a = r.host;
@@ -1767,7 +1767,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       function et(e, r) {
         if (!e || !r) return !1;
-        var n = Je(r);
+        var n = Qe(r);
         return n ? n === e : function(o) {
           var a = [];
           try {
@@ -1778,7 +1778,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           return a;
         }(r).indexOf(e) !== -1;
       }
-      function Ke(e) {
+      function Je(e) {
         var r = [], n;
         try {
           n = e.frames;
@@ -1816,7 +1816,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         return r;
       }
       function tt(e) {
-        for (var r = [], n = 0, o = Ke(e); n < o.length; n++) {
+        for (var r = [], n = 0, o = Je(e); n < o.length; n++) {
           var a = o[n];
           r.push(a);
           for (var u = 0, d = tt(a); u < d.length; u++) r.push(d[u]);
@@ -1829,7 +1829,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           if (e.top) return e.top;
         } catch {
         }
-        if (Je(e) === e) return e;
+        if (Qe(e) === e) return e;
         try {
           if (et(window, e) && window.top) return window.top;
         } catch {
@@ -1844,10 +1844,10 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             if (o.top) return o.top;
           } catch {
           }
-          if (Je(o) === o) return o;
+          if (Qe(o) === o) return o;
         }
       }
-      function Ye(e) {
+      function Ke(e) {
         var r = Se(e);
         if (!r) throw new Error("Can not determine top window");
         var n = [].concat(tt(r), [r]);
@@ -1904,7 +1904,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         return (e = e || window).navigator.mockUserAgent || e.navigator.userAgent;
       }
       function Qt(e, r) {
-        for (var n = Ke(e), o = 0; o < n.length; o++) {
+        for (var n = Je(e), o = 0; o < n.length; o++) {
           var a = n[o];
           try {
             if (U(a) && a.name === r && n.indexOf(a) !== -1) return a;
@@ -1924,7 +1924,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         return e === Te(r);
       }
       function Xt(e) {
-        return e === void 0 && (e = window), Te(e = e || window) || Je(e) || void 0;
+        return e === void 0 && (e = window), Te(e = e || window) || Qe(e) || void 0;
       }
       function fr(e, r) {
         for (var n = 0; n < e.length; n++)
@@ -1933,7 +1933,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       function Tn(e) {
         e === void 0 && (e = window);
-        for (var r = 0, n = e; n; ) (n = Je(n)) && (r += 1);
+        for (var r = 0, n = e; n; ) (n = Qe(n)) && (r += 1);
         return r;
       }
       function Kr(e, r) {
@@ -1942,10 +1942,10 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           if (n && o) return n === o;
         } catch {
         }
-        var a = Ye(e), u = Ye(r);
+        var a = Ke(e), u = Ke(r);
         if (fr(a, u)) return !0;
         var d = Te(n), h = Te(o);
-        return d && fr(Ye(d), u) || h && fr(Ye(h), a), !1;
+        return d && fr(Ke(d), u) || h && fr(Ke(h), a), !1;
       }
       function ft(e, r) {
         if (typeof e == "string") {
@@ -2028,7 +2028,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       function So(e) {
         if (function(n) {
-          return n === void 0 && (n = window), !!Je(n);
+          return n === void 0 && (n = window), !!Qe(n);
         }(e)) {
           var r = Ro(e);
           if (r && r.parentElement) {
@@ -2758,7 +2758,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         var e = xt();
         return e.WINDOW_WILDCARD = e.WINDOW_WILDCARD || new $a(), e.WINDOW_WILDCARD;
       }
-      function Ze(e, r) {
+      function Ye(e, r) {
         return e === void 0 && (e = "store"), r === void 0 && (r = Yo), de("windowStore").getOrSet(e, function() {
           var n = new Zr(), o = function(a) {
             return n.getOrSet(a, r);
@@ -2787,7 +2787,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         return de("instance").getOrSet("instanceID", Xe);
       }
       function Qo(e, r) {
-        var n = r.domain, o = Ze("helloPromises"), a = o.get(e);
+        var n = r.domain, o = Ye("helloPromises"), a = o.get(e);
         a && a.resolve({
           domain: n
         });
@@ -2815,7 +2815,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       function Xo(e, r) {
         var n = r.send;
-        return Ze("windowInstanceIDPromises").getOrSet(e, function() {
+        return Ye("windowInstanceIDPromises").getOrSet(e, function() {
           return jn(e, {
             send: n
           }).then(function(o) {
@@ -2826,14 +2826,14 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       function ko(e, r, n) {
         r === void 0 && (r = 5e3), n === void 0 && (n = "Window");
         var o = function(a) {
-          return Ze("helloPromises").getOrSet(a, function() {
+          return Ye("helloPromises").getOrSet(a, function() {
             return new R();
           });
         }(e);
         return r !== -1 && (o = o.timeout(r, new Error(n + " did not load after " + r + "ms"))), o;
       }
       function ei(e) {
-        Ze("knownWindows").set(e, !0);
+        Ye("knownWindows").set(e, !0);
       }
       function Un(e) {
         return typeof e == "object" && e !== null && typeof e.__type__ == "string";
@@ -2931,12 +2931,12 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }, 10);
       });
       function ai(e) {
-        Ze("remoteWindowPromises").getOrSet(e, function() {
+        Ye("remoteWindowPromises").getOrSet(e, function() {
           return new R();
         });
       }
       function qn(e) {
-        var r = Ze("remoteWindowPromises").get(e);
+        var r = Ye("remoteWindowPromises").get(e);
         if (!r) throw new Error("Remote window promise not found");
         return r;
       }
@@ -2951,7 +2951,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         qn(e).reject(r).catch(ye);
       }
       function un(e) {
-        for (var r = e.win, n = e.name, o = e.domain, a = de("popupWindowsByName"), u = Ze("popupWindowsByWin"), d = 0, h = a.keys(); d < h.length; d++) {
+        for (var r = e.win, n = e.name, o = e.domain, a = de("popupWindowsByName"), u = Ye("popupWindowsByWin"), d = 0, h = a.keys(); d < h.length; d++) {
           var l = h[d], v = a.get(l);
           v && !ge(v.win) || a.del(l);
         }
@@ -3027,7 +3027,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }), function(u) {
           var d = u.send;
           xt(window).openTunnelToParent = function(h) {
-            var l = h.name, v = h.source, E = h.canary, w = h.sendMessage, p = de("tunnelWindows"), y = Je(window);
+            var l = h.name, v = h.source, E = h.canary, w = h.sendMessage, p = de("tunnelWindows"), y = Qe(window);
             if (!y) throw new Error("No parent window found to open tunnel to");
             var b = function(O) {
               var S = O.name, C = O.source, z = O.canary, V = O.sendMessage;
@@ -3076,7 +3076,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             if (v && oi({
               win: v
             })) {
-              return ai(v), (E = v, Ze("remoteBridgeAwaiters").getOrSet(E, function() {
+              return ai(v), (E = v, Ye("remoteBridgeAwaiters").getOrSet(E, function() {
                 return R.try(function() {
                   var w = Qt(E, $n(F()));
                   if (w) return U(w) && xt(te(w)) ? w : new R(function(p) {
@@ -3275,7 +3275,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           this.actualWindow = n, this.actualWindowPromise.resolve(this.actualWindow), this.serializedWindow = ci(this.actualWindowPromise, {
             send: a,
             id: this.getID()
-          }), Ze("winToProxyWindow").set(n, this);
+          }), Ye("winToProxyWindow").set(n, this);
         }, r.awaitWindow = function() {
           return this.actualWindowPromise;
         }, r.matchWindow = function(n, o) {
@@ -3320,14 +3320,14 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           var a = o.send;
           if (Vn(), e.isProxyWindow(n)) return n;
           var u = n;
-          return Ze("winToProxyWindow").get(u) || new e({
+          return Ye("winToProxyWindow").get(u) || new e({
             win: u,
             send: a
           });
         }, e;
       }();
       function Gn(e, r, n, o, a) {
-        var u = Ze("methodStore"), d = de("proxyWindowMethods");
+        var u = Ye("methodStore"), d = de("proxyWindowMethods");
         pt.isProxyWindow(o) ? d.set(e, {
           val: r,
           name: n,
@@ -3343,7 +3343,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         });
       }
       function di(e, r) {
-        var n = Ze("methodStore"), o = de("proxyWindowMethods");
+        var n = Ye("methodStore"), o = de("proxyWindowMethods");
         return n.getOrSet(e, function() {
           return {};
         })[r] || o.get(r);
@@ -3533,7 +3533,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       function Jn(e, r, n, o) {
         var a = o.on, u = o.send;
         return R.try(function() {
-          var d = Ze().getOrSet(e, function() {
+          var d = Ye().getOrSet(e, function() {
             return {};
           });
           return d.buffer = d.buffer || [], d.buffer.push(n), d.flush = d.flush || R.flush().then(function() {
@@ -3573,7 +3573,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         return de("erroredResponseListeners").has(e);
       }
       function mi(e) {
-        var r = e.name, n = e.win, o = e.domain, a = Ze("requestListeners");
+        var r = e.name, n = e.win, o = e.domain, a = Ye("requestListeners");
         if (n === "*" && (n = null), o === "*" && (o = null), !r) throw new Error("Name required to get request listener");
         for (var u = 0, d = [n, sn()]; u < d.length; u++) {
           var h = d[u];
@@ -3734,7 +3734,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         if (!e) throw new Error("Expected name");
         if (typeof (r = r || {}) == "function" && (n = r, r = {}), !n) throw new Error("Expected handler");
         var o = function a(u, d) {
-          var h = u.name, l = u.win, v = u.domain, E = Ze("requestListeners");
+          var h = u.name, l = u.win, v = u.domain, E = Ye("requestListeners");
           if (!h || typeof h != "string") throw new Error("Name required to add request listener");
           if (l && l !== "*" && pt.isProxyWindow(l)) {
             var w = l.awaitWindow().then(function(ue) {
@@ -3830,7 +3830,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               var p = Xt(w);
               if (p) return p === E;
               if (w === E || Se(w) === w) return !1;
-              for (var y = 0, b = Ke(E); y < b.length; y++) if (b[y] === w) return !0;
+              for (var y = 0, b = Je(E); y < b.length; y++) if (b[y] === w) return !0;
               return !1;
             }(window, v)) return ko(v, h);
           }).then(function(E) {
@@ -3863,7 +3863,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               (function(L, Q) {
                 de("responseListeners").set(L, Q);
               })(b, O);
-              var S = Ze("requestPromises").getOrSet(v, function() {
+              var S = Ye("requestPromises").getOrSet(v, function() {
                 return [];
               });
               S.push(y), y.catch(function() {
@@ -3872,7 +3872,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 })(b), vi(b);
               });
               var C = function(L) {
-                return Ze("knownWindows").get(L, !1);
+                return Ye("knownWindows").get(L, !1);
               }(v) ? 1e4 : 2e3, z = d, V = C, I = z, q = Dr(function() {
                 return ge(v) ? y.reject(new Error("Window closed for " + n + " before " + (O.ack ? "response" : "ack"))) : O.cancelled ? y.reject(new Error("Response listener was cancelled for " + n)) : (V = Math.max(V - 500, 0), I !== -1 && (I = Math.max(I - 500, 0)), O.ack || V !== 0 ? I === 0 ? y.reject(new Error("No response for postMessage " + p + " in " + F() + " in " + z + "ms")) : void 0 : y.reject(new Error("No ack for postMessage " + p + " in " + F() + " in " + C + "ms")));
               }, 500);
@@ -3907,7 +3907,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         });
       }
       function gi(e) {
-        for (var r = 0, n = Ze("requestPromises").get(e, []); r < n.length; r++) n[r].reject(new Error("Window " + (ge(e) ? "closed" : "cleaned up") + " before response")).catch(ye);
+        for (var r = 0, n = Ye("requestPromises").get(e, []); r < n.length; r++) n[r].reject(new Error("Window " + (ge(e) ? "closed" : "cleaned up") + " before response")).catch(ye);
       }
       var Ut;
       Ut = {
@@ -4103,7 +4103,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                     b === void 0 && (b = 1);
                     for (var O = y, S = 0; S < b; S++) {
                       if (!O) return;
-                      O = Je(O);
+                      O = Qe(O);
                     }
                     return O;
                   }(w, Tn(w) - p);
@@ -4111,7 +4111,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 if (o.type === "global" && o.uid && typeof o.uid == "string") {
                   var a = o.uid, u = Xt(window);
                   if (!u) throw new Error("Can not find ancestor window");
-                  for (var d = 0, h = Ye(u); d < h.length; d++) {
+                  for (var d = 0, h = Ke(u); d < h.length; d++) {
                     var l = h[d];
                     if (U(l)) {
                       var v = yi(l, function(w) {
@@ -4126,7 +4126,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                     return Qt(w, p) || function y(b, O) {
                       var S = Qt(b, O);
                       if (S) return S;
-                      for (var C = 0, z = Ke(b); C < z.length; C++) {
+                      for (var C = 0, z = Je(b); C < z.length; C++) {
                         var V = y(z[C], O);
                         if (V) return V;
                       }
@@ -4148,7 +4148,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         return Ya(window.name);
       }
       function Za(e, r) {
-        if (r === void 0 && (r = window), e === Je(r)) return {
+        if (r === void 0 && (r = window), e === Qe(r)) return {
           type: "parent",
           distance: Tn(e)
         };
@@ -5695,7 +5695,7 @@ var ku = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               }, ir = function(ae) {
                 var ze = (ae === void 0 ? {} : ae).anyParent, Ne = [], Le = oe.parent;
                 if (ze === void 0 && (ze = !Le), !ze && !Le) throw new Error("No parent found for " + S + " child");
-                for (var Oe = 0, ke = Ye(window); Oe < ke.length; Oe++) {
+                for (var Oe = 0, ke = Ke(window); Oe < ke.length; Oe++) {
                   var _e = ke[Oe];
                   if (U(_e)) {
                     var Me = te(_e).xprops;
@@ -6163,7 +6163,7 @@ function nc(t) {
     c.async = !0, c.src = t, c.onload = i, c.onerror = s, document.body.appendChild(c);
   });
 }
-const oc = "https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.1/build/dist/wasm_exec.js";
+const oc = "https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.2/build/dist/wasm_exec.js";
 let Er = null;
 function na() {
   Er = null;
@@ -6194,7 +6194,7 @@ class br {
         break;
       } catch (T) {
         if (console.log(`Attempt ${P} failed:`, T), P === 3)
-          throw console.log("session:", this.session), console.log(s), T;
+          throw console.log("session:", this.session), T;
       }
     if (m.session != "" && (this.session = m.session), m.error)
       throw new Error(m.error);
@@ -6232,7 +6232,7 @@ function oa({ adsUrl: t, sdk: i, loader: s }) {
       };
       try {
         const D = await i.loadSource({ config: T, manifest: m, masterUri: f });
-        return console.log("[LOG] ~ newManifest:", D), sc.value = D, D;
+        return sc.value = D, D;
       } catch (D) {
         return console.error("[LOG] ~ error:", D), m;
       }
@@ -6250,7 +6250,7 @@ function uc({
     return {
       id: T,
       appConfig: {
-        sdkBaseUrl: yn("https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.1/build/dist/wta/index.html", { id: T })
+        sdkBaseUrl: yn("https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.2/build/dist/wta/index.html", { id: T })
       },
       icons: ne
     };
@@ -6271,7 +6271,6 @@ function uc({
   const g = Ot([]), M = Ot(), _ = Ot([]);
   async function re(ne) {
     var U;
-    console.log("[LOG] ~ currentAd:", P);
     const F = (U = P.value) == null ? void 0 : U.trackingEvents.find((te) => te.eventType === ne);
     if (!F) {
       console.debug("[LOG] ~ event:", ne);
@@ -6283,13 +6282,13 @@ function uc({
     }))));
   }
   const Re = /* @__PURE__ */ new Map();
-  let Qe, R;
+  let Ze, R;
   function ut(ne, F, U) {
     ne.addEventListener(F, U), Re.set(F, U);
   }
   function St(ne) {
-    var Ke, tt;
-    const F = ((ne == null ? void 0 : ne.time) || 0) > 0 ? ne.time : 0, U = (Ke = ne == null ? void 0 : ne.value) == null ? void 0 : Ke.event;
+    var Je, tt;
+    const F = ((ne == null ? void 0 : ne.time) || 0) > 0 ? ne.time : 0, U = (Je = ne == null ? void 0 : ne.value) == null ? void 0 : Je.event;
     console.debug("[LOG] ~ eventType:", U);
     const te = _.value.find((Se) => Se.eventType === U && !Se.tracked && !Se.skipped);
     if (console.debug("[LOG] ~ eventAd:", te), !te)
@@ -6297,9 +6296,9 @@ function uc({
     const et = te == null ? void 0 : te.ad;
     if (console.debug("[LOG] ~ ad:", et), !!et) {
       if (U === "start")
-        P.value && _.value.filter((Ye) => Ye.key.startsWith(`${P.value.key}_`)).forEach((Ye) => Ye.skipped = !0), P.value = et, s(et.adVerifications, f), Qe = no(() => {
+        P.value && _.value.filter((Ke) => Ke.key.startsWith(`${P.value.key}_`)).forEach((Ke) => Ke.skipped = !0), P.value = et, s(et.adVerifications, f), Ze = no(() => {
           re("impression"), re("start");
-          const Se = _.value.find((Ye) => Ye.key === te.key.replace("_start", "_impression"));
+          const Se = _.value.find((Ke) => Ke.key === te.key.replace("_start", "_impression"));
           Se && (Se.tracked = !0), te.tracked = !0, R = no(() => {
             P.value = void 0;
           }, 30 * 1e3);
@@ -6310,10 +6309,10 @@ function uc({
           return;
         }
         if (et.id !== ((tt = P.value) == null ? void 0 : tt.id)) {
-          console.debug("[ERROR] ~ ad:", et), console.debug("[ERROR] ~ currentAd:", P.value), _.value.filter((Ye) => Ye.key.startsWith(`${P.value.key}_`)).forEach((Ye) => Ye.skipped = !0);
+          console.debug("[ERROR] ~ ad:", et), console.debug("[ERROR] ~ currentAd:", P.value), _.value.filter((Ke) => Ke.key.startsWith(`${P.value.key}_`)).forEach((Ke) => Ke.skipped = !0);
           return;
         }
-        Qe = no(() => {
+        Ze = no(() => {
           re(U), U === "complete" && et.id === P.value.id && (P.value = void 0, Ji(R)), te.tracked = !0;
         }, F * 1e3);
       }
@@ -6343,10 +6342,10 @@ function uc({
         for (const U of F.ads) {
           const te = `${F.id}_${U.id}_${U.startTimeInSeconds}`;
           for (const et of U.trackingEvents) {
-            const Ke = `${te}_${et.eventType}`;
-            _.value.find((Se) => Se.key === Ke) || _.value.push({
+            const Je = `${te}_${et.eventType}`;
+            _.value.find((Se) => Se.key === Je) || _.value.push({
               ...et,
-              key: Ke,
+              key: Je,
               ad: {
                 ...U,
                 key: te
@@ -6359,20 +6358,20 @@ function uc({
   }
   function nt() {
     return async (ne, F) => {
-      function U(Ke) {
-        for (let tt = 0; tt < Ke.length; tt++)
-          if (Ke[tt] === 0)
+      function U(Je) {
+        for (let tt = 0; tt < Je.length; tt++)
+          if (Je[tt] === 0)
             return tt;
-        return Ke.length;
+        return Je.length;
       }
       const { start: te, sn: et } = F.frag;
-      for (let Ke = 0; Ke < F.samples.length; Ke++) {
-        const tt = F.samples[Ke], Se = tt.data, Ye = tt.pts;
+      for (let Je = 0; Je < F.samples.length; Je++) {
+        const tt = F.samples[Je], Se = tt.data, Ke = tt.pts;
         if (String.fromCharCode.apply(null, Se.slice(0, 3)) !== "ID3" || String.fromCharCode.apply(null, Se.slice(10, 14)) !== "TXXX")
           continue;
         const ge = Se.slice(21, Se.length), Gr = U(ge), Qt = ge.slice(Gr + 1, ge.length), Jr = U(Qt), Xt = new TextDecoder("utf-8").decode(Qt.slice(0, Jr)), fr = {
           sn: et,
-          time: Ye - te,
+          time: Ke - te,
           value: uo(Xt)
         };
         if (M.value && et < M.value)
@@ -6396,7 +6395,7 @@ function uc({
       });
     };
   }
-  function Je(ne, F) {
+  function Qe(ne, F) {
     f.on((U) => {
       (ne === "*" || U.eventType === ne) && F(U);
     });
@@ -6404,7 +6403,7 @@ function uc({
   function Te() {
     P.value = void 0, g.value = [], Re.forEach((ne, F) => {
       t.removeEventListener(F, ne);
-    }), Re.clear(), Ji(Qe);
+    }), Re.clear(), Ji(Ze);
   }
   function cr() {
     return {
@@ -6414,7 +6413,7 @@ function uc({
   }
   return {
     destroy: Te,
-    onEventTracking: Je,
+    onEventTracking: Qe,
     hlsHelper: {
       createHlsFragChanged: Et,
       createHlsFragParsingMetadata: nt
@@ -6428,7 +6427,7 @@ function uc({
 async function dc({ video: t, adContainer: i, adsUrl: s }) {
   await ic();
   const c = new br();
-  await c.init("https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.1/build/dist/sigma-cspm.wasm");
+  await c.init("https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.2/build/dist/sigma-cspm.wasm");
   function f() {
   }
   const { onEventTracking: m, destroy: P, videojsHelper: T, hlsHelper: D, getLog: W } = uc({
@@ -6441,8 +6440,8 @@ async function dc({ video: t, adContainer: i, adsUrl: s }) {
   function _(ve) {
     ve.config.loader = oa({ adsUrl: s, sdk: c, loader: Hls.DefaultConfig.loader }), g.value = ve;
     const nt = D.createHlsFragChanged(), Ct = D.createHlsFragParsingMetadata();
-    ve.on("hlsFragChanged", nt), ve.on("hlsFragParsingMetadata", Ct), ve.on(Hls.Events.ERROR, (Je, Te) => {
-      console.error("HLS Error:", Je, Te), Te.type === window.Hls.ErrorTypes.NETWORK_ERROR ? console.error("Network Error:", Te.details) : Te.type === window.Hls.ErrorTypes.MEDIA_ERROR ? console.error("Media Error:", Te.details) : console.error("Other Error:", Te.details);
+    ve.on("hlsFragChanged", nt), ve.on("hlsFragParsingMetadata", Ct), ve.on(Hls.Events.ERROR, (Qe, Te) => {
+      console.error("HLS Error:", Qe, Te), Te.type === window.Hls.ErrorTypes.NETWORK_ERROR ? console.error("Network Error:", Te.details) : Te.type === window.Hls.ErrorTypes.MEDIA_ERROR ? console.error("Media Error:", Te.details) : console.error("Other Error:", Te.details);
     }), M.value = () => {
       ve.off("hlsFragChanged", nt), ve.off("hlsFragParsingMetadata", Ct);
     };
@@ -6450,13 +6449,13 @@ async function dc({ video: t, adContainer: i, adsUrl: s }) {
   function re(ve) {
     ve.hls.config.loader = oa({ adsUrl: s, sdk: c, loader: SigmaManager.DefaultConfig.loader }), g.value = ve.hls;
     const nt = D.createHlsFragChanged(), Ct = D.createHlsFragParsingMetadata();
-    ve.hls.on("hlsFragChanged", nt), ve.hls.on("hlsFragParsingMetadata", Ct), ve.on(SigmaManager.Events.ERROR, (Je, Te) => {
-      console.log("[LOG] ~ event:", Je), console.error("HLS Error:", Je, Te), Te.type === window.Hls.ErrorTypes.NETWORK_ERROR ? console.error("Network Error:", Te.details) : Te.type === window.Hls.ErrorTypes.MEDIA_ERROR ? console.error("Media Error:", Te.details) : console.error("Other Error:", Te.details);
+    ve.hls.on("hlsFragChanged", nt), ve.hls.on("hlsFragParsingMetadata", Ct), ve.on(SigmaManager.Events.ERROR, (Qe, Te) => {
+      console.error("HLS Error:", Qe, Te), Te.type === window.Hls.ErrorTypes.NETWORK_ERROR ? console.error("Network Error:", Te.details) : Te.type === window.Hls.ErrorTypes.MEDIA_ERROR ? console.error("Media Error:", Te.details) : console.error("Other Error:", Te.details);
     }), M.value = () => {
       ve.hls.destroy();
     };
   }
-  const Re = Ot(), Qe = Ot(), ut = {
+  const Re = Ot(), Ze = Ot(), ut = {
     instance: c,
     config: {
       proxyAds: {
@@ -6468,13 +6467,13 @@ async function dc({ video: t, adContainer: i, adsUrl: s }) {
   function St(ve) {
     Re.value = ve;
     const nt = T.createVideojsAddTrack();
-    ve.textTracks().on("addtrack", nt), Qe.value = () => {
+    ve.textTracks().on("addtrack", nt), Ze.value = () => {
       ve.textTracks().off("addtrack", nt);
     };
   }
   function Et() {
     var ve, nt;
-    P(), (ve = M.value) == null || ve.call(M), (nt = Qe.value) == null || nt.call(Qe), g.value = null, Re.value = null, M.value = null, Qe.value = null;
+    P(), (ve = M.value) == null || ve.call(M), (nt = Ze.value) == null || nt.call(Ze), g.value = null, Re.value = null, M.value = null, Ze.value = null;
   }
   return {
     onEventTracking: m,
@@ -6598,7 +6597,6 @@ async function dc({ video: t, adContainer: i, adsUrl: s }) {
   };
 })(videojs);
 function fc(t) {
-  console.log("🚀 ~ file: sdk.ts:250 ~ url:", t);
   const i = "https://dai.sigma.video/api/proxy-ads/ads/", s = vo(t), c = `${s.protocol}//${s.host}${s.pathname}`;
   if (!s.search)
     return { playerUrl: t, adsUrl: null };
