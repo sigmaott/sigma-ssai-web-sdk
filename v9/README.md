@@ -1,6 +1,6 @@
 # Sigma SSAI Web SDK Integration
 
-**Version**: v8 
+**Version**: v9
 **Release Date**: 03/12/2024  
 **Author**: Thu Do Multimedia  
 **Organization**: Thu Do Multimedia
