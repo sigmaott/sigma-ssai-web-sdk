@@ -79,7 +79,7 @@ Add VideoJS library links and scripts to the HTML `<head>` section.
 Add the Sigma SSAI Web SDK library to the HTML `<head>` section.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v7/build/sdk-dai.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v9/build/sdk-dai.iife.js"></script>
 ```
 
 #### Step 3: Create Container for Video and Ads
@@ -167,7 +167,7 @@ Add the HLS.js library to the HTML `<head>` section.
 Add the Sigma SSAI Web SDK library to the HTML `<head>` section.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v7/build/sdk-dai.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v9/build/sdk-dai.iife.js"></script>
 ```
 
 #### Step 3: Create Container for Video and Ads
