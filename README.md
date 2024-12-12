@@ -1,8 +1,11 @@
 # Sigma SSAI Web SDK Integration
 
-**Version**: v9
-**Release Date**: 03/12/2024  
-**Author**: Thu Do Multimedia  
+**Version**: v1.0.7
+
+**Release Date**: 12/12/2024  
+
+**Author**: Thu Do Multimedia
+
 **Organization**: Thu Do Multimedia
 
 ## Table of Contents
@@ -11,9 +14,9 @@
 2. Scope
 3. Terms and Definitions
 4. Requirements
-5. Process
-6. References
-7. Appendix (if any)
+5. Generating Video URL
+6. Process
+7. References
 
 ## 1. Introduction
 
@@ -44,7 +47,7 @@ This document requires the following conditions:
 - **SDK Version**: Sigma SSAI Web SDK version 6.x or higher.
 - **Video Stream**: Requires an HLS video stream (M3U8 file) containing server-side inserted ads.
 
-## 5 Generating Video URL
+## 5. Generating Video URL
 Once the SDK is initialized, generate the video URL by calling the generateUrl method with the videoUrl parameter:
 
 Note: If the videoUrl contains the query parameter sigma.dai.adsEndpoint, its value will override the adsEndpoint provided during initialization.
