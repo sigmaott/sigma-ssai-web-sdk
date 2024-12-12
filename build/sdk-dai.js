@@ -6426,7 +6426,7 @@ function sc({
   };
 }
 async function cc({ video: t, adContainer: i, adsUrl: s, baseURL: c }) {
-  const f = c || "https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.4/build/dist", m = Gr(f, "/build/dist/wasm_exec.js") || "https://localhost:4222/wasm_exec.js";
+  const f = c || "https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.6", m = Gr(f, "/build/dist/wasm_exec.js") || "https://localhost:4222/wasm_exec.js";
   await oc(m);
   const T = new Pr();
   await T.init(Gr(f, "/build/dist/sigma-cspm.wasm") || "https://localhost:4222/sigma-cspm.wasm");
