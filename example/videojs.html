@@ -1,67 +1,86 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <head>
   <link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
   <script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
-
-  <!-- STEP 2: Include the Sigma SSAI Web SDK -->
-  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk/v2/build/sdk-dai.iife.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.7/build/sdk-dai.iife.js"></script>
 </head>
 
 <body>
-  <!-- STEP 3: Create a container for the video and ad playback -->
-  <div style="position: relative; width: 720px; overflow: hidden; aspect-ratio: 16/9;">
+  <div
+    style="
+      position: relative;
+      width: 720px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+    "
+  >
     <!-- Video Element -->
-    <video class="videoElement video-js" muted controls playsinline preload="auto"
-      style="position: absolute; inset: 0; width: 100%; height: 100%;"></video>
+    <video
+      class="videoElement video-js"
+      muted
+      controls
+      playsinline
+      preload="auto"
+      style="position: absolute; inset: 0; width: 100%; height: 100%"
+    ></video>
     <!-- Ad Container -->
-    <div class="adContainer"
-      style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; width: 100%;"></div>
+    <div
+      class="adContainer"
+      style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+        width: 100%;
+      "
+    ></div>
   </div>
 
   <script>
-    // STEP 4: Initialize the SDK and set up video streaming and ads when the page loads
     window.addEventListener('load', function () {
       // Get references to the video and ad container elements
-      let destroySigmaDai = null;
+      const video = document.querySelector('.videoElement')
+      const adContainer = document.querySelector('.adContainer')
 
-      const video = document.querySelector('.videoElement');
-      const adContainer = document.querySelector('.adContainer');
+      let destroyFn
+      const sourceURL =
+        'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEndpoint=a77eb455-b79d-40c0-9141-bfb62870dfbf'
 
-      const url =
-        'https://dai.sigma.video/manifest/manipulation/session/89b65b8d-f47e-4820-bb75-eee620ab8608/origin04/scte35-av4s-clear/master.m3u8?query=a';
+      const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(sourceURL)
 
-      // STEP 6: Create a new instance of the Sigma SSAI SDK with the video and ad containers
-      function startSigmaDai() {
-        Date.prototype.__toString = Date.prototype.toString
-        Date.prototype.toString = Date.prototype._toString
-        window.SigmaDaiSdk.createSigmaDai({ video, adContainer, url })
-          .then(({ onEventTracking, manifestUrl, sigmaPlayer, destroy }) => {
-            const player = videojs(video)
-            player.src({
-              src: manifestUrl,
-              type: 'application/x-mpegURL',
-            })
+      window.SigmaDaiSdk.createSigmaDai({
+        video,
+        adContainer,
+        adsUrl: adsUrl,
+      }).then((props) => {
+        const { onEventTracking, sigmaPlayer, destroy, cspm } = props
+        // Check if the HLS.js is supported in the browser
+        const player = videojs(video, {
+          sources: [{ type: 'application/x-mpegURL', src: playerUrl }],
+          html5: {
+            vhs: {
+              overrideNative: true,
+              cspm,
+            },
+          },
+        })
 
-            sigmaPlayer.attachVideojs(player)
-            destroySigmaDai = destroy;
+        player.play()
 
-            onEventTracking('*', (payload) => {
-              console.log('[LOG] Event Payload:', payload);
-            })
-            Date.prototype.toString = Date.prototype.__toString
-          });
-      }
+        sigmaPlayer.attachVideojs(player)
 
-      startSigmaDai();
+        onEventTracking('*', (payload) => {
+          console.log('[LOG] Event Payload:', payload)
+        })
 
-      // Add a button to the page to destroy the Sigma DAI instance
-      const destroyButton = document.createElement('button');
-      destroyButton.textContent = 'Destroy Sigma DAI';
-      destroyButton.onclick = function () {
-        destroySigmaDai();
-      };
-      document.body.appendChild(destroyButton);
-    });
+        destroyFn = destroy
+      })
+
+      // Extra: Destroy the SDK instance when the page is unloaded
+      // Bổ sung: Hủy instance của SDK khi trang được tải xong
+      window.addEventListener('beforeunload', destroyFn)
+    })
   </script>
 </body>
