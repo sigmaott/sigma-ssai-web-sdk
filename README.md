@@ -165,7 +165,7 @@ window.SigmaDaiSdk.createSigmaDai({
   video,
   adContainer,
   adsUrl,
-  baseURL: 'https://your-domain.com/', // Custom domain for SDK resources
+  baseURL: 'https://your-domain.com/assets', // Custom path for SDK resources
 })
 ```
 
