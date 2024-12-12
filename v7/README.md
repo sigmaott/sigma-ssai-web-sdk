@@ -11,9 +11,10 @@
 2. Scope
 3. Terms and Definitions
 4. Requirements
-5. Process
-6. References
-7. Appendix (if any)
+5. Configuration Options
+6. Process
+7. References
+8. Appendix (if any)
 
 ## 1. Introduction
 
@@ -44,7 +45,27 @@ This document requires the following conditions:
 - **SDK Version**: Sigma SSAI Web SDK version 6.x or higher.
 - **Video Stream**: Requires an HLS video stream (M3U8 file) containing server-side inserted ads.
 
-## 5 Generating Video URL
+## 5. Configuration Options
+
+### 5.1 Base URL Configuration
+
+When initializing the SDK, you can specify a custom domain for loading SDK resources using the `baseURL` option:
+
+```javascript
+window.SigmaDaiSdk.createSigmaDai({
+  video,
+  adContainer,
+  adsUrl,
+  baseURL: 'https://your-domain.com/build/', // Custom domain for SDK resources
+})
+```
+
+The `baseURL` option allows you to serve SDK resources from your own domain instead of using the default CDN. This is useful for:
+- Meeting security requirements
+- Implementing custom caching strategies
+- Ensuring resource availability through your infrastructure
+
+### 5.2 Generating Video URL
 Once the SDK is initialized, generate the video URL by calling the generateUrl method with the videoUrl parameter:
 
 Note: If the videoUrl contains the query parameter sigma.dai.adsEndpoint, its value will override the adsEndpoint provided during initialization.
@@ -110,24 +131,15 @@ window.addEventListener('load', function () {
   const url = 'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEndpoint=c1995593-784e-454e-b667-4b1ff441738e&sigma.dai.userId=abcd1234&sigma.dai.sessionId=xyz987';
   const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(url)
 
-  window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
+  window.SigmaDaiSdk.createSigmaDai({
+    video,
+    adContainer,
+    adsUrl,
+    baseURL: 'https://your-domain.com/build/', // Optional: Custom domain configuration
+  })
     .then(({ onEventTracking, sigmaPlayer, destroy, cspm }) => {
-      const imaOptions = { adTagUrl: dfp_tags };
-      const playerConfig = {
-          sources: [{ type: "application/x-mpegURL", src: url }],
-          autoplay: false,
-          html5: {
-              vhs: {
-                  overrideNative: true,
-                  cspm,
-                  cacheEncryptionKeys: true
-              }
-          },
-          controls: content_type !== 1 && content_type !== 3
-      };
-
-      player = videojs(video, playerConfig);
       const player = videojs(video, {
+        sources: [{ type: 'application/x-mpegURL', src: playerUrl }],
         html5: {
           vhs: {
             overrideNative: true,
@@ -135,12 +147,8 @@ window.addEventListener('load', function () {
           },
         },
       });
-      
-      player.src({
-        src: url,
-        type: 'application/x-mpegURL',
-      });
 
+      player.play();
       sigmaPlayer.attachVideojs(player);
 
       onEventTracking('*', (payload) => {
