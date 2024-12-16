@@ -6492,7 +6492,7 @@ async function cc({ video: t, adContainer: i, adsUrl: s, baseURL: c }) {
     cspm: ur
   };
 }
-(function(t) {
+window.videojs && (function(t) {
   const i = t.Vhs.PlaylistLoader.prototype.setupInitialPlaylist;
   t.Vhs.PlaylistLoader.prototype.setupInitialPlaylist = async function(s) {
     if (s.manifestString && this.vhs_.options_.cspm)
@@ -6507,15 +6507,13 @@ async function cc({ video: t, adContainer: i, adsUrl: s, baseURL: c }) {
       }
     i.apply(this, [s]);
   };
-})(videojs);
-(function(t) {
+}(videojs), function(t) {
   const i = t.Vhs.PlaylistLoader.prototype.parseManifest_;
   t.Vhs.PlaylistLoader.prototype.parseManifest_ = function({ url: s, manifestString: c }) {
     const f = i.apply(this, [{ url: s, manifestString: c }]);
     return f.playlists && f.playlists.length && (f.manifestString = c), f;
   };
-})(videojs);
-(function(t) {
+}(videojs), function(t) {
   const i = t.Vhs.PlaylistLoader.prototype.haveMetadata;
   t.Vhs.PlaylistLoader.prototype.haveMetadata = async function({
     playlistString: s,
@@ -6537,8 +6535,7 @@ async function cc({ video: t, adContainer: i, adsUrl: s, baseURL: c }) {
       console.error("Error loading source:", T);
     }
   };
-})(videojs);
-(function(t) {
+}(videojs), function(t) {
   const i = (c, f) => {
     const m = c.segments || [], T = m[m.length - 1], P = T && T.parts && T.parts[T.parts.length - 1], C = P && P.duration || T && T.duration;
     return C ? C * 1e3 : (c.partTargetDuration || c.targetDuration || 10) * 500;
@@ -6598,7 +6595,7 @@ async function cc({ video: t, adContainer: i, adsUrl: s, baseURL: c }) {
       }
     );
   };
-})(videojs);
+}(videojs));
 function dc(t) {
   const i = "https://dai.sigma.video/api/proxy-ads/ads/", s = wo(t), c = `${s.protocol}//${s.host}${s.pathname}`;
   if (!s.search)

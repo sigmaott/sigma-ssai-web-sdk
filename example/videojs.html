@@ -2,7 +2,7 @@
 <head>
   <link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
   <script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.7/build/sdk-dai.iife.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.8/build/sdk-dai.iife.js"></script>
 </head>
 
 <body>
@@ -53,7 +53,7 @@
       window.SigmaDaiSdk.createSigmaDai({
         video,
         adContainer,
-        adsUrl: adsUrl,
+        adsUrl,
       }).then((props) => {
         const { onEventTracking, sigmaPlayer, destroy, cspm } = props
         // Check if the HLS.js is supported in the browser
