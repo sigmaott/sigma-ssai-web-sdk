@@ -1,8 +1,8 @@
 # Sigma SSAI Web SDK Integration
 
-**Version**: v1.0.7
+**Version**: v1.0.9
 
-**Release Date**: 12/12/2024  
+**Release Date**: 17/12/2024  
 
 **Author**: Thu Do Multimedia
 
@@ -82,7 +82,7 @@ Add VideoJS library links and scripts to the HTML `<head>` section.
 Add the Sigma SSAI Web SDK library to the HTML `<head>` section.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@1.0.7/build/sdk-dai.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@1.0.9/build/sdk-dai.iife.js"></script>
 ```
 
 #### Step 3: Create Container for Video and Ads
@@ -159,7 +159,7 @@ window.addEventListener('load', function () {
 #### Self hosting and custom domain for loading SDK resources
 
 Download the SDK from the release page and serve it from your own domain.
-[Download SDK](https://github.com/sigmaott/sigma-ssai-web-sdk/releases/tag/v1.0.7)
+[Download SDK](https://github.com/sigmaott/sigma-ssai-web-sdk/releases/tag/v1.0.9)
 
 When initializing the SDK, you can specify a custom domain for loading SDK resources using the `baseURL` option:
 
@@ -192,7 +192,7 @@ Add the HLS.js library to the HTML `<head>` section.
 Add the Sigma SSAI Web SDK library to the HTML `<head>` section.
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@1.0.7/build/sdk-dai.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@1.0.9/build/sdk-dai.iife.js"></script>
 ```
 
 #### Step 3: Create Container for Video and Ads
