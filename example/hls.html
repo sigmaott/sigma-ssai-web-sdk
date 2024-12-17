@@ -4,7 +4,7 @@
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <!-- STEP 2: Include the Sigma SSAI Web SDK -->
-  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.8/build/sdk-dai.iife.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.9/build/sdk-dai.iife.js"></script>
 </head>
 
 <body>
@@ -26,15 +26,21 @@
     ></div>
   </div>
 
+  <!-- STEP 4: Add controls -->
+  <div class="controls" style="margin-top: 10px;">
+    <button id="destroyButton" type="button">Destroy Player</button>
+  </div>
+
   <script>
     // STEP 4: Initialize the SDK and set up video streaming and ads when the page loads
     window.addEventListener('load', function () {
       // Get references to the video and ad container elements
       const video = document.querySelector('.videoElement');
       const adContainer = document.querySelector('.adContainer');
+      let destroyFn;
+      let hlsInstance;
 
       // STEP 5: Set the URL of the HLS manifest (video stream with SSAI)
-      let destroyFn
       const sourceURL =
         'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEndpoint=a77eb455-b79d-40c0-9141-bfb62870dfbf'
 
@@ -46,17 +52,18 @@
         adContainer,
         adsUrl,
       })
-        .then(({ onEventTracking, sigmaPlayer }) => {
+        .then(({ onEventTracking, sigmaPlayer, destroy }) => {
           // Check if the HLS.js is supported in the browser
           if (window.Hls.isSupported()) {
             const hls = new window.Hls();
-
+            hlsInstance = hls;
+            
             // STEP 7: Load the manifest URL and attach the HLS stream to the video element
             hls.loadSource(playerUrl);
             hls.attachMedia(video);
 
-            // STEP 8: Set up HLS event handlers to manage ad insertion and tracking
-            sigmaPlayer.attachHls(hls)
+            sigmaPlayer.attachHls(hls);
+            destroyFn = destroy;
 
             // STEP 9: Set up event tracking for logging
             onEventTracking('*', (payload) => {
@@ -64,6 +71,21 @@
             });
           }
         });
+
+      // Add destroy button handler
+      const destroyButton = document.querySelector('#destroyButton');
+      if (destroyButton) {
+        destroyButton.addEventListener('click', () => {
+          if (hlsInstance) {
+            hlsInstance.destroy();
+            hlsInstance = null;
+          }
+          if (destroyFn) {
+            destroyFn();
+            destroyFn = null;
+          }
+        });
+      }
     });
   </script>
 </body>
