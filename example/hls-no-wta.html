@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<head>
+  <!-- STEP 1: Include the HLS.js library for streaming -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <!-- STEP 2: Include the Sigma SSAI Web SDK -->
+  <script src="https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.0.9/build/sdk-dai.iife.js"></script>
+</head>
+
+<body>
+  <!-- STEP 3: Create a container for the video and ad playback -->
+  <div style="position: relative; width: 720px; overflow: hidden; aspect-ratio: 16/9;">
+    <!-- Video Element -->
+    <video
+      class="videoElement"
+      muted
+      controls
+      playsinline
+      preload="auto"
+      style="position: absolute; inset: 0; width: 100%; height: 100%;"
+    ></video>
+  </div>
+
+  <!-- STEP 4: Add controls -->
+  <div class="controls" style="margin-top: 10px;">
+    <button id="destroyButton" type="button">Destroy Player</button>
+  </div>
+
+  <script>
+    // STEP 4: Initialize the SDK and set up video streaming and ads when the page loads
+    window.addEventListener('load', function () {
+      // Get references to the video and ad container elements
+      const video = document.querySelector('.videoElement');
+      let destroyFn;
+      let hlsInstance;
+
+      // STEP 5: Set the URL of the HLS manifest (video stream with SSAI)
+      const sourceURL =
+        'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEndpoint=a77eb455-b79d-40c0-9141-bfb62870dfbf'
+
+      const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(sourceURL)
+
+      // STEP 6: Create a new instance of the Sigma SSAI SDK with the video and ad containers
+      window.SigmaDaiSdk.createSigmaDai({ 
+        video,
+        adContainer: null,
+        adsUrl,
+      })
+        .then(({ onEventTracking, sigmaPlayer, destroy }) => {
+          // Check if the HLS.js is supported in the browser
+          if (window.Hls.isSupported()) {
+            const hls = new window.Hls();
+            hlsInstance = hls;
+            
+            // STEP 7: Load the manifest URL and attach the HLS stream to the video element
+            hls.loadSource(playerUrl);
+            hls.attachMedia(video);
+
+            sigmaPlayer.attachHls(hls);
+            destroyFn = destroy;
+
+            // STEP 9: Set up event tracking for logging
+            onEventTracking('*', (payload) => {
+              // console.log('[LOG] Event Payload:', payload);
+            });
+          }
+        });
+
+      // Add destroy button handler
+      const destroyButton = document.querySelector('#destroyButton');
+      if (destroyButton) {
+        destroyButton.addEventListener('click', () => {
+          if (hlsInstance) {
+            hlsInstance.destroy();
+            hlsInstance = null;
+          }
+          if (destroyFn) {
+            destroyFn();
+            destroyFn = null;
+          }
+        });
+      }
+    });
+  </script>
+</body>
