@@ -2,7 +2,7 @@
 
 **Version**: v1.1.0
 
-**Release Date**: 17/12/2024  
+**Release Date**: 20/12/2024  
 
 **Author**: Thu Do Multimedia
 
