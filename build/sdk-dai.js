@@ -6779,7 +6779,7 @@ function vc({
   };
 }
 async function yc({ video: t, adContainer: o, adsUrl: s, baseURL: d }) {
-  const f = d || "https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.4.0", b = (await Kr.getInstance({ uri: Rn(f, "/build/dist/sigma-cspm.wasm") || "https://localhost:4222/sigma-cspm.wasm" })).createSession();
+  const f = d || "https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.5.0", b = (await Kr.getInstance({ uri: Rn(f, "/build/dist/sigma-cspm.wasm") || "https://localhost:4222/sigma-cspm.wasm" })).createSession();
   function w() {
   }
   const { onEventTracking: S, destroy: C, videojsHelper: E, hlsHelper: D, shakaPlayerHelper: N, getLog: se } = vc({
