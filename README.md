@@ -1,8 +1,8 @@
 # Sigma SSAI Web SDK Integration
 
-**Version**: v1.2.0
+**Version**: v1.5.1
 
-**Release Date**: 02/01/2025  
+**Release Date**: 05/07/2025  
 
 **Author**: Thu Do Multimedia
 
@@ -110,8 +110,20 @@ window.addEventListener('load', function () {
   const adContainer = document.querySelector('.adContainer');
   let destroyFn;
 
-  const url = 'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEndpoint=c1995593-784e-454e-b667-4b1ff441738e&sigma.dai.userId=abcd1234&sigma.dai.sessionId=xyz987';
-  const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(url)
+  // Method 1: Extract player and ads URLs from a single manifest URL using the processURL method
+  // Uncomment these lines to use the processURL method
+  // const url = 'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8?sigma.dai.adsEndpoint=c1995593-784e-454e-b667-4b1ff441738e&sigma.dai.userId=abcd1234&sigma.dai.sessionId=xyz987';
+  // const { playerUrl, adsUrl } = window.SigmaDaiSdk.processURL(url)
+
+  // Method 2: Generate Ads URL using getAdsURL function
+  const adsEndpoint = 'c1995593-784e-454e-b667-4b1ff441738e';
+  const params = {
+    userId: 'abcd1234',
+    sessionId: 'xyz987'
+  };
+
+  const { adsUrl } = window.SigmaDaiSdk.getAdsURL(adsEndpoint, params);
+  const playerUrl = 'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8';
 
   window.SigmaDaiSdk.createSigmaDai({ video, adContainer, adsUrl })
     .then(({ onEventTracking, sigmaPlayer, destroy, cspm }) => {
@@ -155,6 +167,18 @@ window.addEventListener('load', function () {
 });
 ```
 
+### Generate Ads URL using params with getAdsURL function
+
+```javascript
+const adsEndpoint = 'c1995593-784e-454e-b667-4b1ff441738e';
+const params = {
+  userId: 'abcd1234',
+  sessionId: 'xyz987'
+};
+
+const { adsUrl } = window.SigmaDaiSdk.getAdsURL(adsEndpoint, params);
+const playerUrl = 'https://cdn-lrm-test.sigma.video/manifest/origin04/scte35-av6s-clear/master.m3u8';
+```
 
 #### Self hosting and custom domain for loading SDK resources
 
