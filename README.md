@@ -167,7 +167,7 @@ window.addEventListener('load', function () {
 });
 ```
 
-### Generate Ads URL using params with getAdsURL function
+#### Generate Ads URL using params with getAdsURL function
 
 ```javascript
 const adsEndpoint = 'c1995593-784e-454e-b667-4b1ff441738e';
