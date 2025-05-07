@@ -24,7 +24,7 @@ function As(t) {
 function Ws(t) {
   return sa(t.replace(wo, " "));
 }
-function ua(t = "") {
+function ca(t = "") {
   const o = {};
   t[0] === "?" && (t = t.slice(1));
   for (const s of t.split("&")) {
@@ -46,7 +46,7 @@ function Fs(t) {
   return Object.keys(t).filter((o) => t[o] !== void 0).map((o) => Ms(o, t[o])).filter(Boolean).join("&");
 }
 const Ls = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/, zs = /^[\s\w\0+.-]{2,}:([/\\]{2})?/, Us = /^([/\\]\s*){2,}[^/\\]/, Bs = /^\.?\//;
-function ca(t, o = {}) {
+function ua(t, o = {}) {
   return typeof o == "boolean" && (o = { acceptRelative: o }), o.strict ? Ls.test(t) : zs.test(t) || (o.acceptRelative ? Us.test(t) : !1);
 }
 function js(t = "", o) {
@@ -59,17 +59,17 @@ function $s(t = "", o) {
   return t.endsWith("/") ? t : t + "/";
 }
 function Hs(t, o) {
-  if (Gs(o) || ca(t))
+  if (Gs(o) || ua(t))
     return t;
   const s = qs(o);
-  return t.startsWith(s) ? t : Rn(s, t);
+  return t.startsWith(s) ? t : Zr(s, t);
 }
-function bn(t, o) {
-  const s = mo(t), d = { ...ua(s.search), ...o };
+function Jr(t, o) {
+  const s = mo(t), d = { ...ca(s.search), ...o };
   return s.search = Fs(d), Ks(s);
 }
 function Vs(t) {
-  return ua(mo(t).search);
+  return ca(mo(t).search);
 }
 function Gs(t) {
   return !t || t === "/";
@@ -77,7 +77,7 @@ function Gs(t) {
 function Js(t) {
   return t && t !== "/";
 }
-function Rn(t, ...o) {
+function Zr(t, ...o) {
   let s = t || "";
   for (const d of o.filter((f) => Js(f)))
     if (s) {
@@ -104,7 +104,7 @@ function mo(t = "", o) {
       hash: ""
     };
   }
-  if (!ca(t, { acceptRelative: !0 }))
+  if (!ua(t, { acceptRelative: !0 }))
     return Hi(t);
   const [, d = "", f, m = ""] = t.replace(/\\/g, "/").match(/^[\s\0]*([\w+.-]{2,}:)?\/\/([^/@]+@)?(.*)/) || [];
   let [, b = "", w = ""] = m.match(/([^#/?]*)(.*)?/) || [];
@@ -147,7 +147,7 @@ const Ys = (t) => (o, s) => (t.set(o, s), s), Vi = Number.MAX_SAFE_INTEGER === v
   for (; s.has(f); )
     f = Math.floor(Math.random() * Vi);
   return t(s, f);
-}, la = /* @__PURE__ */ new WeakMap(), Xs = Ys(la), vn = Zs(Xs, la), Qs = (t) => t.method !== void 0 && t.method === "call", ks = (t) => typeof t.id == "number" && typeof t.result == "boolean", eu = (t) => {
+}, la = /* @__PURE__ */ new WeakMap(), Xs = Ys(la), mn = Zs(Xs, la), Qs = (t) => t.method !== void 0 && t.method === "call", ks = (t) => typeof t.id == "number" && typeof t.result == "boolean", ec = (t) => {
   const o = /* @__PURE__ */ new Map([[0, () => {
   }]]), s = /* @__PURE__ */ new Map([[0, () => {
   }]]), d = /* @__PURE__ */ new Map(), f = new Worker(t);
@@ -186,7 +186,7 @@ const Ys = (t) => (o, s) => (t.set(o, s), s), Vi = Number.MAX_SAFE_INTEGER === v
   }), {
     clearInterval: (C) => {
       if (typeof o.get(C) == "function") {
-        const E = vn(d);
+        const E = mn(d);
         d.set(E, { timerId: C, timerType: "interval" }), o.set(C, E), f.postMessage({
           id: E,
           method: "clear",
@@ -196,7 +196,7 @@ const Ys = (t) => (o, s) => (t.set(o, s), s), Vi = Number.MAX_SAFE_INTEGER === v
     },
     clearTimeout: (C) => {
       if (typeof s.get(C) == "function") {
-        const E = vn(d);
+        const E = mn(d);
         d.set(E, { timerId: C, timerType: "timeout" }), s.set(C, E), f.postMessage({
           id: E,
           method: "clear",
@@ -205,7 +205,7 @@ const Ys = (t) => (o, s) => (t.set(o, s), s), Vi = Number.MAX_SAFE_INTEGER === v
       }
     },
     setInterval: (C, E = 0, ...D) => {
-      const N = vn(o);
+      const N = mn(o);
       return o.set(N, () => {
         C(...D), typeof o.get(N) == "function" && f.postMessage({
           id: null,
@@ -229,7 +229,7 @@ const Ys = (t) => (o, s) => (t.set(o, s), s), Vi = Number.MAX_SAFE_INTEGER === v
       }), N;
     },
     setTimeout: (C, E = 0, ...D) => {
-      const N = vn(s);
+      const N = mn(s);
       return s.set(N, () => C(...D)), f.postMessage({
         id: null,
         method: "set",
@@ -242,7 +242,7 @@ const Ys = (t) => (o, s) => (t.set(o, s), s), Vi = Number.MAX_SAFE_INTEGER === v
       }), N;
     }
   };
-}, tu = (t, o) => {
+}, tc = (t, o) => {
   let s = null;
   return () => {
     if (s !== null)
@@ -250,7 +250,7 @@ const Ys = (t) => (o, s) => (t.set(o, s), s), Vi = Number.MAX_SAFE_INTEGER === v
     const d = new Blob([o], { type: "application/javascript; charset=utf-8" }), f = URL.createObjectURL(d);
     return s = t(f), setTimeout(() => URL.revokeObjectURL(f)), s;
   };
-}, ru = `(()=>{"use strict";const e=new Map,t=new Map,r=t=>{const r=e.get(t);return void 0!==r&&(clearTimeout(r),e.delete(t),!0)},s=e=>{const r=t.get(e);return void 0!==r&&(clearTimeout(r),t.delete(e),!0)},o=(e,t)=>{const r=performance.now(),s=e+t-r-performance.timeOrigin;return{expected:r+s,remainingDelay:s}},i=(e,t,r,s)=>{const o=r-performance.now();o>0?e.set(t,setTimeout(i,o,e,t,r,s)):(e.delete(t),postMessage({id:null,method:"call",params:{timerId:t,timerType:s}}))};addEventListener("message",(n=>{let{data:a}=n;try{if("clear"===a.method){const{id:e,params:{timerId:t,timerType:o}}=a;if("interval"===o)postMessage({id:e,result:r(t)});else{if("timeout"!==o)throw new Error('The given type "'.concat(o,'" is not supported'));postMessage({id:e,result:s(t)})}}else{if("set"!==a.method)throw new Error('The given method "'.concat(a.method,'" is not supported'));{const{params:{delay:r,now:s,timerId:n,timerType:m}}=a;if("interval"===m)((t,r,s)=>{const{expected:n,remainingDelay:a}=o(t,s);e.set(r,setTimeout(i,a,e,r,n,"interval"))})(r,n,s);else{if("timeout"!==m)throw new Error('The given type "'.concat(m,'" is not supported'));((e,r,s)=>{const{expected:n,remainingDelay:a}=o(e,s);t.set(r,setTimeout(i,a,t,r,n,"timeout"))})(r,n,s)}}}}catch(e){postMessage({error:{message:e.message},id:a.id,result:null})}}))})();`, nu = tu(eu, ru), Ji = (t) => nu().clearTimeout(t);
+}, rc = `(()=>{"use strict";const e=new Map,t=new Map,r=t=>{const r=e.get(t);return void 0!==r&&(clearTimeout(r),e.delete(t),!0)},s=e=>{const r=t.get(e);return void 0!==r&&(clearTimeout(r),t.delete(e),!0)},o=(e,t)=>{const r=performance.now(),s=e+t-r-performance.timeOrigin;return{expected:r+s,remainingDelay:s}},i=(e,t,r,s)=>{const o=r-performance.now();o>0?e.set(t,setTimeout(i,o,e,t,r,s)):(e.delete(t),postMessage({id:null,method:"call",params:{timerId:t,timerType:s}}))};addEventListener("message",(n=>{let{data:a}=n;try{if("clear"===a.method){const{id:e,params:{timerId:t,timerType:o}}=a;if("interval"===o)postMessage({id:e,result:r(t)});else{if("timeout"!==o)throw new Error('The given type "'.concat(o,'" is not supported'));postMessage({id:e,result:s(t)})}}else{if("set"!==a.method)throw new Error('The given method "'.concat(a.method,'" is not supported'));{const{params:{delay:r,now:s,timerId:n,timerType:m}}=a;if("interval"===m)((t,r,s)=>{const{expected:n,remainingDelay:a}=o(t,s);e.set(r,setTimeout(i,a,e,r,n,"interval"))})(r,n,s);else{if("timeout"!==m)throw new Error('The given type "'.concat(m,'" is not supported'));((e,r,s)=>{const{expected:n,remainingDelay:a}=o(e,s);t.set(r,setTimeout(i,a,t,r,n,"timeout"))})(r,n,s)}}}}catch(e){postMessage({error:{message:e.message},id:a.id,result:null})}}))})();`, nc = tc(ec, rc), Ji = (t) => nc().clearTimeout(t);
 /**
 * @vue/shared v3.5.1
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
@@ -258,14 +258,14 @@ const Ys = (t) => (o, s) => (t.set(o, s), s), Vi = Number.MAX_SAFE_INTEGER === v
 **/
 /*! #__NO_SIDE_EFFECTS__ */
 // @__NO_SIDE_EFFECTS__
-function ou(t, o) {
+function oc(t, o) {
   const s = new Set(t.split(","));
   return (d) => s.has(d);
 }
-const Ki = Object.assign, iu = Object.prototype.hasOwnProperty, lo = (t, o) => iu.call(t, o), Tr = Array.isArray, Vr = (t) => ha(t) === "[object Map]", au = (t) => typeof t == "string", Yr = (t) => typeof t == "symbol", Tn = (t) => t !== null && typeof t == "object", su = Object.prototype.toString, ha = (t) => su.call(t), pa = (t) => ha(t).slice(8, -1), go = (t) => au(t) && t !== "NaN" && t[0] !== "-" && "" + parseInt(t, 10) === t, uu = (t) => {
+const Ki = Object.assign, ic = Object.prototype.hasOwnProperty, lo = (t, o) => ic.call(t, o), Tr = Array.isArray, Vr = (t) => ha(t) === "[object Map]", ac = (t) => typeof t == "string", Xr = (t) => typeof t == "symbol", Tn = (t) => t !== null && typeof t == "object", sc = Object.prototype.toString, ha = (t) => sc.call(t), pa = (t) => ha(t).slice(8, -1), go = (t) => ac(t) && t !== "NaN" && t[0] !== "-" && "" + parseInt(t, 10) === t, cc = (t) => {
   const o = /* @__PURE__ */ Object.create(null);
   return (s) => o[s] || (o[s] = t(s));
-}, cu = uu((t) => t.charAt(0).toUpperCase() + t.slice(1)), Ir = (t, o) => !Object.is(t, o);
+}, uc = cc((t) => t.charAt(0).toUpperCase() + t.slice(1)), Ir = (t, o) => !Object.is(t, o);
 var tt = {};
 function xr(t, ...o) {
   console.warn(`[Vue warn] ${t}`, ...o);
@@ -352,21 +352,21 @@ function wa(t) {
 function ma(t) {
   let o, s = t.depsTail;
   for (let d = s; d; d = d.prevDep)
-    d.version === -1 ? (d === s && (s = d.prevDep), bo(d), fu(d)) : o = d, d.dep.activeLink = d.prevActiveLink, d.prevActiveLink = void 0;
+    d.version === -1 ? (d === s && (s = d.prevDep), bo(d), fc(d)) : o = d, d.dep.activeLink = d.prevActiveLink, d.prevActiveLink = void 0;
   t.deps = o, t.depsTail = s;
 }
 function ho(t) {
   for (let o = t.deps; o; o = o.nextDep)
-    if (o.dep.version !== o.version || o.dep.computed && du(o.dep.computed) === !1 || o.dep.version !== o.version)
+    if (o.dep.version !== o.version || o.dep.computed && dc(o.dep.computed) === !1 || o.dep.version !== o.version)
       return !0;
   return !!t._dirty;
 }
-function du(t) {
+function dc(t) {
   if (t.flags & 2)
     return !1;
-  if (t.flags & 4 && !(t.flags & 16) || (t.flags &= -17, t.globalVersion === Pn))
+  if (t.flags & 4 && !(t.flags & 16) || (t.flags &= -17, t.globalVersion === Rn))
     return;
-  t.globalVersion = Pn;
+  t.globalVersion = Rn;
   const o = t.dep;
   if (t.flags |= 2, o.version > 0 && !t.isSSR && !ho(t)) {
     t.flags &= -3;
@@ -392,11 +392,11 @@ function bo(t) {
       bo(f);
   }
 }
-function fu(t) {
+function fc(t) {
   const { prevDep: o, nextDep: s } = t;
   o && (o.nextDep = s, t.prevDep = void 0), s && (s.prevDep = o, t.nextDep = void 0);
 }
-function lu(t, o) {
+function lc(t, o) {
   t.effect instanceof Yi && (t = t.effect.fn);
   const s = new Yi(t);
   try {
@@ -409,10 +409,10 @@ function lu(t, o) {
 }
 let Ct = !0;
 const ga = [];
-function hu() {
+function hc() {
   ga.push(Ct), Ct = !1;
 }
-function pu() {
+function pc() {
   const t = ga.pop();
   Ct = t === void 0 ? !0 : t;
 }
@@ -428,7 +428,7 @@ function Zi(t) {
     }
   }
 }
-let Pn = 0;
+let Rn = 0;
 class ya {
   constructor(o) {
     this.computed = o, this.version = 0, this.activeLink = void 0, this.subs = void 0, tt.NODE_ENV !== "production" && (this.subsHead = void 0);
@@ -462,7 +462,7 @@ class ya {
     ), s;
   }
   trigger(o) {
-    this.version++, Pn++, this.notify(o);
+    this.version++, Rn++, this.notify(o);
   }
   notify(o) {
     yo();
@@ -498,7 +498,7 @@ const po = /* @__PURE__ */ new WeakMap(), vr = Symbol(
   tt.NODE_ENV !== "production" ? "Object iterate" : ""
 ), vo = Symbol(
   tt.NODE_ENV !== "production" ? "Map keys iterate" : ""
-), Jr = Symbol(
+), Kr = Symbol(
   tt.NODE_ENV !== "production" ? "Array iterate" : ""
 );
 function vt(t, o, s) {
@@ -516,7 +516,7 @@ function vt(t, o, s) {
 function nr(t, o, s, d, f, m) {
   const b = po.get(t);
   if (!b) {
-    Pn++;
+    Rn++;
     return;
   }
   let w = [];
@@ -527,11 +527,11 @@ function nr(t, o, s, d, f, m) {
     if (S && s === "length") {
       const E = Number(d);
       b.forEach((D, N) => {
-        (N === "length" || N === Jr || !Yr(N) && N >= E) && w.push(D);
+        (N === "length" || N === Kr || !Xr(N) && N >= E) && w.push(D);
       });
     } else {
       const E = (D) => D && w.push(D);
-      switch (s !== void 0 && E(b.get(s)), C && E(b.get(Jr)), o) {
+      switch (s !== void 0 && E(b.get(s)), C && E(b.get(Kr)), o) {
         case "add":
           S ? C && E(b.get("length")) : (E(b.get(vr)), Vr(t) && E(b.get(vo)));
           break;
@@ -558,12 +558,12 @@ function nr(t, o, s, d, f, m) {
 }
 function Pr(t) {
   const o = ye(t);
-  return o === t ? o : (vt(o, "iterate", Jr), or(t) ? o : o.map(ht));
+  return o === t ? o : (vt(o, "iterate", Kr), or(t) ? o : o.map(ht));
 }
 function Po(t) {
-  return vt(t = ye(t), "iterate", Jr), t;
+  return vt(t = ye(t), "iterate", Kr), t;
 }
-const vu = {
+const vc = {
   __proto__: null,
   [Symbol.iterator]() {
     return so(this, Symbol.iterator, ht);
@@ -599,17 +599,17 @@ const vu = {
     return Bt(this, "forEach", t, o, void 0, arguments);
   },
   includes(...t) {
-    return uo(this, "includes", t);
+    return co(this, "includes", t);
   },
   indexOf(...t) {
-    return uo(this, "indexOf", t);
+    return co(this, "indexOf", t);
   },
   join(t) {
     return Pr(this).join(t);
   },
   // keys() iterator only reads `length`, no optimisation required
   lastIndexOf(...t) {
-    return uo(this, "lastIndexOf", t);
+    return co(this, "lastIndexOf", t);
   },
   map(t, o) {
     return Bt(this, "map", t, o, void 0, arguments);
@@ -659,10 +659,10 @@ function so(t, o, s) {
     return m.value && (m.value = s(m.value)), m;
   }), f;
 }
-const wu = Array.prototype;
+const wc = Array.prototype;
 function Bt(t, o, s, d, f, m) {
   const b = Po(t), w = b !== t && !or(t), S = b[o];
-  if (S !== wu[o]) {
+  if (S !== wc[o]) {
     const D = S.apply(t, m);
     return w ? ht(D) : D;
   }
@@ -684,22 +684,22 @@ function Xi(t, o, s, d) {
     return s.call(this, b, ht(w), S, t);
   }), f[o](m, ...d);
 }
-function uo(t, o, s) {
+function co(t, o, s) {
   const d = ye(t);
-  vt(d, "iterate", Jr);
+  vt(d, "iterate", Kr);
   const f = d[o](...s);
-  return (f === -1 || f === !1) && Wu(s[0]) ? (s[0] = ye(s[0]), d[o](...s)) : f;
+  return (f === -1 || f === !1) && Wc(s[0]) ? (s[0] = ye(s[0]), d[o](...s)) : f;
 }
 function Hr(t, o, s = []) {
-  hu(), yo();
+  hc(), yo();
   const d = ye(t)[o].apply(t, s);
-  return Eo(), pu(), d;
+  return Eo(), pc(), d;
 }
-const mu = /* @__PURE__ */ ou("__proto__,__v_isRef,__isVue"), ba = new Set(
-  /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((t) => t !== "arguments" && t !== "caller").map((t) => Symbol[t]).filter(Yr)
+const mc = /* @__PURE__ */ oc("__proto__,__v_isRef,__isVue"), ba = new Set(
+  /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((t) => t !== "arguments" && t !== "caller").map((t) => Symbol[t]).filter(Xr)
 );
-function gu(t) {
-  Yr(t) || (t = String(t));
+function gc(t) {
+  Xr(t) || (t = String(t));
   const o = ye(this);
   return vt(o, "has", t), o.hasOwnProperty(t);
 }
@@ -716,16 +716,16 @@ class Pa {
     if (s === "__v_isShallow")
       return m;
     if (s === "__v_raw")
-      return d === (f ? m ? _u : xa : m ? Du : Sa).get(o) || // receiver is not the reactive proxy, but has the same prototype
+      return d === (f ? m ? _c : xa : m ? Dc : Sa).get(o) || // receiver is not the reactive proxy, but has the same prototype
       // this means the receiver is a user proxy of the reactive proxy
       Object.getPrototypeOf(o) === Object.getPrototypeOf(d) ? o : void 0;
     const b = Tr(o);
     if (!f) {
       let S;
-      if (b && (S = vu[s]))
+      if (b && (S = vc[s]))
         return S;
       if (s === "hasOwnProperty")
-        return gu;
+        return gc;
     }
     const w = Reflect.get(
       o,
@@ -735,10 +735,10 @@ class Pa {
       // its class methods
       Sr(o) ? o : d
     );
-    return (Yr(s) ? ba.has(s) : mu(s)) || (f || vt(o, "get", s), m) ? w : Sr(w) ? b && go(s) ? w : w.value : Tn(w) ? f ? Ia(w) : Oa(w) : w;
+    return (Xr(s) ? ba.has(s) : mc(s)) || (f || vt(o, "get", s), m) ? w : Sr(w) ? b && go(s) ? w : w.value : Tn(w) ? f ? Ia(w) : Oa(w) : w;
   }
 }
-class yu extends Pa {
+class yc extends Pa {
   constructor(o = !1) {
     super(!1, o);
   }
@@ -763,7 +763,7 @@ class yu extends Pa {
   }
   has(o, s) {
     const d = Reflect.has(o, s);
-    return (!Yr(s) || !ba.has(s)) && vt(o, "has", s), d;
+    return (!Xr(s) || !ba.has(s)) && vt(o, "has", s), d;
   }
   ownKeys(o) {
     return vt(
@@ -773,7 +773,7 @@ class yu extends Pa {
     ), Reflect.ownKeys(o);
   }
 }
-class Eu extends Pa {
+class Ec extends Pa {
   constructor(o = !1) {
     super(!0, o);
   }
@@ -790,8 +790,8 @@ class Eu extends Pa {
     ), !0;
   }
 }
-const bu = /* @__PURE__ */ new yu(), Pu = /* @__PURE__ */ new Eu(), Ro = (t) => t, Sn = (t) => Reflect.getPrototypeOf(t);
-function wn(t, o, s = !1, d = !1) {
+const bc = /* @__PURE__ */ new yc(), Pc = /* @__PURE__ */ new Ec(), Ro = (t) => t, Sn = (t) => Reflect.getPrototypeOf(t);
+function gn(t, o, s = !1, d = !1) {
   t = t.__v_raw;
   const f = ye(t), m = ye(o);
   s || (Ir(o, m) && vt(f, "get", o), vt(f, "get", m));
@@ -802,11 +802,11 @@ function wn(t, o, s = !1, d = !1) {
     return w(t.get(m));
   t !== f && t.get(o);
 }
-function mn(t, o = !1) {
+function yn(t, o = !1) {
   const s = this.__v_raw, d = ye(s), f = ye(t);
   return o || (Ir(t, f) && vt(d, "has", t), vt(d, "has", f)), t === f ? s.has(t) : s.has(t) || s.has(f);
 }
-function gn(t, o = !1) {
+function En(t, o = !1) {
   return t = t.__v_raw, !o && vt(ye(t), "iterate", vr), Reflect.get(t, "size", t);
 }
 function Qi(t, o = !1) {
@@ -833,13 +833,13 @@ function ta() {
   const t = ye(this), o = t.size !== 0, s = tt.NODE_ENV !== "production" ? Vr(t) ? new Map(t) : new Set(t) : void 0, d = t.clear();
   return o && nr(t, "clear", void 0, void 0, s), d;
 }
-function yn(t, o) {
+function bn(t, o) {
   return function(d, f) {
     const m = this, b = m.__v_raw, w = ye(b), S = o ? Ro : t ? To : ht;
     return !t && vt(w, "iterate", vr), b.forEach((C, E) => d.call(f, S(C), S(E), m));
   };
 }
-function En(t, o, s) {
+function Pn(t, o, s) {
   return function(...d) {
     const f = this.__v_raw, m = ye(f), b = Vr(m), w = t === "entries" || t === Symbol.iterator && b, S = t === "keys" && b, C = f[t](...d), E = s ? Ro : o ? To : ht;
     return !o && vt(
@@ -867,35 +867,35 @@ function tr(t) {
     if (tt.NODE_ENV !== "production") {
       const s = o[0] ? `on key "${o[0]}" ` : "";
       xr(
-        `${cu(t)} operation ${s}failed: target is readonly.`,
+        `${uc(t)} operation ${s}failed: target is readonly.`,
         ye(this)
       );
     }
     return t === "delete" ? !1 : t === "clear" ? void 0 : this;
   };
 }
-function Ru() {
+function Rc() {
   const t = {
     get(m) {
-      return wn(this, m);
+      return gn(this, m);
     },
     get size() {
-      return gn(this);
+      return En(this);
     },
-    has: mn,
+    has: yn,
     add: Qi,
     set: ki,
     delete: ea,
     clear: ta,
-    forEach: yn(!1, !1)
+    forEach: bn(!1, !1)
   }, o = {
     get(m) {
-      return wn(this, m, !1, !0);
+      return gn(this, m, !1, !0);
     },
     get size() {
-      return gn(this);
+      return En(this);
     },
-    has: mn,
+    has: yn,
     add(m) {
       return Qi.call(this, m, !0);
     },
@@ -904,37 +904,37 @@ function Ru() {
     },
     delete: ea,
     clear: ta,
-    forEach: yn(!1, !0)
+    forEach: bn(!1, !0)
   }, s = {
     get(m) {
-      return wn(this, m, !0);
+      return gn(this, m, !0);
     },
     get size() {
-      return gn(this, !0);
+      return En(this, !0);
     },
     has(m) {
-      return mn.call(this, m, !0);
+      return yn.call(this, m, !0);
     },
     add: tr("add"),
     set: tr("set"),
     delete: tr("delete"),
     clear: tr("clear"),
-    forEach: yn(!0, !1)
+    forEach: bn(!0, !1)
   }, d = {
     get(m) {
-      return wn(this, m, !0, !0);
+      return gn(this, m, !0, !0);
     },
     get size() {
-      return gn(this, !0);
+      return En(this, !0);
     },
     has(m) {
-      return mn.call(this, m, !0);
+      return yn.call(this, m, !0);
     },
     add: tr("add"),
     set: tr("set"),
     delete: tr("delete"),
     clear: tr("clear"),
-    forEach: yn(!0, !0)
+    forEach: bn(!0, !0)
   };
   return [
     "keys",
@@ -942,7 +942,7 @@ function Ru() {
     "entries",
     Symbol.iterator
   ].forEach((m) => {
-    t[m] = En(m, !1, !1), s[m] = En(m, !0, !1), o[m] = En(m, !1, !0), d[m] = En(
+    t[m] = Pn(m, !1, !1), s[m] = Pn(m, !0, !1), o[m] = Pn(m, !1, !0), d[m] = Pn(
       m,
       !0,
       !0
@@ -955,22 +955,22 @@ function Ru() {
   ];
 }
 const [
-  Tu,
-  Su,
-  xu,
-  Ou
-] = /* @__PURE__ */ Ru();
+  Tc,
+  Sc,
+  xc,
+  Oc
+] = /* @__PURE__ */ Rc();
 function Ra(t, o) {
-  const s = o ? t ? Ou : xu : t ? Su : Tu;
+  const s = o ? t ? Oc : xc : t ? Sc : Tc;
   return (d, f, m) => f === "__v_isReactive" ? !t : f === "__v_isReadonly" ? t : f === "__v_raw" ? d : Reflect.get(
     lo(s, f) && f in d ? s : d,
     f,
     m
   );
 }
-const Iu = {
+const Ic = {
   get: /* @__PURE__ */ Ra(!1, !1)
-}, Cu = {
+}, Cc = {
   get: /* @__PURE__ */ Ra(!0, !1)
 };
 function Ta(t, o, s) {
@@ -982,8 +982,8 @@ function Ta(t, o, s) {
     );
   }
 }
-const Sa = /* @__PURE__ */ new WeakMap(), Du = /* @__PURE__ */ new WeakMap(), xa = /* @__PURE__ */ new WeakMap(), _u = /* @__PURE__ */ new WeakMap();
-function Nu(t) {
+const Sa = /* @__PURE__ */ new WeakMap(), Dc = /* @__PURE__ */ new WeakMap(), xa = /* @__PURE__ */ new WeakMap(), _c = /* @__PURE__ */ new WeakMap();
+function Nc(t) {
   switch (t) {
     case "Object":
     case "Array":
@@ -997,15 +997,15 @@ function Nu(t) {
       return 0;
   }
 }
-function Au(t) {
-  return t.__v_skip || !Object.isExtensible(t) ? 0 : Nu(pa(t));
+function Ac(t) {
+  return t.__v_skip || !Object.isExtensible(t) ? 0 : Nc(pa(t));
 }
 function Oa(t) {
   return Or(t) ? t : Ca(
     t,
     !1,
-    bu,
-    Iu,
+    bc,
+    Ic,
     Sa
   );
 }
@@ -1013,8 +1013,8 @@ function Ia(t) {
   return Ca(
     t,
     !0,
-    Pu,
-    Cu,
+    Pc,
+    Cc,
     xa
   );
 }
@@ -1030,7 +1030,7 @@ function Ca(t, o, s, d, f) {
   const m = f.get(t);
   if (m)
     return m;
-  const b = Au(t);
+  const b = Ac(t);
   if (b === 0)
     return t;
   const w = new Proxy(
@@ -1045,7 +1045,7 @@ function Or(t) {
 function or(t) {
   return !!(t && t.__v_isShallow);
 }
-function Wu(t) {
+function Wc(t) {
   return t ? !!t.__v_raw : !1;
 }
 function ye(t) {
@@ -1057,12 +1057,12 @@ function Sr(t) {
   return t ? t.__v_isRef === !0 : !1;
 }
 function qt(t) {
-  return Mu(t, !1);
+  return Mc(t, !1);
 }
-function Mu(t, o) {
-  return Sr(t) ? t : new Fu(t, o);
+function Mc(t, o) {
+  return Sr(t) ? t : new Fc(t, o);
 }
-class Fu {
+class Fc {
   constructor(o, s) {
     this.dep = new ya(), this.__v_isRef = !0, this.__v_isShallow = !1, this._rawValue = s ? o : ye(o), this._value = s ? o : ht(o), this.__v_isShallow = s;
   }
@@ -1084,15 +1084,15 @@ class Fu {
     }) : this.dep.trigger());
   }
 }
-const Lu = /"(?:_|\\u0{2}5[Ff]){2}(?:p|\\u0{2}70)(?:r|\\u0{2}72)(?:o|\\u0{2}6[Ff])(?:t|\\u0{2}74)(?:o|\\u0{2}6[Ff])(?:_|\\u0{2}5[Ff]){2}"\s*:/, zu = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/, Uu = /^\s*["[{]|^\s*-?\d{1,16}(\.\d{1,17})?([Ee][+-]?\d+)?\s*$/;
-function Bu(t, o) {
+const Lc = /"(?:_|\\u0{2}5[Ff]){2}(?:p|\\u0{2}70)(?:r|\\u0{2}72)(?:o|\\u0{2}6[Ff])(?:t|\\u0{2}74)(?:o|\\u0{2}6[Ff])(?:_|\\u0{2}5[Ff]){2}"\s*:/, zc = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/, Uc = /^\s*["[{]|^\s*-?\d{1,16}(\.\d{1,17})?([Ee][+-]?\d+)?\s*$/;
+function Bc(t, o) {
   if (t === "__proto__" || t === "constructor" && o && typeof o == "object" && "prototype" in o) {
-    ju(t);
+    jc(t);
     return;
   }
   return o;
 }
-function ju(t) {
+function jc(t) {
   console.warn(`[destr] Dropping "${t}" key to prevent prototype pollution.`);
 }
 function Da(t, o = {}) {
@@ -1121,16 +1121,16 @@ function Da(t, o = {}) {
     if (d === "-infinity")
       return Number.NEGATIVE_INFINITY;
   }
-  if (!Uu.test(t)) {
+  if (!Uc.test(t)) {
     if (o.strict)
       throw new SyntaxError("[destr] Invalid JSON");
     return t;
   }
   try {
-    if (Lu.test(t) || zu.test(t)) {
+    if (Lc.test(t) || zc.test(t)) {
       if (o.strict)
         throw new Error("[destr] Possible prototype pollution");
-      return JSON.parse(t, Bu);
+      return JSON.parse(t, Bc);
     }
     return JSON.parse(t);
   } catch (d) {
@@ -1139,7 +1139,7 @@ function Da(t, o = {}) {
     return t;
   }
 }
-function qu() {
+function qc() {
   const t = /* @__PURE__ */ new Set(), o = (f) => {
     t.delete(f);
   };
@@ -1151,7 +1151,7 @@ function qu() {
     trigger: (...f) => Promise.all(Array.from(t).map((m) => m(...f)))
   };
 }
-async function $u(t) {
+async function $c(t) {
   try {
     return {
       data: await t,
@@ -1166,11 +1166,11 @@ async function $u(t) {
     };
   }
 }
-var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, _a = { exports: {} };
+var Hc = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, _a = { exports: {} };
 (function(t, o) {
   (function(s, d) {
     t.exports = d();
-  })(typeof self < "u" ? self : Hu, function() {
+  })(typeof self < "u" ? self : Hc, function() {
     return function(s) {
       var d = {};
       function f(m) {
@@ -1217,7 +1217,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       f.r(d), f.d(d, "PopupOpenError", function() {
         return zn;
       }), f.d(d, "create", function() {
-        return cs;
+        return us;
       }), f.d(d, "destroy", function() {
         return ds;
       }), f.d(d, "destroyComponents", function() {
@@ -1227,7 +1227,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }), f.d(d, "PROP_TYPE", function() {
         return be;
       }), f.d(d, "PROP_SERIALIZATION", function() {
-        return ln;
+        return pn;
       }), f.d(d, "CONTEXT", function() {
         return We;
       }), f.d(d, "EVENT", function() {
@@ -1273,7 +1273,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           N = null, e.resolve();
         }
       }
-      function ue() {
+      function ce() {
         D += 1;
       }
       function Ge() {
@@ -1283,19 +1283,19 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         function e(n) {
           var i = this;
           if (this.resolved = void 0, this.rejected = void 0, this.errorHandled = void 0, this.value = void 0, this.error = void 0, this.handlers = void 0, this.dispatching = void 0, this.stack = void 0, this.resolved = !1, this.rejected = !1, this.errorHandled = !1, this.handlers = [], n) {
-            var a, u, c = !1, h = !1, l = !1;
-            ue();
+            var a, c, u = !1, h = !1, l = !1;
+            ce();
             try {
               n(function(g) {
-                l ? i.resolve(g) : (c = !0, a = g);
+                l ? i.resolve(g) : (u = !0, a = g);
               }, function(g) {
-                l ? i.reject(g) : (h = !0, u = g);
+                l ? i.reject(g) : (h = !0, c = g);
               });
             } catch (g) {
               Ge(), this.reject(g);
               return;
             }
-            Ge(), l = !0, c ? this.resolve(a) : h && this.reject(u);
+            Ge(), l = !0, u ? this.resolve(a) : h && this.reject(c);
           }
         }
         var r = e.prototype;
@@ -1312,12 +1312,12 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             n = new Error("Expected reject to be called with Error, got " + a);
           }
           return this.rejected = !0, this.error = n, this.errorHandled || setTimeout(function() {
-            i.errorHandled || function(u, c) {
-              if (C.indexOf(u) === -1) {
-                C.push(u), setTimeout(function() {
-                  throw u;
+            i.errorHandled || function(c, u) {
+              if (C.indexOf(c) === -1) {
+                C.push(c), setTimeout(function() {
+                  throw c;
                 }, 1);
-                for (var h = 0; h < E.length; h++) E[h](u, c);
+                for (var h = 0; h < E.length; h++) E[h](c, u);
               }
             }(n, i);
           }, 1), this.dispatch(), this;
@@ -1326,15 +1326,15 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }, r.dispatch = function() {
           var n = this.resolved, i = this.rejected, a = this.handlers;
           if (!this.dispatching && (n || i)) {
-            this.dispatching = !0, ue();
-            for (var u = function(P, T) {
+            this.dispatching = !0, ce();
+            for (var c = function(P, T) {
               return P.then(function(x) {
                 T.resolve(x);
               }, function(x) {
                 T.reject(x);
               });
-            }, c = 0; c < a.length; c++) {
-              var h = a[c], l = h.onSuccess, g = h.onError, R = h.promise, y = void 0;
+            }, u = 0; u < a.length; u++) {
+              var h = a[u], l = h.onSuccess, g = h.onError, R = h.promise, y = void 0;
               if (n) try {
                 y = l ? l(this.value) : this.value;
               } catch (P) {
@@ -1356,7 +1356,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               if (y instanceof e && (y.resolved || y.rejected)) {
                 var v = y;
                 v.resolved ? R.resolve(v.value) : R.reject(v.error), v.errorHandled = !0;
-              } else S(y) ? y instanceof e && (y.resolved || y.rejected) ? y.resolved ? R.resolve(y.value) : R.reject(y.error) : u(y, R) : R.resolve(y);
+              } else S(y) ? y instanceof e && (y.resolved || y.rejected) ? y.resolved ? R.resolve(y.value) : R.reject(y.error) : c(y, R) : R.resolve(y);
             }
             a.length = 0, this.dispatching = !1, Ge();
           }
@@ -1385,11 +1385,11 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }, r.timeout = function(n, i) {
           var a = this;
           if (this.resolved || this.rejected) return this;
-          var u = setTimeout(function() {
+          var c = setTimeout(function() {
             a.resolved || a.rejected || a.reject(i || new Error("Promise timed out after " + n + "ms"));
           }, n);
-          return this.then(function(c) {
-            return clearTimeout(u), c;
+          return this.then(function(u) {
+            return clearTimeout(c), u;
           });
         }, r.toPromise = function() {
           if (typeof Promise > "u") throw new TypeError("Could not find Promise");
@@ -1405,12 +1405,12 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }, e.asyncReject = function(n) {
           return new e().asyncReject(n);
         }, e.all = function(n) {
-          var i = new e(), a = n.length, u = [].slice();
+          var i = new e(), a = n.length, c = [].slice();
           if (!a)
-            return i.resolve(u), i;
-          for (var c = function(g, R, y) {
+            return i.resolve(c), i;
+          for (var u = function(g, R, y) {
             return R.then(function(v) {
-              u[g] = v, (a -= 1) == 0 && i.resolve(u);
+              c[g] = v, (a -= 1) == 0 && i.resolve(c);
             }, function(v) {
               y.reject(v);
             });
@@ -1418,18 +1418,18 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             var l = n[h];
             if (l instanceof e) {
               if (l.resolved) {
-                u[h] = l.value, a -= 1;
+                c[h] = l.value, a -= 1;
                 continue;
               }
             } else if (!S(l)) {
-              u[h] = l, a -= 1;
+              c[h] = l, a -= 1;
               continue;
             }
-            c(h, e.resolve(l), i);
+            u(h, e.resolve(l), i);
           }
-          return a === 0 && i.resolve(u), i;
+          return a === 0 && i.resolve(c), i;
         }, e.hash = function(n) {
-          var i = {}, a = [], u = function(h) {
+          var i = {}, a = [], c = function(h) {
             if (n.hasOwnProperty(h)) {
               var l = n[h];
               S(l) ? a.push(l.then(function(g) {
@@ -1437,7 +1437,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               })) : i[h] = l;
             }
           };
-          for (var c in n) u(c);
+          for (var u in n) c(u);
           return e.all(a).then(function() {
             return i;
           });
@@ -1453,14 +1453,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           }(n);
         }, e.try = function(n, i, a) {
           if (n && typeof n != "function" && !n.call) throw new Error("Promise.try expected a function");
-          var u;
-          ue();
+          var c;
+          ce();
           try {
-            u = n.apply(i, a || []);
-          } catch (c) {
-            return Ge(), e.reject(c);
+            c = n.apply(i, a || []);
+          } catch (u) {
+            return Ge(), e.reject(u);
           }
-          return Ge(), e.resolve(u);
+          return Ge(), e.resolve(c);
         }, e.delay = function(n) {
           return new e(function(i) {
             setTimeout(i, n);
@@ -1599,20 +1599,20 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         if (i === 0) return r;
         if (i) {
           for (var a = 0; a < i; a++) {
-            var u = void 0;
+            var c = void 0;
             try {
-              u = n[a];
+              c = n[a];
             } catch {
               continue;
             }
-            r.push(u);
+            r.push(c);
           }
           return r;
         }
-        for (var c = 0; c < 100; c++) {
+        for (var u = 0; u < 100; u++) {
           var h = void 0;
           try {
-            h = n[c];
+            h = n[u];
           } catch {
             return r;
           }
@@ -1625,7 +1625,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         for (var r = [], n = 0, i = Re(e); n < i.length; n++) {
           var a = i[n];
           r.push(a);
-          for (var u = 0, c = ot(a); u < c.length; u++) r.push(c[u]);
+          for (var c = 0, u = ot(a); c < u.length; c++) r.push(u[c]);
         }
         return r;
       }
@@ -1685,9 +1685,9 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           if (!e.parent || !e.top) return !0;
         } catch {
         }
-        var n = function(a, u) {
-          for (var c = 0; c < a.length; c++) try {
-            if (a[c] === u) return c;
+        var n = function(a, c) {
+          for (var u = 0; u < a.length; u++) try {
+            if (a[u] === c) return u;
           } catch {
           }
           return -1;
@@ -1696,10 +1696,10 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           var i = Dt[n];
           if (i && function(a) {
             if (!a.contentWindow || !a.parentNode) return !0;
-            var u = a.ownerDocument;
-            if (u && u.documentElement && !u.documentElement.contains(a)) {
-              for (var c = a; c.parentNode && c.parentNode !== c; ) c = c.parentNode;
-              if (!c.host || !u.documentElement.contains(c.host)) return !0;
+            var c = a.ownerDocument;
+            if (c && c.documentElement && !c.documentElement.contains(a)) {
+              for (var u = a; u.parentNode && u.parentNode !== u; ) u = u.parentNode;
+              if (!u.host || !c.documentElement.contains(u.host)) return !0;
             }
             return !1;
           }(i)) return !0;
@@ -1726,7 +1726,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         } catch {
         }
       }
-      function Zr(e, r) {
+      function Qr(e, r) {
         return e === Ae(r);
       }
       function Ht(e) {
@@ -1748,10 +1748,10 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           if (n && i) return n === i;
         } catch {
         }
-        var a = Je(e), u = Je(r);
-        if (Cr(a, u)) return !0;
-        var c = Ae(n), h = Ae(i);
-        return c && Cr(Je(c), u) || h && Cr(Je(h), a), !1;
+        var a = Je(e), c = Je(r);
+        if (Cr(a, c)) return !0;
+        var u = Ae(n), h = Ae(i);
+        return u && Cr(Je(u), c) || h && Cr(Je(h), a), !1;
       }
       function wt(e, r) {
         if (typeof e == "string") {
@@ -1768,10 +1768,10 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       function xo(e, r, n, i) {
         n === void 0 && (n = 1e3), i === void 0 && (i = 1 / 0);
         var a;
-        return function u() {
+        return function c() {
           if (Le(e))
             return a && clearTimeout(a), r();
-          i <= 0 ? clearTimeout(a) : (i -= n, a = setTimeout(u, n));
+          i <= 0 ? clearTimeout(a) : (i -= n, a = setTimeout(c, n));
         }(), {
           cancel: function() {
             a && clearTimeout(a);
@@ -1847,14 +1847,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         } catch {
         }
       }
-      function Xr(e, r) {
+      function kr(e, r) {
         for (var n = 0; n < e.length; n++) try {
           if (e[n] === r) return n;
         } catch {
         }
         return -1;
       }
-      var Qr = function() {
+      var en = function() {
         function e() {
           if (this.name = void 0, this.weakmap = void 0, this.keys = void 0, this.values = void 0, this.name = "__weakmap_" + (1e9 * Math.random() >>> 0) + "__", function() {
             if (typeof WeakMap > "u" || Object.freeze === void 0) return !1;
@@ -1873,10 +1873,10 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         var r = e.prototype;
         return r._cleanupClosedWindows = function() {
           for (var n = this.weakmap, i = this.keys, a = 0; a < i.length; a++) {
-            var u = i[a];
-            if (ar(u) && Le(u)) {
+            var c = i[a];
+            if (ar(c) && Le(c)) {
               if (n) try {
-                n.delete(u);
+                n.delete(c);
               } catch {
               }
               i.splice(a, 1), this.values.splice(a, 1), a -= 1;
@@ -1893,8 +1893,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             delete this.weakmap;
           }
           if (this.isSafeToReadWrite(n)) try {
-            var u = this.name, c = n[u];
-            c && c[0] === n ? c[1] = i : Object.defineProperty(n, u, {
+            var c = this.name, u = n[c];
+            u && u[0] === n ? u[1] = i : Object.defineProperty(n, c, {
               value: [n, i],
               writable: !0
             });
@@ -1902,7 +1902,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           } catch {
           }
           this._cleanupClosedWindows();
-          var h = this.keys, l = this.values, g = Xr(h, n);
+          var h = this.keys, l = this.values, g = kr(h, n);
           g === -1 ? (h.push(n), l.push(i)) : l[g] = i;
         }, r.get = function(n) {
           if (!n) throw new Error("WeakMap expected key");
@@ -1918,8 +1918,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           } catch {
           }
           this._cleanupClosedWindows();
-          var u = Xr(this.keys, n);
-          if (u !== -1) return this.values[u];
+          var c = kr(this.keys, n);
+          if (c !== -1) return this.values[c];
         }, r.delete = function(n) {
           if (!n) throw new Error("WeakMap expected key");
           var i = this.weakmap;
@@ -1934,8 +1934,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           } catch {
           }
           this._cleanupClosedWindows();
-          var u = this.keys, c = Xr(u, n);
-          c !== -1 && (u.splice(c, 1), this.values.splice(c, 1));
+          var c = this.keys, u = kr(c, n);
+          u !== -1 && (c.splice(u, 1), this.values.splice(u, 1));
         }, r.has = function(n) {
           if (!n) throw new Error("WeakMap expected key");
           var i = this.weakmap;
@@ -1949,7 +1949,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             return !(!a || a[0] !== n);
           } catch {
           }
-          return this._cleanupClosedWindows(), Xr(this.keys, n) !== -1;
+          return this._cleanupClosedWindows(), kr(this.keys, n) !== -1;
         }, r.getOrSet = function(n, i) {
           if (this.has(n)) return this.get(n);
           var a = i();
@@ -1972,11 +1972,11 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }
       }
       function Do(e, r, n) {
-        return (Do = Fa() ? Reflect.construct : function(i, a, u) {
-          var c = [null];
-          c.push.apply(c, a);
-          var h = new (Function.bind.apply(i, c))();
-          return u && m(h, u.prototype), h;
+        return (Do = Fa() ? Reflect.construct : function(i, a, c) {
+          var u = [null];
+          u.push.apply(u, a);
+          var h = new (Function.bind.apply(i, u))();
+          return c && m(h, c.prototype), h;
         }).apply(null, arguments);
       }
       function _o(e) {
@@ -2033,14 +2033,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           return e.charAt(Math.floor(Math.random() * e.length));
         }) + "_" + _n((/* @__PURE__ */ new Date()).toISOString().slice(11, 19).replace("T", ".")).replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
       }
-      var kr;
+      var tn;
       function Nn(e) {
         try {
           return JSON.stringify([].slice.call(e), function(r, n) {
             return typeof n == "function" ? "memoize[" + function(i) {
-              if (kr = kr || new Qr(), i == null || typeof i != "object" && typeof i != "function") throw new Error("Invalid object");
-              var a = kr.get(i);
-              return a || (a = typeof i + ":" + st(), kr.set(i, a)), a;
+              if (tn = tn || new en(), i == null || typeof i != "object" && typeof i != "function") throw new Error("Invalid object");
+              var a = tn.get(i);
+              return a || (a = typeof i + ":" + st(), tn.set(i, a)), a;
             }(n) + "]" : In(n) ? {} : n;
           });
         } catch {
@@ -2053,13 +2053,13 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       var _r = 0, No = 0;
       function Vt(e, r) {
         r === void 0 && (r = {});
-        var n = r.thisNamespace, i = n !== void 0 && n, a = r.time, u, c, h = _r;
+        var n = r.thisNamespace, i = n !== void 0 && n, a = r.time, c, u, h = _r;
         _r += 1;
         var l = function() {
           for (var g = arguments.length, R = new Array(g), y = 0; y < g; y++) R[y] = arguments[y];
-          h < No && (u = null, c = null, h = _r, _r += 1);
+          h < No && (c = null, u = null, h = _r, _r += 1);
           var v;
-          v = i ? (c = c || new Qr()).getOrSet(this, La) : u = u || {};
+          v = i ? (u = u || new en()).getOrSet(this, La) : c = c || {};
           var P;
           try {
             P = Nn(R);
@@ -2075,7 +2075,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           }, O;
         };
         return l.reset = function() {
-          u = null, c = null;
+          c = null, u = null;
         }, Dn(l, (r.name || Cn(e)) + "::memoized");
       }
       Vt.clear = function() {
@@ -2084,8 +2084,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       function za(e) {
         var r = {};
         function n() {
-          for (var i = arguments, a = this, u = arguments.length, c = new Array(u), h = 0; h < u; h++) c[h] = arguments[h];
-          var l = Nn(c);
+          for (var i = arguments, a = this, c = arguments.length, u = new Array(c), h = 0; h < c; h++) u[h] = arguments[h];
+          var l = Nn(u);
           return r.hasOwnProperty(l) || (r[l] = p.try(function() {
             return e.apply(a, i);
           }).finally(function() {
@@ -2098,7 +2098,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       function Ie() {
       }
-      function en(e) {
+      function rn(e) {
         var r = !1;
         return Dn(function() {
           if (!r)
@@ -2122,7 +2122,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           return "Error while stringifying error: " + wr(a, r + 1);
         }
       }
-      function tn(e) {
+      function nn(e) {
         return typeof e == "string" ? e : e && e.toString && typeof e.toString == "function" ? e.toString() : {}.toString.call(e);
       }
       function mr(e, r) {
@@ -2188,14 +2188,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         var n = r.prototype;
         return !!Wo(n) && !!n.hasOwnProperty("isPrototypeOf");
       }
-      function rn(e, r, n) {
+      function on(e, r, n) {
         if (n === void 0 && (n = ""), Array.isArray(e)) {
-          for (var i = e.length, a = [], u = function(R) {
+          for (var i = e.length, a = [], c = function(R) {
             Ao(a, R, function() {
               var y = n ? n + "." + R : "" + R, v = r(e[R], R, y);
-              return (Mn(v) || Array.isArray(v)) && (v = rn(v, r, y)), v;
+              return (Mn(v) || Array.isArray(v)) && (v = on(v, r, y)), v;
             });
-          }, c = 0; c < i; c++) u(c);
+          }, u = 0; u < i; u++) c(u);
           return a;
         }
         if (Mn(e)) {
@@ -2203,7 +2203,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             if (!e.hasOwnProperty(R)) return 1;
             Ao(h, R, function() {
               var y = n ? n + "." + R : "" + R, v = r(e[R], R, y);
-              return (Mn(v) || Array.isArray(v)) && (v = rn(v, r, y)), v;
+              return (Mn(v) || Array.isArray(v)) && (v = on(v, r, y)), v;
             });
           };
           for (var g in e) l(g);
@@ -2222,37 +2222,37 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         var i = n();
         return e[r] = i, i;
       }
-      function nn(e) {
+      function an(e) {
         var r = [], n = !1, i, a = {
-          set: function(u, c) {
-            return n || (e[u] = c, a.register(function() {
-              delete e[u];
-            })), c;
+          set: function(c, u) {
+            return n || (e[c] = u, a.register(function() {
+              delete e[c];
+            })), u;
           },
-          register: function(u) {
-            var c = en(function() {
-              return u(i);
+          register: function(c) {
+            var u = rn(function() {
+              return c(i);
             });
-            return n ? u(i) : r.push(c), {
+            return n ? c(i) : r.push(u), {
               cancel: function() {
-                var h = r.indexOf(c);
+                var h = r.indexOf(u);
                 h !== -1 && r.splice(h, 1);
               }
             };
           },
-          all: function(u) {
-            i = u;
-            var c = [];
+          all: function(c) {
+            i = c;
+            var u = [];
             for (n = !0; r.length; ) {
               var h = r.shift();
-              c.push(h());
+              u.push(h());
             }
-            return p.all(c).then(Ie);
+            return p.all(u).then(Ie);
           }
         };
         return a;
       }
-      function on(e, r) {
+      function sn(e, r) {
         if (r == null) throw new Error("Expected " + e + " to be present");
         return r;
       }
@@ -2272,7 +2272,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         if (!e) throw new Error("Body element not found");
         return e;
       }
-      function an() {
+      function cn() {
         return !!document.body && document.readyState === "complete";
       }
       function Fo() {
@@ -2283,9 +2283,9 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       Vt(function() {
         return new p(function(e) {
-          if (an() || Fo()) return e();
+          if (cn() || Fo()) return e();
           var r = setInterval(function() {
-            if (an() || Fo())
+            if (cn() || Fo())
               return clearInterval(r), e();
           }, 10);
         });
@@ -2293,15 +2293,15 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       function zo(e) {
         return function(r, n, i) {
           i === void 0 && (i = []);
-          var a = r.__inline_memoize_cache__ = r.__inline_memoize_cache__ || {}, u = Nn(i);
-          return a.hasOwnProperty(u) ? a[u] : a[u] = (function() {
-            var c = {};
-            if (!e || e.indexOf("=") === -1) return c;
+          var a = r.__inline_memoize_cache__ = r.__inline_memoize_cache__ || {}, c = Nn(i);
+          return a.hasOwnProperty(c) ? a[c] : a[c] = (function() {
+            var u = {};
+            if (!e || e.indexOf("=") === -1) return u;
             for (var h = 0, l = e.split("&"); h < l.length; h++) {
               var g = l[h];
-              (g = g.split("="))[0] && g[1] && (c[decodeURIComponent(g[0])] = decodeURIComponent(g[1]));
+              (g = g.split("="))[0] && g[1] && (u[decodeURIComponent(g[0])] = decodeURIComponent(g[1]));
             }
-            return c;
+            return u;
           }).apply(void 0, i);
         }(zo, 0, [e]);
       }
@@ -2324,14 +2324,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       function Bo(e) {
         return new p(function(r, n) {
-          var i = tn(e), a = Ln(e);
+          var i = nn(e), a = Ln(e);
           if (a) return r(a);
-          if (an()) return n(new Error("Document is ready and element " + i + " does not exist"));
-          var u = setInterval(function() {
+          if (cn()) return n(new Error("Document is ready and element " + i + " does not exist"));
+          var c = setInterval(function() {
             if (a = Ln(e))
-              r(a), clearInterval(u);
-            else if (an())
-              return clearInterval(u), n(new Error("Document is ready and element " + i + " does not exist"));
+              r(a), clearInterval(c);
+            else if (cn())
+              return clearInterval(c), n(new Error("Document is ready and element " + i + " does not exist"));
           }, 10);
         });
       }
@@ -2341,34 +2341,34 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           return e.apply(this, arguments) || this;
         }
         return r;
-      }(Ba), sn;
+      }(Ba), un;
       function jo(e) {
-        if ((sn = sn || new Qr()).has(e)) {
-          var r = sn.get(e);
+        if ((un = un || new en()).has(e)) {
+          var r = un.get(e);
           if (r) return r;
         }
         var n = new p(function(i, a) {
           e.addEventListener("load", function() {
-            (function(u) {
+            (function(c) {
               if (function() {
-                for (var c = 0; c < at.length; c++) {
+                for (var u = 0; u < at.length; u++) {
                   var h = !1;
                   try {
-                    h = at[c].closed;
+                    h = at[u].closed;
                   } catch {
                   }
-                  h && (Dt.splice(c, 1), at.splice(c, 1));
+                  h && (Dt.splice(u, 1), at.splice(u, 1));
                 }
-              }(), u && u.contentWindow) try {
-                at.push(u.contentWindow), Dt.push(u);
+              }(), c && c.contentWindow) try {
+                at.push(c.contentWindow), Dt.push(c);
               } catch {
               }
             })(e), i(e);
-          }), e.addEventListener("error", function(u) {
-            e.contentWindow ? i(e) : a(u);
+          }), e.addEventListener("error", function(c) {
+            e.contentWindow ? i(e) : a(c);
           });
         });
-        return sn.set(e, n), n;
+        return un.set(e, n), n;
       }
       function Un(e) {
         return jo(e).then(function(r) {
@@ -2378,18 +2378,18 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       function qo(e, r) {
         e === void 0 && (e = {});
-        var n = e.style || {}, i = function(u, c, h) {
-          u === void 0 && (u = "div"), c === void 0 && (c = {}), u = u.toLowerCase();
-          var l = document.createElement(u);
-          if (c.style && mr(l.style, c.style), c.class && (l.className = c.class.join(" ")), c.id && l.setAttribute("id", c.id), c.attributes) for (var g = 0, R = Object.keys(c.attributes); g < R.length; g++) {
+        var n = e.style || {}, i = function(c, u, h) {
+          c === void 0 && (c = "div"), u === void 0 && (u = {}), c = c.toLowerCase();
+          var l = document.createElement(c);
+          if (u.style && mr(l.style, u.style), u.class && (l.className = u.class.join(" ")), u.id && l.setAttribute("id", u.id), u.attributes) for (var g = 0, R = Object.keys(u.attributes); g < R.length; g++) {
             var y = R[g];
-            l.setAttribute(y, c.attributes[y]);
+            l.setAttribute(y, u.attributes[y]);
           }
-          if (c.styleSheet && function(v, P, T) {
+          if (u.styleSheet && function(v, P, T) {
             T === void 0 && (T = window.document), v.styleSheet ? v.styleSheet.cssText = P : v.appendChild(T.createTextNode(P));
-          }(l, c.styleSheet), c.html) {
-            if (u === "iframe") throw new Error("Iframe html can not be written unless container provided and iframe in DOM");
-            l.innerHTML = c.html;
+          }(l, u.styleSheet), u.html) {
+            if (c === "iframe") throw new Error("Iframe html can not be written unless container provided and iframe in DOM");
+            l.innerHTML = u.html;
           }
           return l;
         }("iframe", {
@@ -2425,7 +2425,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         return !(e && e.parentNode && e.ownerDocument && e.ownerDocument.documentElement && e.ownerDocument.documentElement.contains(e));
       }
       function Vo(e, r, n) {
-        var i = n === void 0 ? {} : n, a = i.width, u = a === void 0 || a, c = i.height, h = c === void 0 || c, l = i.interval, g = l === void 0 ? 100 : l, R = i.win, y = R === void 0 ? window : R, v = e.offsetWidth, P = e.offsetHeight, T = !1;
+        var i = n === void 0 ? {} : n, a = i.width, c = a === void 0 || a, u = i.height, h = u === void 0 || u, l = i.interval, g = l === void 0 ? 100 : l, R = i.win, y = R === void 0 ? window : R, v = e.offsetWidth, P = e.offsetHeight, T = !1;
         r({
           width: v,
           height: P
@@ -2435,7 +2435,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             return !!(M.offsetWidth || M.offsetHeight || M.getClientRects().length);
           }(e)) {
             var z = e.offsetWidth, J = e.offsetHeight;
-            (u && z !== v || h && J !== P) && r({
+            (c && z !== v || h && J !== P) && r({
               width: z,
               height: J
             }), v = z, P = J;
@@ -2456,24 +2456,24 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         for (; e.parentNode; ) e = e.parentNode;
         return e.toString() === "[object ShadowRoot]";
       }
-      var un = typeof document < "u" ? document.currentScript : null, $a = Vt(function() {
-        if (un || (un = function() {
+      var dn = typeof document < "u" ? document.currentScript : null, $a = Vt(function() {
+        if (dn || (dn = function() {
           try {
             var e = function() {
               try {
                 throw new Error("_");
-              } catch (c) {
-                return c.stack || "";
+              } catch (u) {
+                return u.stack || "";
               }
             }(), r = /.*at [^(]*\((.*):(.+):(.+)\)$/gi.exec(e), n = r && r[1];
             if (!n) return;
             for (var i = 0, a = [].slice.call(document.getElementsByTagName("script")).reverse(); i < a.length; i++) {
-              var u = a[i];
-              if (u.src && u.src === n) return u;
+              var c = a[i];
+              if (c.src && c.src === n) return c;
             }
           } catch {
           }
-        }())) return un;
+        }())) return dn;
         throw new Error("Can not determine current script");
       }), Ha = st();
       Vt(function() {
@@ -2487,9 +2487,9 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         if (r && typeof r == "string" || (r = e.getAttribute("data-uid-auto")) && typeof r == "string") return r;
         if (e.src) {
           var n = function(i) {
-            for (var a = "", u = 0; u < i.length; u++) {
-              var c = i[u].charCodeAt(0) * u;
-              i[u + 1] && (c += i[u + 1].charCodeAt(0) * (u - 1)), a += String.fromCharCode(97 + Math.abs(c) % 26);
+            for (var a = "", c = 0; c < i.length; c++) {
+              var u = i[c].charCodeAt(0) * c;
+              i[c + 1] && (u += i[c + 1].charCodeAt(0) * (c - 1)), a += String.fromCharCode(97 + Math.abs(u) % 26);
             }
             return a;
           }(JSON.stringify({
@@ -2560,31 +2560,31 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       var Va = function() {
       };
-      function cn() {
+      function fn() {
         var e = _t();
         return e.WINDOW_WILDCARD = e.WINDOW_WILDCARD || new Va(), e.WINDOW_WILDCARD;
       }
       function it(e, r) {
         return e === void 0 && (e = "store"), r === void 0 && (r = Zo), we("windowStore").getOrSet(e, function() {
-          var n = new Qr(), i = function(a) {
+          var n = new en(), i = function(a) {
             return n.getOrSet(a, r);
           };
           return {
             has: function(a) {
               return i(a).hasOwnProperty(e);
             },
-            get: function(a, u) {
-              var c = i(a);
-              return c.hasOwnProperty(e) ? c[e] : u;
+            get: function(a, c) {
+              var u = i(a);
+              return u.hasOwnProperty(e) ? u[e] : c;
             },
-            set: function(a, u) {
-              return i(a)[e] = u, u;
+            set: function(a, c) {
+              return i(a)[e] = c, c;
             },
             del: function(a) {
               delete i(a)[e];
             },
-            getOrSet: function(a, u) {
-              return Ar(i(a), e, u);
+            getOrSet: function(a, c) {
+              return Ar(i(a), e, c);
             }
           };
         });
@@ -2597,10 +2597,10 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         a && a.resolve({
           domain: n
         });
-        var u = p.resolve({
+        var c = p.resolve({
           domain: n
         });
-        return i.set(e, u), u;
+        return i.set(e, c), c;
       }
       function qn(e, r) {
         return (0, r.send)(e, "postrobot_hello", {
@@ -2746,19 +2746,19 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         if (!r) throw new Error("Remote window promise not found");
         return r;
       }
-      function ui(e, r, n) {
-        Gn(e).resolve(function(i, a, u) {
+      function ci(e, r, n) {
+        Gn(e).resolve(function(i, a, c) {
           if (i !== e) throw new Error("Remote window does not match window");
           if (!wt(a, r)) throw new Error("Remote domain " + a + " does not match domain " + r);
-          n.fireAndForget(u);
+          n.fireAndForget(c);
         });
       }
       function Jn(e, r) {
         Gn(e).reject(r).catch(Ie);
       }
-      function dn(e) {
-        for (var r = e.win, n = e.name, i = e.domain, a = we("popupWindowsByName"), u = it("popupWindowsByWin"), c = 0, h = a.keys(); c < h.length; c++) {
-          var l = h[c], g = a.get(l);
+      function ln(e) {
+        for (var r = e.win, n = e.name, i = e.domain, a = we("popupWindowsByName"), c = it("popupWindowsByWin"), u = 0, h = a.keys(); u < h.length; u++) {
+          var l = h[u], g = a.get(l);
           g && !Le(g.win) || a.del(l);
         }
         if (Le(r)) return {
@@ -2766,7 +2766,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           name: n,
           domain: i
         };
-        var R = u.getOrSet(r, function() {
+        var R = c.getOrSet(r, function() {
           return n ? a.getOrSet(n, function() {
             return {
               win: r,
@@ -2777,22 +2777,22 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           };
         });
         if (R.win && R.win !== r) throw new Error("Different window already linked for window: " + (n || "undefined"));
-        return n && (R.name = n, a.set(n, R)), i && (R.domain = i, si(r)), u.set(r, R), R;
+        return n && (R.name = n, a.set(n, R)), i && (R.domain = i, si(r)), c.set(r, R), R;
       }
-      function ci(e) {
+      function ui(e) {
         var r = e.on, n = e.send, i = e.receiveMessage;
-        a = window.open, window.open = function(u, c, h, l) {
-          var g = a.call(this, On(u), c, h, l);
-          return g && (dn({
+        a = window.open, window.open = function(c, u, h, l) {
+          var g = a.call(this, On(c), u, h, l);
+          return g && (ln({
             win: g,
-            name: c,
-            domain: u ? Wt(u) : null
+            name: u,
+            domain: c ? Wt(c) : null
           }), g);
         };
         var a;
-        (function(u) {
-          var c = u.on, h = u.send, l = u.receiveMessage, g = we("popupWindowsByName");
-          c("postrobot_open_tunnel", function(R) {
+        (function(c) {
+          var u = c.on, h = c.send, l = c.receiveMessage, g = we("popupWindowsByName");
+          u("postrobot_open_tunnel", function(R) {
             var y = R.source, v = R.origin, P = R.data, T = we("bridges").get(v);
             if (!T) throw new Error("Can not find bridge promise for domain " + v);
             return T.then(function(x) {
@@ -2805,7 +2805,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               };
               if (!O().domain) throw new Error("We do not have a registered domain for window " + P.name);
               if (O().domain !== v) throw new Error("Message origin " + v + " does not matched registered window origin " + (O().domain || "unknown"));
-              return ui(O().win, v, P.sendMessage), {
+              return ci(O().win, v, P.sendMessage), {
                 sendMessage: function(W) {
                   if (window && !window.closed && O()) {
                     var z = O().domain;
@@ -2815,7 +2815,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                         origin: z,
                         source: O().win
                       }, {
-                        on: c,
+                        on: u,
                         send: h
                       });
                     } catch (J) {
@@ -2830,8 +2830,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           on: r,
           send: n,
           receiveMessage: i
-        }), function(u) {
-          var c = u.send;
+        }), function(c) {
+          var u = c.send;
           _t(window).openTunnelToParent = function(h) {
             var l = h.name, g = h.source, R = h.canary, y = h.sendMessage, v = we("tunnelWindows"), P = ve(window);
             if (!P) throw new Error("No parent window found to open tunnel to");
@@ -2856,7 +2856,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               canary: R,
               sendMessage: y
             });
-            return c(P, "postrobot_open_tunnel", {
+            return u(P, "postrobot_open_tunnel", {
               name: l,
               sendMessage: function() {
                 var x = v.get(T);
@@ -2875,8 +2875,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           };
         }({
           send: n
-        }), function(u) {
-          var c = u.on, h = u.send, l = u.receiveMessage;
+        }), function(c) {
+          var u = c.on, h = c.send, l = c.receiveMessage;
           p.try(function() {
             var g = Ae(window);
             if (g && ii({
@@ -2912,7 +2912,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                         origin: this.origin,
                         source: this.source
                       }, {
-                        on: c,
+                        on: u,
                         send: h
                       });
                     } catch (P) {
@@ -2922,7 +2922,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 }).then(function(v) {
                   var P = v.source, T = v.origin, x = v.data;
                   if (P !== g) throw new Error("Source does not match opener");
-                  ui(P, T, x.sendMessage);
+                  ci(P, T, x.sendMessage);
                 }).catch(function(v) {
                   throw Jn(g, v), v;
                 }) : Jn(g, new Error("Can not register with opener: window does not have a name")) : Jn(g, new Error("Can not register with opener: no bridge found in opener"));
@@ -2943,22 +2943,22 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }
       }
       function di(e, r) {
-        var n = r.send, i = r.id, a = i === void 0 ? st() : i, u = e.then(function(l) {
+        var n = r.send, i = r.id, a = i === void 0 ? st() : i, c = e.then(function(l) {
           if (L(l)) return B(l).name;
-        }), c = e.then(function(l) {
+        }), u = e.then(function(l) {
           if (Le(l)) throw new Error("Window is closed, can not determine type");
           return Ae(l) ? q.POPUP : q.IFRAME;
         });
-        u.catch(Ie), c.catch(Ie);
+        c.catch(Ie), u.catch(Ie);
         var h = function() {
           return e.then(function(l) {
-            if (!Le(l)) return L(l) ? B(l).name : u;
+            if (!Le(l)) return L(l) ? B(l).name : c;
           });
         };
         return {
           id: a,
           getType: function() {
-            return c;
+            return u;
           },
           getInstanceID: za(function() {
             return e.then(function(l) {
@@ -2991,8 +2991,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 (function(O) {
                   var W = O.url, z = O.target, J = O.body, M = O.method, V = M === void 0 ? "post" : M, U = document.createElement("form");
                   if (U.setAttribute("target", z), U.setAttribute("method", V), U.setAttribute("action", W), U.style.display = "none", J) for (var re = 0, H = Object.keys(J); re < H.length; re++) {
-                    var he, ce = H[re], Q = document.createElement("input");
-                    Q.setAttribute("name", ce), Q.setAttribute("value", (he = J[ce]) == null ? void 0 : he.toString()), U.appendChild(Q);
+                    var he, ue = H[re], Q = document.createElement("input");
+                    Q.setAttribute("name", ue), Q.setAttribute("value", (he = J[ue]) == null ? void 0 : he.toString()), U.appendChild(Q);
                   }
                   Mo().appendChild(U), U.submit(), Mo().removeChild(U);
                 })({
@@ -3015,21 +3015,21 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           },
           setName: function(l) {
             return e.then(function(g) {
-              dn({
+              ln({
                 win: g,
                 name: l
               });
               var R = L(g), y = Oo(g);
               if (!R) throw new Error("Can not set name for cross-domain window: " + l);
-              B(g).name = l, y && y.setAttribute("name", l), u = p.resolve(l);
+              B(g).name = l, y && y.setAttribute("name", l), c = p.resolve(l);
             });
           }
         };
       }
       var yt = function() {
         function e(n) {
-          var i = n.send, a = n.win, u = n.serializedWindow;
-          this.id = void 0, this.isProxyWindow = !0, this.serializedWindow = void 0, this.actualWindow = void 0, this.actualWindowPromise = void 0, this.send = void 0, this.name = void 0, this.actualWindowPromise = new p(), this.serializedWindow = u || di(this.actualWindowPromise, {
+          var i = n.send, a = n.win, c = n.serializedWindow;
+          this.id = void 0, this.isProxyWindow = !0, this.serializedWindow = void 0, this.actualWindow = void 0, this.actualWindowPromise = void 0, this.send = void 0, this.name = void 0, this.actualWindowPromise = new p(), this.serializedWindow = c || di(this.actualWindowPromise, {
             send: i
           }), we("idToProxyWindow").set(this.getID(), this), a && this.setWindow(a, {
             send: i
@@ -3062,14 +3062,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             return n;
           });
         }, r.focus = function() {
-          var n = this, i = this.isPopup(), a = this.getName(), u = p.hash({
+          var n = this, i = this.isPopup(), a = this.getName(), c = p.hash({
             isPopup: i,
             name: a
           }).then(function(h) {
             var l = h.name;
             h.isPopup && l && window.open("", l, "noopener");
-          }), c = this.serializedWindow.focus();
-          return p.all([u, c]).then(function() {
+          }), u = this.serializedWindow.focus();
+          return p.all([c, u]).then(function() {
             return n;
           });
         }, r.isClosed = function() {
@@ -3085,17 +3085,17 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }, r.awaitWindow = function() {
           return this.actualWindowPromise;
         }, r.matchWindow = function(n, i) {
-          var a = this, u = i.send;
+          var a = this, c = i.send;
           return p.try(function() {
             return a.actualWindow ? n === a.actualWindow : p.hash({
               proxyInstanceID: a.getInstanceID(),
               knownWindowInstanceID: ko(n, {
-                send: u
+                send: c
               })
-            }).then(function(c) {
-              var h = c.proxyInstanceID === c.knownWindowInstanceID;
+            }).then(function(u) {
+              var h = u.proxyInstanceID === u.knownWindowInstanceID;
               return h && a.setWindow(n, {
-                send: u
+                send: c
               }), h;
             });
           });
@@ -3125,21 +3125,21 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }, e.toProxyWindow = function(n, i) {
           var a = i.send;
           if (Kn(), e.isProxyWindow(n)) return n;
-          var u = n;
-          return it("winToProxyWindow").get(u) || new e({
-            win: u,
+          var c = n;
+          return it("winToProxyWindow").get(c) || new e({
+            win: c,
             send: a
           });
         }, e;
       }();
       function Yn(e, r, n, i, a) {
-        var u = it("methodStore"), c = we("proxyWindowMethods");
-        yt.isProxyWindow(i) ? c.set(e, {
+        var c = it("methodStore"), u = we("proxyWindowMethods");
+        yt.isProxyWindow(i) ? u.set(e, {
           val: r,
           name: n,
           domain: a,
           source: i
-        }) : (c.del(e), u.getOrSet(i, function() {
+        }) : (u.del(e), c.getOrSet(i, function() {
           return {};
         })[e] = {
           domain: a,
@@ -3155,11 +3155,11 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         })[r] || i.get(r);
       }
       function li(e, r, n, i, a) {
-        c = (u = {
+        u = (c = {
           on: a.on,
           send: a.send
-        }).on, h = u.send, we("builtinListeners").getOrSet("functionCalls", function() {
-          return c("postrobot_method", {
+        }).on, h = c.send, we("builtinListeners").getOrSet("functionCalls", function() {
+          return u("postrobot_method", {
             domain: "*"
           }, function(R) {
             var y = R.source, v = R.origin, P = R.data, T = P.id, x = P.name, O = fi(y, T);
@@ -3198,7 +3198,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             });
           });
         });
-        var u, c, h, l = n.__id__ || st();
+        var c, u, h, l = n.__id__ || st();
         e = yt.unwrap(e);
         var g = n.__name__ || n.name || i;
         return typeof g == "string" && typeof g.indexOf == "function" && g.indexOf("anonymous::") === 0 && (g = g.replace("anonymous::", i + "::")), yt.isProxyWindow(e) ? (Yn(l, n, g, e, r), e.awaitWindow().then(function(R) {
@@ -3209,7 +3209,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         });
       }
       function hi(e, r, n, i) {
-        var a, u = i.on, c = i.send;
+        var a, c = i.on, u = i.send;
         return function(h, l) {
           l === void 0 && (l = Ja);
           var g = JSON.stringify(h, function(R) {
@@ -3232,35 +3232,35 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               })
             });
           }(e, r, h, l, {
-            on: u,
-            send: c
+            on: c,
+            send: u
           });
         }, a.function = function(h, l) {
           return li(e, r, h, l, {
-            on: u,
-            send: c
+            on: c,
+            send: u
           });
         }, a.object = function(h) {
           return ar(h) || yt.isProxyWindow(h) ? sr("cross_domain_window", yt.serialize(h, {
-            send: c
+            send: u
           })) : h;
         }, a));
       }
       function pi(e, r, n, i) {
-        var a, u = i.send;
-        return function(c, h) {
-          if (h === void 0 && (h = Ya), c !== "undefined") return JSON.parse(c, function(l, g) {
+        var a, c = i.send;
+        return function(u, h) {
+          if (h === void 0 && (h = Ya), u !== "undefined") return JSON.parse(u, function(l, g) {
             if ($n(this)) return g;
             var R, y;
             if ($n(g) ? (R = g.__type__, y = g.__val__) : (R = ri(g), y = g), !R) return y;
             var v = h[R] || Ka[R];
             return v ? v(y, l) : y;
           });
-        }(n, ((a = {}).cross_domain_zalgo_promise = function(c) {
+        }(n, ((a = {}).cross_domain_zalgo_promise = function(u) {
           return function(h, l, g) {
             return new p(g.then);
-          }(0, 0, c);
-        }, a.cross_domain_function = function(c) {
+          }(0, 0, u);
+        }, a.cross_domain_function = function(u) {
           return function(h, l, g, R) {
             var y = g.id, v = g.name, P = R.send, T = function(O) {
               O === void 0 && (O = {});
@@ -3301,12 +3301,12 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             return x.fireAndForget = T({
               fireAndForget: !0
             }), x;
-          }(e, r, c, {
-            send: u
+          }(e, r, u, {
+            send: c
           });
-        }, a.cross_domain_window = function(c) {
-          return yt.deserialize(c, {
-            send: u
+        }, a.cross_domain_window = function(u) {
+          return yt.deserialize(u, {
+            send: c
           });
         }, a));
       }
@@ -3317,11 +3317,11 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         if (!Hn() && !ai()) throw new Error("Bridge not needed for browser");
         if (L(e)) throw new Error("Post message through bridge disabled between same domain windows");
         if (ir(window, e) !== !1) throw new Error("Can only use bridge to communicate between two different windows, not between frames");
-        (function(i, a, u) {
-          var c = Zr(window, i), h = Zr(i, window);
-          if (!c && !h) throw new Error("Can only send messages to and from parent and popup windows");
+        (function(i, a, c) {
+          var u = Qr(window, i), h = Qr(i, window);
+          if (!u && !h) throw new Error("Can only send messages to and from parent and popup windows");
           Gn(i).then(function(l) {
-            return l(i, a, u);
+            return l(i, a, c);
           });
         })(e, n, r);
       }, Mr.postrobot_global = function(e, r) {
@@ -3337,18 +3337,18 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         });
       };
       function Zn(e, r, n, i) {
-        var a = i.on, u = i.send;
+        var a = i.on, c = i.send;
         return p.try(function() {
-          var c = it().getOrSet(e, function() {
+          var u = it().getOrSet(e, function() {
             return {};
           });
-          return c.buffer = c.buffer || [], c.buffer.push(n), c.flush = c.flush || p.flush().then(function() {
+          return u.buffer = u.buffer || [], u.buffer.push(n), u.flush = u.flush || p.flush().then(function() {
             if (Le(e)) throw new Error("Window is closed");
-            var h = hi(e, r, ((l = {}).__post_robot_11_0_0__ = c.buffer || [], l), {
+            var h = hi(e, r, ((l = {}).__post_robot_11_0_0__ = u.buffer || [], l), {
               on: a,
-              send: u
+              send: c
             }), l;
-            delete c.buffer;
+            delete u.buffer;
             for (var g = Object.keys(Mr), R = [], y = 0; y < g.length; y++) {
               var v = g[y];
               try {
@@ -3364,8 +3364,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             }).join(`
 
 `));
-          }), c.flush.then(function() {
-            delete c.flush;
+          }), u.flush.then(function() {
+            delete u.flush;
           });
         }).then(Ie);
       }
@@ -3381,8 +3381,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       function gi(e) {
         var r = e.name, n = e.win, i = e.domain, a = it("requestListeners");
         if (n === "*" && (n = null), i === "*" && (i = null), !r) throw new Error("Name required to get request listener");
-        for (var u = 0, c = [n, cn()]; u < c.length; u++) {
-          var h = c[u];
+        for (var c = 0, u = [n, fn()]; c < u.length; c++) {
+          var h = u[c];
           if (h) {
             var l = a.get(h);
             if (l) {
@@ -3408,7 +3408,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         } catch {
           return;
         }
-        var u = e.source, c = e.origin, h = function(y, v, P, T) {
+        var c = e.source, u = e.origin, h = function(y, v, P, T) {
           var x = T.on, O = T.send, W;
           try {
             W = pi(v, P, y, {
@@ -3422,21 +3422,21 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             var z = W.__post_robot_11_0_0__;
             if (Array.isArray(z)) return z;
           }
-        }(e.data, u, c, {
+        }(e.data, c, u, {
           on: n,
           send: i
         });
         if (h) {
-          ti(u);
+          ti(c);
           for (var l, g = function() {
             var y = h[R];
             if (a.has(y.id)) return {
               v: void 0
             };
-            if (a.set(y.id, !0), Le(u) && !y.fireAndForget) return {
+            if (a.set(y.id, !0), Le(c) && !y.fireAndForget) return {
               v: void 0
             };
-            y.origin.indexOf("file:") === 0 && (c = "file://");
+            y.origin.indexOf("file:") === 0 && (u = "file://");
             try {
               y.type === "postrobot_message_request" ? function(v, P, T, x) {
                 var O = x.on, W = x.send, z = gi({
@@ -3499,7 +3499,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   if (z && z.handleError) return z.handleError(V);
                   throw V;
                 });
-              }(u, c, y, {
+              }(c, u, y, {
                 on: n,
                 send: i
               }) : y.type === "postrobot_message_response" ? function(v, P, T) {
@@ -3515,7 +3515,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                     data: T.data
                   });
                 }
-              }(u, c, y) : y.type === "postrobot_message_ack" && function(v, P, T) {
+              }(c, u, y) : y.type === "postrobot_message_ack" && function(v, P, T) {
                 if (!mi(T.hash)) {
                   var x = vi(T.hash);
                   if (!x) throw new Error("No handler found for post message ack for message: " + T.name + " from " + P + " in " + window.location.protocol + "//" + window.location.host + window.location.pathname);
@@ -3527,7 +3527,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   }
                   x.ack = !0;
                 }
-              }(u, c, y);
+              }(c, u, y);
             } catch (v) {
               setTimeout(function() {
                 throw v;
@@ -3539,8 +3539,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       function Mt(e, r, n) {
         if (!e) throw new Error("Expected name");
         if (typeof (r = r || {}) == "function" && (n = r, r = {}), !n) throw new Error("Expected handler");
-        var i = function a(u, c) {
-          var h = u.name, l = u.win, g = u.domain, R = it("requestListeners");
+        var i = function a(c, u) {
+          var h = c.name, l = c.win, g = c.domain, R = it("requestListeners");
           if (!h || typeof h != "string") throw new Error("Name required to add request listener");
           if (l && l !== "*" && yt.isProxyWindow(l)) {
             var y = l.awaitWindow().then(function(he) {
@@ -3548,7 +3548,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 name: h,
                 win: he,
                 domain: g
-              }, c);
+              }, u);
             });
             return {
               cancel: function() {
@@ -3564,7 +3564,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               name: h,
               domain: g,
               win: x[T]
-            }, c));
+            }, u));
             return {
               cancel: function() {
                 for (var he = 0; he < P.length; he++) P[he].cancel();
@@ -3576,7 +3576,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               name: h,
               win: v,
               domain: z[W]
-            }, c));
+            }, u));
             return {
               cancel: function() {
                 for (var he = 0; he < O.length; he++) O[he].cancel();
@@ -3588,9 +3588,9 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             win: v,
             domain: g
           });
-          v && v !== "*" || (v = cn());
+          v && v !== "*" || (v = fn());
           var M = (g = g || "*").toString();
-          if (J) throw v && g ? new Error("Request listener already exists for " + h + " on domain " + g.toString() + " for " + (v === cn() ? "wildcard" : "specified") + " window") : v ? new Error("Request listener already exists for " + h + " for " + (v === cn() ? "wildcard" : "specified") + " window") : g ? new Error("Request listener already exists for " + h + " on domain " + g.toString()) : new Error("Request listener already exists for " + h);
+          if (J) throw v && g ? new Error("Request listener already exists for " + h + " on domain " + g.toString() + " for " + (v === fn() ? "wildcard" : "specified") + " window") : v ? new Error("Request listener already exists for " + h + " for " + (v === fn() ? "wildcard" : "specified") + " window") : g ? new Error("Request listener already exists for " + h + " on domain " + g.toString()) : new Error("Request listener already exists for " + h);
           var V = R.getOrSet(v, function() {
             return {};
           }), U = Ar(V, h, function() {
@@ -3600,8 +3600,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             return [];
           })).push(H = {
             regex: g,
-            listener: c
-          }) : U[M] = c, {
+            listener: u
+          }) : U[M] = u, {
             cancel: function() {
               delete U[M], H && (re.splice(re.indexOf(H, 1)), re.length || delete U.__domain_regex__), Object.keys(U).length || delete V[h], v && !Object.keys(V).length && R.del(v);
             }
@@ -3623,7 +3623,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         };
       }
       var xt = function e(r, n, i, a) {
-        var u = (a = a || {}).domain || "*", c = a.timeout || -1, h = a.timeout || 5e3, l = a.fireAndForget || !1;
+        var c = (a = a || {}).domain || "*", u = a.timeout || -1, h = a.timeout || 5e3, l = a.fireAndForget || !1;
         return yt.toProxyWindow(r, {
           send: e
         }).awaitWindow().then(function(g) {
@@ -3632,7 +3632,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               if (!R) throw new Error("Expected name");
               if (v && typeof v != "string" && !Array.isArray(v) && !Fn(v)) throw new TypeError("Can not send " + R + ". Expected domain " + JSON.stringify(v) + " to be a string, array, or regex");
               if (Le(y)) throw new Error("Can not send " + R + ". Target window is closed");
-            }(n, g, u), function(R, y) {
+            }(n, g, c), function(R, y) {
               var v = Ht(y);
               if (v) return v === R;
               if (y === R || Oe(y) === y) return !1;
@@ -3650,11 +3650,11 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                     return O.domain;
                   });
                 }).then(function(O) {
-                  if (!wt(v, v)) throw new Error("Domain " + tn(v) + " does not match " + tn(v));
+                  if (!wt(v, v)) throw new Error("Domain " + nn(v) + " does not match " + nn(v));
                   return O;
                 });
               });
-            }(g, u, (R === void 0 ? {} : R).domain, {
+            }(g, c, (R === void 0 ? {} : R).domain, {
               send: e
             });
           }).then(function(R) {
@@ -3679,7 +3679,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               });
               var W = function(U) {
                 return it("knownWindows").get(U, !1);
-              }(g) ? 1e4 : 2e3, z = c, J = W, M = z, V = Nr(function() {
+              }(g) ? 1e4 : 2e3, z = u, J = W, M = z, V = Nr(function() {
                 return Le(g) ? P.reject(new Error("Window closed for " + n + " before " + (x.ack ? "response" : "ack"))) : x.cancelled ? P.reject(new Error("Response listener was cancelled for " + n)) : (J = Math.max(J - 500, 0), M !== -1 && (M = Math.max(M - 500, 0)), x.ack || J !== 0 ? M === 0 ? P.reject(new Error("No response for postMessage " + v + " in " + ae() + " in " + z + "ms")) : void 0 : P.reject(new Error("No ack for postMessage " + v + " in " + ae() + " in " + W + "ms")));
               }, 500);
               P.finally(function() {
@@ -3717,7 +3717,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       var Jt;
       Jt = {
-        setupBridge: ci,
+        setupBridge: ui,
         openBridge: function(e, r) {
           var n = we("bridges"), i = we("bridgeFrames");
           return r = r || Wt(e), n.getOrSet(r, function() {
@@ -3725,15 +3725,15 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               if (ae() === r) throw new Error("Can not open bridge on the same domain as current domain: " + r);
               var a = Vn(r);
               if ($t(window, a)) throw new Error("Frame with name " + a + " already exists on page");
-              var u = function(c, h) {
+              var c = function(u, h) {
                 var l = document.createElement("iframe");
-                return l.setAttribute("name", c), l.setAttribute("id", c), l.setAttribute("style", "display: none; margin: 0; padding: 0; border: 0px none; overflow: hidden;"), l.setAttribute("frameborder", "0"), l.setAttribute("border", "0"), l.setAttribute("scrolling", "no"), l.setAttribute("allowTransparency", "true"), l.setAttribute("tabindex", "-1"), l.setAttribute("hidden", "true"), l.setAttribute("title", ""), l.setAttribute("role", "presentation"), l.src = h, l;
+                return l.setAttribute("name", u), l.setAttribute("id", u), l.setAttribute("style", "display: none; margin: 0; padding: 0; border: 0px none; overflow: hidden;"), l.setAttribute("frameborder", "0"), l.setAttribute("border", "0"), l.setAttribute("scrolling", "no"), l.setAttribute("allowTransparency", "true"), l.setAttribute("tabindex", "-1"), l.setAttribute("hidden", "true"), l.setAttribute("title", ""), l.setAttribute("role", "presentation"), l.src = h, l;
               }(a, e);
-              return i.set(r, u), Za.then(function(c) {
-                c.appendChild(u);
-                var h = u.contentWindow;
+              return i.set(r, c), Za.then(function(u) {
+                u.appendChild(c);
+                var h = c.contentWindow;
                 return new p(function(l, g) {
-                  u.addEventListener("load", l), u.addEventListener("error", g);
+                  c.addEventListener("load", l), c.addEventListener("error", g);
                 }).then(function() {
                   return ei(h, 5e3, "Bridge " + e);
                 }).then(function() {
@@ -3743,9 +3743,9 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             });
           });
         },
-        linkWindow: dn,
+        linkWindow: ln,
         linkUrl: function(e, r) {
-          dn({
+          ln({
             win: e,
             domain: Wt(r)
           });
@@ -3776,7 +3776,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         } catch {
         }
       }
-      function fn(e) {
+      function hn(e) {
         return {
           get: function() {
             var r = this;
@@ -3795,10 +3795,10 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         return r.references = r.references || {}, r.references;
       }
       function bi(e) {
-        var r = e.data, n = e.metaData, i = e.sender, a = e.receiver, u = e.passByReference, c = u !== void 0 && u, h = e.basic, l = h !== void 0 && h, g = Fr(a.win), R = l ? JSON.stringify(r) : hi(g, a.domain, r, {
+        var r = e.data, n = e.metaData, i = e.sender, a = e.receiver, c = e.passByReference, u = c !== void 0 && c, h = e.basic, l = h !== void 0 && h, g = Fr(a.win), R = l ? JSON.stringify(r) : hi(g, a.domain, r, {
           on: Mt,
           send: xt
-        }), y = c ? function(v) {
+        }), y = u ? function(v) {
           var P = st();
           return Qn(window)[P] = v, {
             type: "uid",
@@ -3831,19 +3831,19 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             if (typeof Buffer < "u") return Buffer.from(y, "base64").toString("utf8");
             throw new Error("Can not find window.atob or Buffer");
           }(R));
-        }(e.data), u = a.reference, c = a.metaData, h;
+        }(e.data), c = a.reference, u = a.metaData, h;
         h = typeof r.win == "function" ? r.win({
-          metaData: c
+          metaData: u
         }) : r.win;
         var l;
         l = typeof r.domain == "function" ? r.domain({
-          metaData: c
+          metaData: u
         }) : typeof r.domain == "string" ? r.domain : a.sender.domain;
         var g = function(R, y) {
           if (y.type === "raw") return y.val;
           if (y.type === "uid") return Qn(R)[y.uid];
           throw new Error("Unsupported ref type: " + y.type);
-        }(h, u);
+        }(h, c);
         return {
           data: i ? JSON.parse(g) : function(R, y, v) {
             return pi(R, y, v, {
@@ -3851,12 +3851,12 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               send: xt
             });
           }(h, l, g),
-          metaData: c,
+          metaData: u,
           sender: {
             win: h,
             domain: l
           },
-          reference: u
+          reference: c
         };
       }
       var be = {
@@ -3866,7 +3866,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         BOOLEAN: "boolean",
         NUMBER: "number",
         ARRAY: "array"
-      }, ln = {
+      }, pn = {
         JSON: "json",
         DOTIFY: "dotify",
         BASE64: "base64"
@@ -3903,8 +3903,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           sender: {
             win: function(n) {
               return function(i) {
-                if (i.type === "opener") return on("opener", Ae(window));
-                if (i.type === "parent" && typeof i.distance == "number") return on("parent", function(y, v) {
+                if (i.type === "opener") return sn("opener", Ae(window));
+                if (i.type === "parent" && typeof i.distance == "number") return sn("parent", function(y, v) {
                   return v === void 0 && (v = 1), function(P, T) {
                     T === void 0 && (T = 1);
                     for (var x = P, O = 0; O < T; O++) {
@@ -3915,10 +3915,10 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   }(y, Dr(y) - v);
                 }(window, i.distance));
                 if (i.type === "global" && i.uid && typeof i.uid == "string") {
-                  var a = i.uid, u = Ht(window);
-                  if (!u) throw new Error("Can not find ancestor window");
-                  for (var c = 0, h = Je(u); c < h.length; c++) {
-                    var l = h[c];
+                  var a = i.uid, c = Ht(window);
+                  if (!c) throw new Error("Can not find ancestor window");
+                  for (var u = 0, h = Je(c); u < h.length; u++) {
+                    var l = h[u];
                     if (L(l)) {
                       var g = Ei(l, function(y) {
                         return y.windows && y.windows[a];
@@ -3928,7 +3928,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   }
                 } else if (i.type === "name") {
                   var R = i.name;
-                  return on("namedWindow", function(y, v) {
+                  return sn("namedWindow", function(y, v) {
                     return $t(y, v) || function P(T, x) {
                       var O = $t(T, x);
                       if (O) return O;
@@ -3937,7 +3937,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                         if (J) return J;
                       }
                     }(Oe(y) || y, v);
-                  }(on("ancestor", Ht(window)), R));
+                  }(sn("ancestor", Ht(window)), R));
                 }
                 throw new Error("Unable to find " + i.type + " parent component window");
               }(n.metaData.windowRef);
@@ -3972,8 +3972,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       function Si(e, r, n, i, a) {
         if (!e.hasOwnProperty(n)) return i;
-        var u = e[n];
-        return typeof u.childDecorate == "function" ? u.childDecorate({
+        var c = e[n];
+        return typeof c.childDecorate == "function" ? c.childDecorate({
           value: i,
           uid: a.uid,
           tag: a.tag,
@@ -4002,20 +4002,20 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       var Ft = function() {
         return Ie;
-      }, ur = function(e) {
-        return en(e.value);
+      }, cr = function(e) {
+        return rn(e.value);
       };
       function eo(e, r, n) {
         for (var i = 0, a = Object.keys(w({}, e, r)); i < a.length; i++) {
-          var u = a[i];
-          n(u, r[u], e[u]);
+          var c = a[i];
+          n(c, r[c], e[c]);
         }
       }
       function Oi(e, r, n) {
         var i = {};
-        return p.all(function(a, u, c) {
+        return p.all(function(a, c, u) {
           var h = [];
-          return eo(a, u, function(l, g, R) {
+          return eo(a, c, function(l, g, R) {
             var y = function(v, P, T) {
               return p.resolve().then(function() {
                 var x, O;
@@ -4037,14 +4037,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                     if (typeof V == "boolean") U = V.toString();
                     else if (typeof V == "string") U = V.toString();
                     else if (typeof V == "object" && V !== null) {
-                      if (P.serialization === ln.JSON) U = JSON.stringify(V);
-                      else if (P.serialization === ln.BASE64) U = _n(JSON.stringify(V));
-                      else if (P.serialization === ln.DOTIFY || !P.serialization) {
-                        U = function ce(Q, G, le) {
+                      if (P.serialization === pn.JSON) U = JSON.stringify(V);
+                      else if (P.serialization === pn.BASE64) U = _n(JSON.stringify(V));
+                      else if (P.serialization === pn.DOTIFY || !P.serialization) {
+                        U = function ue(Q, G, le) {
                           G === void 0 && (G = ""), le === void 0 && (le = {}), G = G && G + ".";
                           for (var ne in Q) Q.hasOwnProperty(ne) && Q[ne] != null && typeof Q[ne] != "function" && (Q[ne] && Array.isArray(Q[ne]) && Q[ne].length && Q[ne].every(function(Me) {
                             return typeof Me != "object";
-                          }) ? le["" + G + ne + "[]"] = Q[ne].join(",") : Q[ne] && typeof Q[ne] == "object" ? le = ce(Q[ne], "" + G + ne, le) : le["" + G + ne] = Q[ne].toString());
+                          }) ? le["" + G + ne + "[]"] = Q[ne].join(",") : Q[ne] && typeof Q[ne] == "object" ? le = ue(Q[ne], "" + G + ne, le) : le["" + G + ne] = Q[ne].toString());
                           return le;
                         }(V, v);
                         for (var re = 0, H = Object.keys(U); re < H.length; re++) {
@@ -4066,11 +4066,11 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         });
       }
       function Ii(e) {
-        var r = e.uid, n = e.options, i = e.overrides, a = i === void 0 ? {} : i, u = e.parentWin, c = u === void 0 ? window : u, h = n.propsDef, l = n.containerTemplate, g = n.prerenderTemplate, R = n.tag, y = n.name, v = n.attributes, P = n.dimensions, T = n.autoResize, x = n.url, O = n.domain, W = n.exports, z = new p(), J = [], M = nn(), V = {}, U = {}, re = {
+        var r = e.uid, n = e.options, i = e.overrides, a = i === void 0 ? {} : i, c = e.parentWin, u = c === void 0 ? window : c, h = n.propsDef, l = n.containerTemplate, g = n.prerenderTemplate, R = n.tag, y = n.name, v = n.attributes, P = n.dimensions, T = n.autoResize, x = n.url, O = n.domain, W = n.exports, z = new p(), J = [], M = an(), V = {}, U = {}, re = {
           visible: !0
-        }, H = a.event ? a.event : (he = {}, ce = {}, Q = {
+        }, H = a.event ? a.event : (he = {}, ue = {}, Q = {
           on: function(I, _) {
-            var $ = ce[I] = ce[I] || [];
+            var $ = ue[I] = ue[I] || [];
             $.push(_);
             var j = !1;
             return {
@@ -4087,7 +4087,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           },
           trigger: function(I) {
             for (var _ = arguments.length, $ = new Array(_ > 1 ? _ - 1 : 0), j = 1; j < _; j++) $[j - 1] = arguments[j];
-            var ie = ce[I], k = [];
+            var ie = ue[I], k = [];
             if (ie)
               for (var Te = function() {
                 var Ze = ie[Se];
@@ -4104,9 +4104,9 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             return Q.trigger.apply(Q, [I].concat($));
           },
           reset: function() {
-            ce = {};
+            ue = {};
           }
-        }), he, ce, Q, G = a.props ? a.props : {}, le, ne, Me, Nt, Et, Kt = !1, Yt = a.onError, Lt = a.getProxyContainer, Zt = a.show, Xt = a.hide, cr = a.close, Qt = a.renderContainer, Ot = a.getProxyWindow, dr = a.setProxyWin, kt = a.openFrame, er = a.openPrerenderFrame, fr = a.prerender, lr = a.open, de = a.openPrerender, bt = a.watchForUnload, fe = a.getInternalState, Ke = a.setInternalState, ze = function() {
+        }), he, ue, Q, G = a.props ? a.props : {}, le, ne, Me, Nt, Et, Kt = !1, Yt = a.onError, Lt = a.getProxyContainer, Zt = a.show, Xt = a.hide, ur = a.close, Qt = a.renderContainer, Ot = a.getProxyWindow, dr = a.setProxyWin, kt = a.openFrame, er = a.openPrerenderFrame, fr = a.prerender, lr = a.open, de = a.openPrerender, bt = a.watchForUnload, fe = a.getInternalState, Ke = a.setInternalState, ze = function() {
           return typeof P == "function" ? P({
             props: G
           }) : P;
@@ -4118,7 +4118,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           return p.try(function() {
             return a.rejectInitPromise ? a.rejectInitPromise(I) : z.reject(I);
           });
-        }, ut = function(I) {
+        }, ct = function(I) {
           for (var _ = {}, $ = 0, j = Object.keys(G); $ < j.length; $++) {
             var ie = j[$], k = h[ie];
             if (!k || k.sendToChild !== !1) {
@@ -4183,7 +4183,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           return kt ? kt(I, {
             windowName: $
           }) : p.try(function() {
-            if (I === We.IFRAME) return fn(qo({
+            if (I === We.IFRAME) return hn(qo({
               attributes: w({
                 name: $,
                 title: y
@@ -4192,7 +4192,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           });
         }, zr = function(I) {
           return er ? er(I) : p.try(function() {
-            if (I === We.IFRAME) return fn(qo({
+            if (I === We.IFRAME) return hn(qo({
               attributes: w({
                 name: "__zoid_prerender_frame__" + y + "_" + st() + "__",
                 title: "prerender__" + y
@@ -4220,7 +4220,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           return p.try(function() {
             if (le) return p.all([H.trigger(Ce.FOCUS), le.focus()]).then(Ie);
           });
-        }, hn = function() {
+        }, vn = function() {
           var I = Lr(window);
           return I.windows = I.windows || {}, I.windows[r] = window, M.register(function() {
             delete I.windows[r];
@@ -4228,7 +4228,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }, Br = function(I, _, $, j) {
           if (_ === ae(window)) return {
             type: "global",
-            uid: hn()
+            uid: vn()
           };
           if (I !== window) throw new Error("Can not construct cross-domain window reference for different target window");
           if (G.window) {
@@ -4244,7 +4244,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             distance: Dr(window)
           };
           throw new Error("Can not construct window reference for child");
-        }, pn = function(I, _) {
+        }, wn = function(I, _) {
           return p.try(function() {
             var $;
             Nt = I, Me = _, ($ = le) == null || $.isPopup().then(function(j) {
@@ -4277,7 +4277,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           });
         }, Ut = Vt(function(I) {
           return p.try(function() {
-            return cr ? Le(cr.__source__) ? void 0 : cr() : p.try(function() {
+            return ur ? Le(ur.__source__) ? void 0 : ur() : p.try(function() {
               return H.trigger(Ce.CLOSE);
             }).then(function() {
               return qr(I || new Error("Component closed"));
@@ -4306,9 +4306,9 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               var k = ze(), Te = k.width, Se = Te === void 0 ? "300px" : Te, Ze = k.height, De = Ze === void 0 ? "150px" : Ze;
               Se = Yo(Se, window.outerWidth), De = Yo(De, window.outerWidth);
               var Ve = function(Ue, me) {
-                var Be = (me = me || {}).closeOnUnload, _e = Be === void 0 ? 1 : Be, lt = me.name, Xe = lt === void 0 ? "" : lt, pe = me.width, Qe = me.height, ct = 0, rt = 0;
-                pe && (window.outerWidth ? rt = Math.round((window.outerWidth - pe) / 2) + window.screenX : window.screen.width && (rt = Math.round((window.screen.width - pe) / 2))), Qe && (window.outerHeight ? ct = Math.round((window.outerHeight - Qe) / 2) + window.screenY : window.screen.height && (ct = Math.round((window.screen.height - Qe) / 2))), delete me.closeOnUnload, delete me.name, pe && Qe && (me = w({
-                  top: ct,
+                var Be = (me = me || {}).closeOnUnload, _e = Be === void 0 ? 1 : Be, lt = me.name, Xe = lt === void 0 ? "" : lt, pe = me.width, Qe = me.height, ut = 0, rt = 0;
+                pe && (window.outerWidth ? rt = Math.round((window.outerWidth - pe) / 2) + window.screenX : window.screen.width && (rt = Math.round((window.screen.width - pe) / 2))), Qe && (window.outerHeight ? ut = Math.round((window.outerHeight - Qe) / 2) + window.screenY : window.screen.height && (ut = Math.round((window.screen.height - Qe) / 2))), delete me.closeOnUnload, delete me.name, pe && Qe && (me = w({
+                  top: ut,
                   left: rt,
                   width: pe,
                   height: Qe,
@@ -4319,7 +4319,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   scrollbars: 1
                 }, me));
                 var pr = Object.keys(me).map(function(At) {
-                  if (me[At] != null) return At + "=" + tn(me[At]);
+                  if (me[At] != null) return At + "=" + nn(me[At]);
                 }).filter(Boolean).join(","), Rt;
                 try {
                   Rt = window.open("", Xe, pr);
@@ -4352,9 +4352,9 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           });
         }, Ni = function() {
           return p.try(function() {
-            var I = $o(window, "unload", en(function() {
+            var I = $o(window, "unload", rn(function() {
               qr(new Error("Window navigated away"));
-            })), _ = xo(c, qr, 3e3);
+            })), _ = xo(u, qr, 3e3);
             if (M.register(_.cancel), M.register(I.cancel), bt) return bt();
           });
         }, Ai = function(I) {
@@ -4379,7 +4379,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             Wi.resolve(I);
           });
         };
-        pn.onError = $r;
+        wn.onError = $r;
         var Fi = function(I, _) {
           return I({
             uid: r,
@@ -4421,7 +4421,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                     var lt = _e.tagName.toLowerCase();
                     if (lt !== "html") throw new Error("Expected element to be html, got " + lt);
                     for (var Xe = Be.document.documentElement, pe = 0, Qe = Wn(Xe.children); pe < Qe.length; pe++) Xe.removeChild(Qe[pe]);
-                    for (var ct = 0, rt = Wn(_e.children); ct < rt.length; ct++) Xe.appendChild(rt[ct]);
+                    for (var ut = 0, rt = Wn(_e.children); ut < rt.length; ut++) Xe.appendChild(rt[ut]);
                   })(j, k);
                   var Te = T.width, Se = Te !== void 0 && Te, Ze = T.height, De = Ze !== void 0 && Ze, Ve = T.element, Ue = Ve === void 0 ? "body" : Ve;
                   if ((Ue = Ln(Ue, ie)) && (Se || De)) {
@@ -4465,31 +4465,31 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             if (De) {
               Ze || Ho(De), ja(Se, De);
               var Ve = function(Ue, me) {
-                me = en(me);
+                me = rn(me);
                 var Be = !1, _e = [], lt, Xe, pe, Qe = function() {
                   Be = !0;
                   for (var Rt = 0; Rt < _e.length; Rt++) _e[Rt].disconnect();
-                  lt && lt.cancel(), pe && pe.removeEventListener("unload", ct), Xe && Wr(Xe);
-                }, ct = function() {
+                  lt && lt.cancel(), pe && pe.removeEventListener("unload", ut), Xe && Wr(Xe);
+                }, ut = function() {
                   Be || (me(), Qe());
                 };
                 if (gr(Ue))
-                  return ct(), {
+                  return ut(), {
                     cancel: Qe
                   };
                 if (window.MutationObserver)
                   for (var rt = Ue.parentElement; rt; ) {
                     var pr = new window.MutationObserver(function() {
-                      gr(Ue) && ct();
+                      gr(Ue) && ut();
                     });
                     pr.observe(rt, {
                       childList: !0
                     }), _e.push(pr), rt = rt.parentElement;
                   }
                 return (Xe = document.createElement("iframe")).setAttribute("name", "__detect_close_" + st() + "__"), Xe.style.display = "none", Un(Xe).then(function(Rt) {
-                  (pe = B(Rt)).addEventListener("unload", ct);
+                  (pe = B(Rt)).addEventListener("unload", ut);
                 }), Ue.appendChild(Xe), lt = Nr(function() {
-                  gr(Ue) && ct();
+                  gr(Ue) && ut();
                 }, 1e3), {
                   cancel: Qe
                 };
@@ -4505,7 +4505,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 return Ve.cancel();
               }), M.register(function() {
                 return Wr(De);
-              }), ne = fn(De);
+              }), ne = hn(De);
             }
           });
         }, Ui = function() {
@@ -4571,7 +4571,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }, fs = function(I) {
           return no(I), z.then(function() {
             var _ = Me, $ = le;
-            if (_ && $ && Nt) return ut(Nt).then(function(j) {
+            if (_ && $ && Nt) return ct(Nt).then(function(j) {
               return _.updateProps(j).catch(function(ie) {
                 return Ai($).then(function(k) {
                   if (!k) throw ie;
@@ -4596,7 +4596,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               Te.setAttribute("name", k), j.appendChild(Te);
               var Se = document.createElement("div");
               return Se.setAttribute("slot", k), ie.appendChild(Se), Bn(ie) ? $(Se) : Se;
-            }(_)), Et = _, fn(_);
+            }(_)), Et = _, hn(_);
           });
         };
         return {
@@ -4753,7 +4753,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   var et = je === void 0 ? {} : je, pt = et.proxyWin, qe = et.initialChildDomain, St = et.childDomainMatch, nt = et.target, ee = nt === void 0 ? window : nt, te = et.context;
                   return function(F) {
                     var oe = F === void 0 ? {} : F, oo = oe.proxyWin, gs = oe.childDomainMatch, ys = oe.context;
-                    return ut(oe.initialChildDomain).then(function(Es) {
+                    return ct(oe.initialChildDomain).then(function(Es) {
                       return {
                         uid: r,
                         context: ys,
@@ -4763,7 +4763,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                         props: Es,
                         exports: ($i = oo, {
                           init: function(bs) {
-                            return pn(this.origin, bs);
+                            return wn(this.origin, bs);
                           },
                           close: Ut,
                           checkClose: function() {
@@ -4823,7 +4823,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 return ft(j, {
                   windowName: K
                 });
-              }), Qe = zr(j), ct = p.hash({
+              }), Qe = zr(j), ut = p.hash({
                 proxyContainer: me,
                 proxyFrame: pe,
                 proxyPrerenderFrame: Qe
@@ -4898,7 +4898,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   });
                 })(K, j);
               }), ps = p.hash({
-                container: ct,
+                container: ut,
                 prerender: At
               }).then(function() {
                 return H.trigger(Ce.DISPLAY);
@@ -4935,7 +4935,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 getProxyContainerPromise: me,
                 openFramePromise: pe,
                 openPrerenderFramePromise: Qe,
-                renderContainerPromise: ct,
+                renderContainerPromise: ut,
                 openPromise: rt,
                 openPrerenderPromise: pr,
                 setStatePromise: Rt,
@@ -4996,17 +4996,17 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
       var ts = {
         register: function(e, r, n, i) {
-          var a = i.React, u = i.ReactDOM;
-          return function(c) {
-            b(h, c);
+          var a = i.React, c = i.ReactDOM;
+          return function(u) {
+            b(h, u);
             function h() {
-              return c.apply(this, arguments) || this;
+              return u.apply(this, arguments) || this;
             }
             var l = h.prototype;
             return l.render = function() {
               return a.createElement("div", null);
             }, l.componentDidMount = function() {
-              var g = u.findDOMNode(this), R = n(mr({}, this.props));
+              var g = c.findDOMNode(this), R = n(mr({}, this.props));
               R.render(g, We.IFRAME), this.setState({
                 parent: R
               });
@@ -5024,11 +5024,11 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             inheritAttrs: !1,
             mounted: function() {
               var a = this.$el;
-              this.parent = n(w({}, (u = this.$attrs, Object.keys(u).reduce(function(c, h) {
-                var l = u[h];
-                return h === "style-object" || h === "styleObject" ? (c.style = l, c.styleObject = l) : h.includes("-") ? c[An(h)] = l : c[h] = l, c;
+              this.parent = n(w({}, (c = this.$attrs, Object.keys(c).reduce(function(u, h) {
+                var l = c[h];
+                return h === "style-object" || h === "styleObject" ? (u.style = l, u.styleObject = l) : h.includes("-") ? u[An(h)] = l : u[h] = l, u;
               }, {}))));
-              var u;
+              var c;
               this.parent.render(a, We.IFRAME);
             },
             watch: {
@@ -5048,9 +5048,9 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             inheritAttrs: !1,
             mounted: function() {
               var i = this.$el;
-              this.parent = n(w({}, (a = this.$attrs, Object.keys(a).reduce(function(u, c) {
-                var h = a[c];
-                return c === "style-object" || c === "styleObject" ? (u.style = h, u.styleObject = h) : c.includes("-") ? u[An(c)] = h : u[c] = h, u;
+              this.parent = n(w({}, (a = this.$attrs, Object.keys(a).reduce(function(c, u) {
+                var h = a[u];
+                return u === "style-object" || u === "styleObject" ? (c.style = h, c.styleObject = h) : u.includes("-") ? c[An(u)] = h : c[u] = h, c;
               }, {}))));
               var a;
               this.parent.render(i, We.IFRAME);
@@ -5068,7 +5068,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }, os = {
         register: function(e, r, n, i) {
           return i.module(e, []).directive(An(e), function() {
-            for (var a = {}, u = 0, c = Object.keys(r); u < c.length; u++) a[c[u]] = "=";
+            for (var a = {}, c = 0, u = Object.keys(r); c < u.length; c++) a[u[c]] = "=";
             return a.props = "=", {
               scope: a,
               restrict: "E",
@@ -5080,7 +5080,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   }
                 }
                 var R = function() {
-                  return rn(h.props, function(v) {
+                  return on(h.props, function(v) {
                     return typeof v == "function" ? function() {
                       var P = v.apply(this, arguments);
                       return g(), P;
@@ -5096,14 +5096,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }
       }, is = {
         register: function(e, r, n, i) {
-          var a = i.Component, u = i.NgModule, c = i.ElementRef, h = i.NgZone, l = i.Inject, g = function() {
+          var a = i.Component, c = i.NgModule, u = i.ElementRef, h = i.NgZone, l = i.Inject, g = function() {
             function y(P, T) {
               this.elementRef = void 0, this.internalProps = void 0, this.parent = void 0, this.props = void 0, this.zone = void 0, this._props = void 0, this._props = {}, this.elementRef = P, this.zone = T;
             }
             var v = y.prototype;
             return v.getProps = function() {
               var P = this;
-              return rn(w({}, this.internalProps, this.props), function(T) {
+              return on(w({}, this.internalProps, this.props), function(T) {
                 if (typeof T == "function") {
                   var x = P.zone;
                   return function() {
@@ -5128,26 +5128,26 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               }(this._props, this.props) && (this._props = w({}, this.props), this.parent.updateProps(this.getProps()));
             }, y;
           }();
-          g.annotations = void 0, g.parameters = void 0, g.parameters = [[new l(c)], [new l(h)]], g.annotations = [new a({
+          g.annotations = void 0, g.parameters = void 0, g.parameters = [[new l(u)], [new l(h)]], g.annotations = [new a({
             selector: e,
             template: "<div></div>",
             inputs: ["props"]
           })];
           var R = function() {
           };
-          return R.annotations = void 0, R.annotations = [new u({
+          return R.annotations = void 0, R.annotations = [new c({
             declarations: [g],
             exports: [g]
           })], R;
         }
       };
       function as(e) {
-        var r = e.uid, n = e.frame, i = e.prerenderFrame, a = e.doc, u = e.props, c = e.event, h = e.dimensions, l = h.width, g = h.height;
+        var r = e.uid, n = e.frame, i = e.prerenderFrame, a = e.doc, c = e.props, u = e.event, h = e.dimensions, l = h.width, g = h.height;
         if (n && i) {
           var R = a.createElement("div");
           R.setAttribute("id", r);
           var y = a.createElement("style");
-          return u.cspNonce && y.setAttribute("nonce", u.cspNonce), y.appendChild(a.createTextNode(`
+          return c.cspNonce && y.setAttribute("nonce", c.cspNonce), y.appendChild(a.createTextNode(`
             #` + r + ` {
                 display: inline-block;
                 position: relative;
@@ -5172,19 +5172,19 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             #` + r + ` > iframe.zoid-visible {
                 opacity: 1;
         }
-        `)), R.appendChild(n), R.appendChild(i), R.appendChild(y), i.classList.add("zoid-visible"), n.classList.add("zoid-invisible"), c.on(Ce.RENDERED, function() {
+        `)), R.appendChild(n), R.appendChild(i), R.appendChild(y), i.classList.add("zoid-visible"), n.classList.add("zoid-invisible"), u.on(Ce.RENDERED, function() {
             i.classList.remove("zoid-visible"), i.classList.add("zoid-invisible"), n.classList.remove("zoid-invisible"), n.classList.add("zoid-visible"), setTimeout(function() {
               Wr(i);
             }, 1);
-          }), c.on(Ce.RESIZE, function(v) {
+          }), u.on(Ce.RESIZE, function(v) {
             var P = v.width, T = v.height;
             typeof P == "number" && (R.style.width = Ko(P)), typeof T == "number" && (R.style.height = Ko(T));
           }), R;
         }
       }
       function ss(e) {
-        var r = e.doc, n = e.props, i = r.createElement("html"), a = r.createElement("body"), u = r.createElement("style"), c = r.createElement("div");
-        return c.classList.add("spinner"), n.cspNonce && u.setAttribute("nonce", n.cspNonce), i.appendChild(a), a.appendChild(c), a.appendChild(u), u.appendChild(r.createTextNode(`
+        var r = e.doc, n = e.props, i = r.createElement("html"), a = r.createElement("body"), c = r.createElement("style"), u = r.createElement("div");
+        return u.classList.add("spinner"), n.cspNonce && c.setAttribute("nonce", n.cspNonce), i.appendChild(a), a.appendChild(u), a.appendChild(c), c.appendChild(r.createTextNode(`
             html, body {
                 width: 100%;
                 height: 100%;
@@ -5215,14 +5215,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             }
         `)), i;
       }
-      var to = nn(), ro = nn();
-      function us(e) {
+      var to = an(), ro = an();
+      function cs(e) {
         var r = function(T) {
-          var x = T.tag, O = T.url, W = T.domain, z = T.bridgeUrl, J = T.props, M = J === void 0 ? {} : J, V = T.dimensions, U = V === void 0 ? {} : V, re = T.autoResize, H = re === void 0 ? {} : re, he = T.allowedParentDomains, ce = he === void 0 ? "*" : he, Q = T.attributes, G = Q === void 0 ? {} : Q, le = T.defaultContext, ne = le === void 0 ? We.IFRAME : le, Me = T.containerTemplate, Nt = Me === void 0 ? as : Me, Et = T.prerenderTemplate, Kt = Et === void 0 ? ss : Et, Yt = T.validate, Lt = T.eligible, Zt = Lt === void 0 ? function() {
+          var x = T.tag, O = T.url, W = T.domain, z = T.bridgeUrl, J = T.props, M = J === void 0 ? {} : J, V = T.dimensions, U = V === void 0 ? {} : V, re = T.autoResize, H = re === void 0 ? {} : re, he = T.allowedParentDomains, ue = he === void 0 ? "*" : he, Q = T.attributes, G = Q === void 0 ? {} : Q, le = T.defaultContext, ne = le === void 0 ? We.IFRAME : le, Me = T.containerTemplate, Nt = Me === void 0 ? as : Me, Et = T.prerenderTemplate, Kt = Et === void 0 ? ss : Et, Yt = T.validate, Lt = T.eligible, Zt = Lt === void 0 ? function() {
             return {
               eligible: !0
             };
-          } : Lt, Xt = T.logger, cr = Xt === void 0 ? {
+          } : Lt, Xt = T.logger, ur = Xt === void 0 ? {
             info: Ie
           } : Xt, Qt = T.exports, Ot = Qt === void 0 ? Ie : Qt, dr = T.method, kt = T.children, er = kt === void 0 ? function() {
             return {};
@@ -5259,35 +5259,35 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               sendToChild: !1,
               allowDelegate: !0,
               default: Ft,
-              decorate: ur
+              decorate: cr
             },
             onRendered: {
               type: be.FUNCTION,
               required: !1,
               sendToChild: !1,
               default: Ft,
-              decorate: ur
+              decorate: cr
             },
             onRender: {
               type: be.FUNCTION,
               required: !1,
               sendToChild: !1,
               default: Ft,
-              decorate: ur
+              decorate: cr
             },
             onPrerendered: {
               type: be.FUNCTION,
               required: !1,
               sendToChild: !1,
               default: Ft,
-              decorate: ur
+              decorate: cr
             },
             onPrerender: {
               type: be.FUNCTION,
               required: !1,
               sendToChild: !1,
               default: Ft,
-              decorate: ur
+              decorate: cr
             },
             onClose: {
               type: be.FUNCTION,
@@ -5295,7 +5295,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               sendToChild: !1,
               allowDelegate: !0,
               default: Ft,
-              decorate: ur
+              decorate: cr
             },
             onDestroy: {
               type: be.FUNCTION,
@@ -5303,7 +5303,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               sendToChild: !1,
               allowDelegate: !0,
               default: Ft,
-              decorate: ur
+              decorate: cr
             },
             onResize: {
               type: be.FUNCTION,
@@ -5435,21 +5435,21 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             propsDef: lr,
             dimensions: U,
             autoResize: H,
-            allowedParentDomains: ce,
+            allowedParentDomains: ue,
             attributes: G,
             defaultContext: ne,
             containerTemplate: Nt,
             prerenderTemplate: Kt,
             validate: Yt,
-            logger: cr,
+            logger: ur,
             eligible: Zt,
             children: er,
             exports: typeof Ot == "function" ? Ot : function(de) {
               for (var bt = de.getExports, fe = {}, Ke = function() {
-                var Ne = Ye[ze], ut = Ot[Ne].type, $e = bt().then(function(He) {
+                var Ne = Ye[ze], ct = Ot[Ne].type, $e = bt().then(function(He) {
                   return He[Ne];
                 });
-                fe[Ne] = ut === be.FUNCTION ? function() {
+                fe[Ne] = ct === be.FUNCTION ? function() {
                   for (var He = arguments.length, Pt = new Array(He), dt = 0; dt < He; dt++) Pt[dt] = arguments[dt];
                   return $e.then(function(It) {
                     return It.apply(void 0, Pt);
@@ -5459,7 +5459,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               return fe;
             }
           };
-        }(e), n = r.name, i = r.tag, a = r.defaultContext, u = r.propsDef, c = r.eligible, h = r.children, l = Lr(window), g = {}, R = [], y = function() {
+        }(e), n = r.name, i = r.tag, a = r.defaultContext, c = r.propsDef, u = r.eligible, h = r.children, l = Lr(window), g = {}, R = [], y = function() {
           if (function(x) {
             try {
               return kn(window.name).name === x;
@@ -5476,12 +5476,12 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             if (window.xprops)
               throw delete l.components[i], new Error("Can not register " + n + " as child - child already registered");
             var T = function(x) {
-              var O = x.tag, W = x.propsDef, z = x.autoResize, J = x.allowedParentDomains, M = [], V = Ti(), U = V.parent, re = V.payload, H = U.win, he = U.domain, ce, Q = new p(), G = re.version, le = re.uid, ne = re.exports, Me = re.context, Nt = re.props;
+              var O = x.tag, W = x.propsDef, z = x.autoResize, J = x.allowedParentDomains, M = [], V = Ti(), U = V.parent, re = V.payload, H = U.win, he = U.domain, ue, Q = new p(), G = re.version, le = re.uid, ne = re.exports, Me = re.context, Nt = re.props;
               if (!function(fe, Ke) {
                 if (!/_/.test(fe) || !/_/.test("10_3_3")) throw new Error("Versions are in an invalid format (" + fe + ", 10_3_3)");
                 return fe.split("_")[0] === "10_3_3".split("_")[0];
               }(G)) throw new Error("Parent window has zoid version " + G + ", child window has version 10_3_3");
-              var Et = ne.show, Kt = ne.hide, Yt = ne.close, Lt = ne.onError, Zt = ne.checkClose, Xt = ne.export, cr = ne.resize, Qt = ne.init, Ot = function() {
+              var Et = ne.show, Kt = ne.hide, Yt = ne.close, Lt = ne.onError, Zt = ne.checkClose, Xt = ne.export, ur = ne.resize, Qt = ne.init, Ot = function() {
                 return H;
               }, dr = function() {
                 return he;
@@ -5492,17 +5492,17 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   }
                 };
               }, er = function(fe) {
-                return cr.fireAndForget({
+                return ur.fireAndForget({
                   width: fe.width,
                   height: fe.height
                 });
               }, fr = function(fe) {
                 return Q.resolve(fe), Xt(fe);
               }, lr = function(fe) {
-                var Ke = (fe === void 0 ? {} : fe).anyParent, ze = [], Ye = ce.parent;
+                var Ke = (fe === void 0 ? {} : fe).anyParent, ze = [], Ye = ue.parent;
                 if (Ke === void 0 && (Ke = !Ye), !Ke && !Ye) throw new Error("No parent found for " + O + " child");
-                for (var Ne = 0, ut = Je(window); Ne < ut.length; Ne++) {
-                  var $e = ut[Ne];
+                for (var Ne = 0, ct = Je(window); Ne < ct.length; Ne++) {
+                  var $e = ct[Ne];
                   if (L($e)) {
                     var He = B($e).xprops;
                     if (He && Ot() === He.getParent()) {
@@ -5522,19 +5522,19 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 return ze;
               }, de = function(fe, Ke, ze) {
                 ze === void 0 && (ze = !1);
-                var Ye = function(ut, $e, He, Pt, dt, It) {
+                var Ye = function(ct, $e, He, Pt, dt, It) {
                   It === void 0 && (It = !1);
                   for (var zt = {}, yr = 0, Er = Object.keys(He); yr < Er.length; yr++) {
-                    var hr = Er[yr], ft = $e[hr], zr = ft && ft.trustedDomains && ft.trustedDomains.length > 0 ? ft.trustedDomains.reduce(function(pn, jr) {
-                      return pn || wt(jr, ae(window));
-                    }, !1) : Pt === ae(window) || L(ut);
+                    var hr = Er[yr], ft = $e[hr], zr = ft && ft.trustedDomains && ft.trustedDomains.length > 0 ? ft.trustedDomains.reduce(function(wn, jr) {
+                      return wn || wt(jr, ae(window));
+                    }, !1) : Pt === ae(window) || L(ct);
                     if ((!ft || !ft.sameDomain || zr) && (!ft || !ft.trustedDomains || zr)) {
                       var Ur = Si($e, 0, hr, He[hr], dt);
                       zt[hr] = Ur, ft && ft.alias && !zt[ft.alias] && (zt[ft.alias] = Ur);
                     }
                   }
-                  if (!It) for (var br = 0, hn = Object.keys($e); br < hn.length; br++) {
-                    var Br = hn[br];
+                  if (!It) for (var br = 0, vn = Object.keys($e); br < vn.length; br++) {
+                    var Br = vn[br];
                     He.hasOwnProperty(Br) || (zt[Br] = Si($e, 0, Br, void 0, dt));
                   }
                   return zt;
@@ -5553,8 +5553,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   uid: le,
                   export: fr
                 }, ze);
-                ce ? mr(ce, Ye) : ce = Ye;
-                for (var Ne = 0; Ne < M.length; Ne++) (0, M[Ne])(ce);
+                ue ? mr(ue, Ye) : ue = Ye;
+                for (var Ne = 0; Ne < M.length; Ne++) (0, M[Ne])(ue);
               }, bt = function(fe) {
                 return p.try(function() {
                   return de(fe, he, !0);
@@ -5571,7 +5571,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                           win: Ye
                         },
                         basic: !0
-                      }), ut = Ne.sender;
+                      }), ct = Ne.sender;
                       if (Ne.reference.type === "uid" || Ne.metaData.windowRef.type === "global") {
                         var $e = Ri({
                           name: ze,
@@ -5581,7 +5581,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                               windowRef: ka(Ye)
                             },
                             sender: {
-                              domain: ut.domain
+                              domain: ct.domain
                             },
                             receiver: {
                               win: window,
@@ -5615,14 +5615,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                       close: xi
                     });
                   }).then(function() {
-                    return (fe = z.width, Ke = fe !== void 0 && fe, ze = z.height, Ye = ze !== void 0 && ze, Ne = z.element, Bo(Ne === void 0 ? "body" : Ne).catch(Ie).then(function(ut) {
+                    return (fe = z.width, Ke = fe !== void 0 && fe, ze = z.height, Ye = ze !== void 0 && ze, Ne = z.element, Bo(Ne === void 0 ? "body" : Ne).catch(Ie).then(function(ct) {
                       return {
                         width: Ke,
                         height: Ye,
-                        element: ut
+                        element: ct
                       };
-                    })).then(function(ut) {
-                      var $e = ut.width, He = ut.height, Pt = ut.element;
+                    })).then(function(ct) {
+                      var $e = ct.width, He = ct.height, Pt = ct.element;
                       Pt && ($e || He) && Me !== We.POPUP && Vo(Pt, function(dt) {
                         er({
                           width: $e ? dt.width : void 0,
@@ -5639,14 +5639,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   });
                 },
                 getProps: function() {
-                  return ce || (de(Nt, he), ce);
+                  return ue || (de(Nt, he), ue);
                 }
               };
             }(r);
             return T.init(), T;
           }
         }), P = function T(x) {
-          var O, W = "zoid-" + i + "-" + st(), z = x || {}, J = c({
+          var O, W = "zoid-" + i + "-" + st(), z = x || {}, J = u({
             props: z
           }), M = J.eligible, V = J.reason, U = z.onDestroy;
           z.onDestroy = function() {
@@ -5656,13 +5656,13 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             uid: W,
             options: r
           });
-          re.init(), M ? re.setProps(z) : z.onDestroy && z.onDestroy(), to.register(function(ce) {
-            return re.destroy(ce || new Error("zoid destroyed all components"));
+          re.init(), M ? re.setProps(z) : z.onDestroy && z.onDestroy(), to.register(function(ue) {
+            return re.destroy(ue || new Error("zoid destroyed all components"));
           });
-          var H = function(ce) {
-            var Q = (ce === void 0 ? {} : ce).decorate;
+          var H = function(ue) {
+            var Q = (ue === void 0 ? {} : ue).decorate;
             return T((Q === void 0 ? Ua : Q)(z));
-          }, he = function(ce, Q, G) {
+          }, he = function(ue, Q, G) {
             return p.try(function() {
               if (!M) {
                 var le = new Error(V || n + " component is not eligible");
@@ -5670,7 +5670,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   throw le;
                 });
               }
-              if (!ar(ce)) throw new Error("Must pass window to renderTo");
+              if (!ar(ue)) throw new Error("Must pass window to renderTo");
               return function(ne, Me) {
                 return p.try(function() {
                   if (ne.window) return Fr(ne.window).getType();
@@ -5689,14 +5689,14 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 }
                 if (ne === We.POPUP) return "body";
                 throw new Error("Expected element to be passed to render iframe");
-              }(le, Q), ce !== window && typeof Q != "string") throw new Error("Must pass string element when rendering to another window");
+              }(le, Q), ue !== window && typeof Q != "string") throw new Error("Must pass string element when rendering to another window");
               return re.render({
-                target: ce,
+                target: ue,
                 container: Q,
                 context: le,
                 rerender: function() {
                   var ne = H();
-                  return mr(O, ne), ne.renderTo(ce, Q, G);
+                  return mr(O, ne), ne.renderTo(ue, Q, G);
                 }
               });
             }).catch(function(le) {
@@ -5706,8 +5706,8 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             });
           };
           return O = w({}, re.getExports(), re.getHelpers(), function() {
-            for (var ce = h(), Q = {}, G = function() {
-              var Me = ne[le], Nt = ce[Me];
+            for (var ue = h(), Q = {}, G = function() {
+              var Me = ne[le], Nt = ue[Me];
               Q[Me] = function(Et) {
                 var Kt = re.getProps(), Yt = w({}, Et, {
                   parent: {
@@ -5718,18 +5718,18 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 });
                 return Nt(Yt);
               };
-            }, le = 0, ne = Object.keys(ce); le < ne.length; le++) G();
+            }, le = 0, ne = Object.keys(ue); le < ne.length; le++) G();
             return Q;
           }(), {
             isEligible: function() {
               return M;
             },
             clone: H,
-            render: function(ce, Q) {
-              return he(window, ce, Q);
+            render: function(ue, Q) {
+              return he(window, ue, Q);
             },
-            renderTo: function(ce, Q, G) {
-              return he(ce, Q, G);
+            renderTo: function(ue, Q, G) {
+              return he(ue, Q, G);
             }
           }), M && R.push(O), O;
         };
@@ -5761,7 +5761,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
               angular2: is
             };
             if (!O[T]) throw new Error("Could not find driver for framework: " + T);
-            return g[T] || (g[T] = O[T].register(i, u, P, x)), g[T];
+            return g[T] || (g[T] = O[T].register(i, c, P, x)), g[T];
           },
           isChild: y,
           canRenderTo: function(T) {
@@ -5774,15 +5774,15 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           registerChild: v
         };
       }
-      var cs = function(e) {
+      var us = function(e) {
         (function() {
-          _t().initialized || (_t().initialized = !0, u = (a = {
+          _t().initialized || (_t().initialized = !0, c = (a = {
             on: Mt,
             send: xt
-          }).on, c = a.send, (h = _t()).receiveMessage = h.receiveMessage || function(l) {
+          }).on, u = a.send, (h = _t()).receiveMessage = h.receiveMessage || function(l) {
             return Xn(l, {
-              on: u,
-              send: c
+              on: c,
+              send: u
             });
           }, function(l) {
             var g = l.on, R = l.send;
@@ -5813,7 +5813,7 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           }({
             on: Mt,
             send: xt
-          }), ci({
+          }), ui({
             on: Mt,
             send: xt,
             receiveMessage: Xn
@@ -5838,13 +5838,13 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             on: Mt,
             send: xt
           }));
-          var a, u, c, h;
+          var a, c, u, h;
         })();
-        var r = us(e), n = function(a) {
+        var r = cs(e), n = function(a) {
           return r.init(a);
         };
-        n.driver = function(a, u) {
-          return r.driver(a, u);
+        n.driver = function(a, c) {
+          return r.driver(a, c);
         }, n.isChild = function() {
           return r.isChild();
         }, n.canRenderTo = function(a) {
@@ -5856,15 +5856,15 @@ var Hu = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       function Ci(e) {
         Jt && Jt.destroyBridges();
         var r = to.all(e);
-        return to = nn(), r;
+        return to = an(), r;
       }
       var Di = Ci;
       function ds(e) {
         return Di(), delete window.__zoid_10_3_3__, function() {
           (function() {
             for (var n = we("responseListeners"), i = 0, a = n.keys(); i < a.length; i++) {
-              var u = a[i], c = n.get(u);
-              c && (c.cancelled = !0), n.del(u);
+              var c = a[i], u = n.get(c);
+              u && (u.cancelled = !0), n.del(c);
             }
           })(), (r = we().get("postMessageListener")) && r.cancel();
           var r;
@@ -5879,7 +5879,7 @@ const ra = Na.EVENT, Rr = {
   VISIBLE: "zoid-visible",
   INVISIBLE: "zoid-invisible"
 };
-function Vu({
+function Vc({
   uid: t,
   frame: o,
   prerenderFrame: s,
@@ -5935,11 +5935,11 @@ function Vu({
     }, 100), setTimeout(() => {
       s.remove();
     }, 1);
-  }), m.on(ra.RESIZE, ({ width: se, height: ue }) => {
-    typeof se == "number" && (D.style.width = `${se}px`), typeof ue == "number" && (D.style.height = `${ue}px`);
+  }), m.on(ra.RESIZE, ({ width: se, height: ce }) => {
+    typeof se == "number" && (D.style.width = `${se}px`), typeof ce == "number" && (D.style.height = `${ce}px`);
   }), D;
 }
-function Gu(t) {
+function Gc(t) {
   return Na.create({
     dimensions: {
       width: "100%",
@@ -5957,20 +5957,20 @@ function Gu(t) {
         required: !0
       }
     },
-    containerTemplate: Vu
+    containerTemplate: Vc
   });
 }
-function Ju(t) {
-  return Gu(t.id)(t);
+function Jc(t) {
+  return Gc(t.id)(t);
 }
-class Ku extends Error {
+class Kc extends Error {
   constructor(o, s) {
     super(o, s), this.name = "FetchError", s != null && s.cause && !this.cause && (this.cause = s.cause);
   }
 }
-function Yu(t) {
+function Yc(t) {
   var S, C, E, D, N;
-  const o = ((S = t.error) == null ? void 0 : S.message) || ((C = t.error) == null ? void 0 : C.toString()) || "", s = ((E = t.request) == null ? void 0 : E.method) || ((D = t.options) == null ? void 0 : D.method) || "GET", d = ((N = t.request) == null ? void 0 : N.url) || String(t.request) || "/", f = `[${s}] ${JSON.stringify(d)}`, m = t.response ? `${t.response.status} ${t.response.statusText}` : "<no response>", b = `${f}: ${m}${o ? ` ${o}` : ""}`, w = new Ku(
+  const o = ((S = t.error) == null ? void 0 : S.message) || ((C = t.error) == null ? void 0 : C.toString()) || "", s = ((E = t.request) == null ? void 0 : E.method) || ((D = t.options) == null ? void 0 : D.method) || "GET", d = ((N = t.request) == null ? void 0 : N.url) || String(t.request) || "/", f = `[${s}] ${JSON.stringify(d)}`, m = t.response ? `${t.response.status} ${t.response.statusText}` : "<no response>", b = `${f}: ${m}${o ? ` ${o}` : ""}`, w = new Kc(
     b,
     t.error ? { cause: t.error } : void 0
   );
@@ -5980,7 +5980,7 @@ function Yu(t) {
         return t[se];
       }
     });
-  for (const [se, ue] of [
+  for (const [se, ce] of [
     ["data", "_data"],
     ["status", "status"],
     ["statusCode", "status"],
@@ -5989,36 +5989,36 @@ function Yu(t) {
   ])
     Object.defineProperty(w, se, {
       get() {
-        return t.response && t.response[ue];
+        return t.response && t.response[ce];
       }
     });
   return w;
 }
-const Zu = new Set(
+const Zc = new Set(
   Object.freeze(["PATCH", "POST", "PUT", "DELETE"])
 );
 function na(t = "GET") {
-  return Zu.has(t.toUpperCase());
+  return Zc.has(t.toUpperCase());
 }
-function Xu(t) {
+function Xc(t) {
   if (t === void 0)
     return !1;
   const o = typeof t;
   return o === "string" || o === "number" || o === "boolean" || o === null ? !0 : o !== "object" ? !1 : Array.isArray(t) ? !0 : t.buffer ? !1 : t.constructor && t.constructor.name === "Object" || typeof t.toJSON == "function";
 }
-const Qu = /* @__PURE__ */ new Set([
+const Qc = /* @__PURE__ */ new Set([
   "image/svg",
   "application/xml",
   "application/xhtml",
   "application/html"
-]), ku = /^application\/(?:[\w!#$%&*.^`~-]*\+)?json(;.+)?$/i;
-function ec(t = "") {
+]), kc = /^application\/(?:[\w!#$%&*.^`~-]*\+)?json(;.+)?$/i;
+function eu(t = "") {
   if (!t)
     return "json";
   const o = t.split(";").shift() || "";
-  return ku.test(o) ? "json" : Qu.has(o) || o.startsWith("text/") ? "text" : "blob";
+  return kc.test(o) ? "json" : Qc.has(o) || o.startsWith("text/") ? "text" : "blob";
 }
-function tc(t, o, s = globalThis.Headers) {
+function tu(t, o, s = globalThis.Headers) {
   const d = {
     ...o,
     ...t
@@ -6036,7 +6036,7 @@ function tc(t, o, s = globalThis.Headers) {
   }
   return d;
 }
-const rc = /* @__PURE__ */ new Set([
+const ru = /* @__PURE__ */ new Set([
   408,
   // Request Timeout
   409,
@@ -6053,7 +6053,7 @@ const rc = /* @__PURE__ */ new Set([
   // Service Unavailable
   504
   //  Gateway Timeout
-]), nc = /* @__PURE__ */ new Set([101, 204, 205, 304]);
+]), nu = /* @__PURE__ */ new Set([101, 204, 205, 304]);
 function Aa(t = {}) {
   const {
     fetch: o = globalThis.fetch,
@@ -6066,7 +6066,7 @@ function Aa(t = {}) {
       let E;
       typeof w.options.retry == "number" ? E = w.options.retry : E = na(w.options.method) ? 0 : 1;
       const D = w.response && w.response.status || 500;
-      if (E > 0 && (Array.isArray(w.options.retryStatusCodes) ? w.options.retryStatusCodes.includes(D) : rc.has(D))) {
+      if (E > 0 && (Array.isArray(w.options.retryStatusCodes) ? w.options.retryStatusCodes.includes(D) : ru.has(D))) {
         const N = w.options.retryDelay || 0;
         return N > 0 && await new Promise((se) => setTimeout(se, N)), m(w.request, {
           ...w.options,
@@ -6074,46 +6074,46 @@ function Aa(t = {}) {
         });
       }
     }
-    const C = Yu(w);
+    const C = Yc(w);
     throw Error.captureStackTrace && Error.captureStackTrace(C, m), C;
   }
   const m = async function(S, C = {}) {
     var se;
     const E = {
       request: S,
-      options: tc(C, t.defaults, s),
+      options: tu(C, t.defaults, s),
       response: void 0,
       error: void 0
     };
-    E.options.method = (se = E.options.method) == null ? void 0 : se.toUpperCase(), E.options.onRequest && await E.options.onRequest(E), typeof E.request == "string" && (E.options.baseURL && (E.request = Hs(E.request, E.options.baseURL)), (E.options.query || E.options.params) && (E.request = bn(E.request, {
+    E.options.method = (se = E.options.method) == null ? void 0 : se.toUpperCase(), E.options.onRequest && await E.options.onRequest(E), typeof E.request == "string" && (E.options.baseURL && (E.request = Hs(E.request, E.options.baseURL)), (E.options.query || E.options.params) && (E.request = Jr(E.request, {
       ...E.options.params,
       ...E.options.query
-    }))), E.options.body && na(E.options.method) && (Xu(E.options.body) ? (E.options.body = typeof E.options.body == "string" ? E.options.body : JSON.stringify(E.options.body), E.options.headers = new s(E.options.headers || {}), E.options.headers.has("content-type") || E.options.headers.set("content-type", "application/json"), E.options.headers.has("accept") || E.options.headers.set("accept", "application/json")) : (
+    }))), E.options.body && na(E.options.method) && (Xc(E.options.body) ? (E.options.body = typeof E.options.body == "string" ? E.options.body : JSON.stringify(E.options.body), E.options.headers = new s(E.options.headers || {}), E.options.headers.has("content-type") || E.options.headers.set("content-type", "application/json"), E.options.headers.has("accept") || E.options.headers.set("accept", "application/json")) : (
       // ReadableStream Body
       ("pipeTo" in E.options.body && typeof E.options.body.pipeTo == "function" || // Node.js Stream Body
       typeof E.options.body.pipe == "function") && ("duplex" in E.options || (E.options.duplex = "half"))
     ));
     let D;
     if (!E.options.signal && E.options.timeout) {
-      const ue = new d();
+      const ce = new d();
       D = setTimeout(
-        () => ue.abort(),
+        () => ce.abort(),
         E.options.timeout
-      ), E.options.signal = ue.signal;
+      ), E.options.signal = ce.signal;
     }
     try {
       E.response = await o(
         E.request,
         E.options
       );
-    } catch (ue) {
-      return E.error = ue, E.options.onRequestError && await E.options.onRequestError(E), await f(E);
+    } catch (ce) {
+      return E.error = ce, E.options.onRequestError && await E.options.onRequestError(E), await f(E);
     } finally {
       D && clearTimeout(D);
     }
-    if (E.response.body && !nc.has(E.response.status) && E.options.method !== "HEAD") {
-      const ue = (E.options.parseResponse ? "json" : E.options.responseType) || ec(E.response.headers.get("content-type") || "");
-      switch (ue) {
+    if (E.response.body && !nu.has(E.response.status) && E.options.method !== "HEAD") {
+      const ce = (E.options.parseResponse ? "json" : E.options.responseType) || eu(E.response.headers.get("content-type") || "");
+      switch (ce) {
         case "json": {
           const Ge = await E.response.text(), p = E.options.parseResponse || Da;
           E.response._data = p(Ge);
@@ -6124,7 +6124,7 @@ function Aa(t = {}) {
           break;
         }
         default:
-          E.response._data = await E.response[ue]();
+          E.response._data = await E.response[ce]();
       }
     }
     return E.options.onResponse && await E.options.onResponse(E), !E.options.ignoreResponseError && E.response.status >= 400 && E.response.status < 600 ? (E.options.onResponseError && await E.options.onResponseError(E), await f(E)) : E.response;
@@ -6149,7 +6149,7 @@ const So = function() {
   if (typeof global < "u")
     return global;
   throw new Error("unable to locate global object");
-}(), oc = So.fetch || (() => Promise.reject(new Error("[ofetch] global.fetch is not supported!"))), ic = So.Headers, ac = So.AbortController, sc = Aa({ fetch: oc, Headers: ic, AbortController: ac }), uc = sc.create({
+}(), ou = So.fetch || (() => Promise.reject(new Error("[ofetch] global.fetch is not supported!"))), iu = So.Headers, au = So.AbortController, su = Aa({ fetch: ou, Headers: iu, AbortController: au }), cu = su.create({
   credentials: "omit",
   onResponseError({ response: t, error: o }) {
     console.log("[LOG] ~ error:", o);
@@ -6166,11 +6166,11 @@ const So = function() {
   WARN: 2,
   ERROR: 3
 };
-function cc() {
+function uu() {
   return (window == null ? void 0 : window.CSPM_LOG_LEVEL) || "INFO";
 }
 class Wa {
-  constructor(o = "[APP]", s = cc()) {
+  constructor(o = "[APP]", s = uu()) {
     Tt(this, "prefix");
     Tt(this, "logLevel");
     this.prefix = o, this.logLevel = s;
@@ -6191,7 +6191,7 @@ class Wa {
     rr[this.logLevel] <= rr.ERROR && console.error(`${this.prefix} [ERROR]`, ...o);
   }
 }
-const co = new Wa("[HLSAdapter]");
+const uo = new Wa("[HLSAdapter]");
 function oa({ adsUrl: t, sdk: o, loader: s }) {
   return class extends s {
     constructor(f) {
@@ -6202,10 +6202,10 @@ function oa({ adsUrl: t, sdk: o, loader: s }) {
       b.onSuccess = async (S, C, E) => {
         if (E.type === "manifest" || E.type === "level" || E.type === "audioTrack") {
           const D = S.data;
-          co.debug("getLoader", "params", { url: S.url, type: E.type }), co.debug("getLoader", `before 
+          uo.debug("getLoader", "params", { url: S.url, type: E.type }), uo.debug("getLoader", `before 
 `, D);
           const N = await this.modifyManifest(S.url, S.data, E.type);
-          co.debug("getLoader", `after 
+          uo.debug("getLoader", `after 
 `, N), S.data = N;
         }
         w(S, C, E);
@@ -6229,7 +6229,7 @@ function oa({ adsUrl: t, sdk: o, loader: s }) {
     }
   };
 }
-function dc() {
+function du() {
   var t = t || window;
   const o = new TextEncoder("utf-8"), s = new TextDecoder("utf-8");
   let d = new DataView(new ArrayBuffer(8));
@@ -6282,7 +6282,7 @@ function dc() {
         const Y = new Array(A);
         for (let Ee = 0; Ee < A; Ee++) Y[Ee] = C(p + 8 * Ee);
         return Y;
-      }, ue = (p, A) => s.decode(new DataView(this._inst.exports.memory.buffer, p, A)), Ge = Date.now() - performance.now();
+      }, ce = (p, A) => s.decode(new DataView(this._inst.exports.memory.buffer, p, A)), Ge = Date.now() - performance.now();
       this.importObject = {
         wasi_snapshot_preview1: {
           fd_write: function(p, A, q, Y) {
@@ -6324,19 +6324,19 @@ function dc() {
             }
           },
           "syscall/js.stringVal": (p, A) => {
-            const q = ue(p, A);
+            const q = ce(p, A);
             return E(q);
           },
           "syscall/js.valueGet": (p, A, q) => {
-            let Y = ue(A, q), Ee = S(p), xe = Reflect.get(Ee, Y);
+            let Y = ce(A, q), Ee = S(p), xe = Reflect.get(Ee, Y);
             return E(xe);
           },
           "syscall/js.valueSet": (p, A, q, Y) => {
-            const Ee = S(p), xe = ue(A, q), Fe = S(Y);
+            const Ee = S(p), xe = ce(A, q), Fe = S(Y);
             Reflect.set(Ee, xe, Fe);
           },
           "syscall/js.valueDelete": (p, A, q) => {
-            const Y = S(p), Ee = ue(A, q);
+            const Y = S(p), Ee = ce(A, q);
             Reflect.deleteProperty(Y, Ee);
           },
           "syscall/js.valueIndex": (p, A) => E(Reflect.get(S(p), A)),
@@ -6344,7 +6344,7 @@ function dc() {
             Reflect.set(S(p), A, S(q));
           },
           "syscall/js.valueCall": (p, A, q, Y, Ee, xe, Fe) => {
-            const ve = S(A), Ae = ue(q, Y), Z = se(Ee, xe);
+            const ve = S(A), Ae = ce(q, Y), Z = se(Ee, xe);
             try {
               const Pe = Reflect.get(ve, Ae);
               D(p, Reflect.apply(Pe, ve, Z)), w().setUint8(p + 8, 1);
@@ -6428,7 +6428,7 @@ function dc() {
   }
   return new m();
 }
-class fc {
+class fu {
   constructor() {
     Tt(this, "data");
     Tt(this, "mutex");
@@ -6441,7 +6441,7 @@ class fc {
       const s = JSON.stringify(o);
       for (let d = 1; d <= 3; d++)
         try {
-          const f = await Kr.getInstance({}), { manifest: m, err: b, session: w } = await f.loadSource(s);
+          const f = await Yr.getInstance({}), { manifest: m, err: b, session: w } = await f.loadSource(s);
           if (b)
             throw new Error(b);
           return this.data = w, m;
@@ -6455,7 +6455,7 @@ class fc {
     return null;
   }
   async getEventTracking() {
-    return await (await Kr.getInstance({})).getEventTracking(this.data);
+    return await (await Yr.getInstance({})).getEventTracking(this.data);
   }
   async acquire() {
     return new Promise((o) => {
@@ -6528,7 +6528,7 @@ const jt = class jt {
           this.wasm = await m.arrayBuffer();
         }
         window.loadSource !== null && (window.loadSource = null), window.getEventTracking = null, this.go && (this.go = null);
-        const d = dc();
+        const d = du();
         this.instanceExpiration = Date.now() + 1e3;
         const f = await WebAssembly.instantiate(
           this.wasm,
@@ -6563,56 +6563,56 @@ const jt = class jt {
     return Date.now() > this.instanceExpiration;
   }
   createSession() {
-    return new fc();
+    return new fu();
   }
 };
 Tt(jt, "instance");
-let Kr = jt;
-const lc = new Wa("[AdsTracking]");
+let Yr = jt;
+const lu = new Wa("[AdsTracking]");
 function ia(t, o, s) {
   var w;
-  lc.debug("getCurrentAds", { query: t, avails: o, currentAds: s });
+  lu.debug("getCurrentAds", { query: t, avails: o, currentAds: s });
   const d = o == null ? void 0 : o.find((S) => S.id == t.availId), f = (w = d == null ? void 0 : d.ads) == null ? void 0 : w.filter((S) => (S == null ? void 0 : S.id) == (t == null ? void 0 : t.adsId)), m = f == null ? void 0 : f.find((S) => S.position === (t == null ? void 0 : t.position));
   return !m || (m.availId = d == null ? void 0 : d.id, s && s.id == (m == null ? void 0 : m.id) && s.availId == m.availId) ? s : { ...m, impression: !1 };
 }
-function hc(t) {
+function hu(t) {
   try {
     return atob(t);
   } catch (o) {
     return console.error("Invalid base64 string:", o), null;
   }
 }
-function pc(t) {
+function pu(t) {
   try {
-    const s = new URL(t).hash.substring(1), d = hc(s);
+    const s = new URL(t).hash.substring(1), d = hu(s);
     return d ? JSON.parse(d) : null;
   } catch (o) {
     return console.error("Error parsing URI:", o), null;
   }
 }
-function vc({
+function vu({
   video: t,
   adContainer: o,
   startSession: s,
   sdk: d,
   domain: f
 }) {
-  const m = qu(), b = qt(!1), w = qt(), S = Math.random().toString(36).slice(6);
+  const m = qc(), b = qt(!1), w = qt(), S = Math.random().toString(36).slice(6);
   function C({ icons: L }) {
-    const B = Rn(f, "/build/dist/wta/index.html");
+    const B = Zr(f, "/build/dist/wta/index.html");
     return {
       id: S,
       appConfig: {
-        sdkBaseUrl: bn(B || "https://localhost:4222/wta/index.html", { id: S })
+        sdkBaseUrl: Jr(B || "https://localhost:4222/wta/index.html", { id: S })
       },
       icons: L
     };
   }
   if (!!o) {
-    const L = Ju(C({
+    const L = Jc(C({
       icons: []
     }));
-    L.render(o), L.hide(), o.style.display = "none", lu(() => {
+    L.render(o), L.hide(), o.style.display = "none", lc(() => {
       var B;
       if (w.value) {
         const X = ((B = w.value) == null ? void 0 : B.icons) || [];
@@ -6624,13 +6624,13 @@ function vc({
     });
   }
   const D = qt([]), N = qt(), se = qt([]);
-  async function ue(L) {
+  async function ce(L) {
     var B;
     try {
       const X = (B = w.value) == null ? void 0 : B.trackingEvents.find((Re) => Re.eventType === L);
       if (!X)
         return;
-      m.trigger(X), X.beaconUrls.map((Re) => $u(uc(Re, {
+      m.trigger(X), X.beaconUrls.map((Re) => $c(cu(Re, {
         retry: 3,
         retryDelay: 500
       })));
@@ -6644,11 +6644,11 @@ function vc({
     L.addEventListener(B, X), Ge.set(B, X);
   }
   async function Y(L) {
-    const B = pc(L);
+    const B = pu(L);
     if (B) {
       const { avails: X } = await d.getEventTracking();
       w.value = ia(B, X, w.value), B.events.forEach((Re) => {
-        w.value && (w.value.impression || (ue("impression"), w.value.impression = !0), ue(Re), Re === "complete" && (w.value = void 0));
+        w.value && (w.value.impression || (ce("impression"), w.value.impression = !0), ce(Re), Re === "complete" && (w.value = void 0));
       });
     }
   }
@@ -6656,9 +6656,9 @@ function vc({
     return b.value = !1, ["fullscreenchange", "webkitfullscreenchange", "mozfullscreenchange", "msfullscreenchange"].forEach((L) => {
       q(t, L, () => {
         const B = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
-        ue(B ? "fullscreen" : "exitFullscreen");
+        ce(B ? "fullscreen" : "exitFullscreen");
       });
-    }), q(t, "pause", () => ue("pause")), q(t, "play", () => ue("resume")), q(t, "rewind", () => ue("rewind")), q(t, "mute", () => ue("mute")), q(t, "unmute", () => ue("unmute")), async (L, B) => {
+    }), q(t, "pause", () => ce("pause")), q(t, "play", () => ce("resume")), q(t, "rewind", () => ce("rewind")), q(t, "mute", () => ce("mute")), q(t, "unmute", () => ce("unmute")), async (L, B) => {
       const { tagList: X, _url: Re } = B.frag;
       X.flat().find((Oe) => Oe === "EXT-X-CUE-OUT-CONT" || Oe === "EXT-X-CUE-OUT" || Oe === "EXT-X-CUE-IN") && Y(Re);
     };
@@ -6696,7 +6696,7 @@ function vc({
         const Je = B.samples[Oe], at = Je.data, Dt = Je.pts;
         if (String.fromCharCode.apply(null, at.slice(0, 3)) !== "ID3" || String.fromCharCode.apply(null, at.slice(10, 14)) !== "TXXX")
           continue;
-        const $t = at.slice(21, at.length), Zr = X($t), Ht = $t.slice(Zr + 1, $t.length), Cr = X(Ht), Dr = new TextDecoder("utf-8").decode(Ht.slice(0, Cr)), ir = {
+        const $t = at.slice(21, at.length), Qr = X($t), Ht = $t.slice(Qr + 1, $t.length), Cr = X(Ht), Dr = new TextDecoder("utf-8").decode(Ht.slice(0, Cr)), ir = {
           sn: ot,
           time: Dt - Re,
           value: Da(Dr)
@@ -6739,7 +6739,7 @@ function vc({
             const { avails: at } = await d.getEventTracking();
             w.value = ia(Je, at, w.value);
             const Dt = Je.event;
-            w.value && (w.value.impression || (ue("impression"), w.value.impression = !0), ue(Dt), Dt === "complete" && (w.value = void 0));
+            w.value && (w.value.impression || (ce("impression"), w.value.impression = !0), ce(Dt), Dt === "complete" && (w.value = void 0));
           }
         } catch (ot) {
           console.error("Error decoding base64:", ot);
@@ -6778,20 +6778,20 @@ function vc({
     getLog: ae
   };
 }
-async function yc({ video: t, adContainer: o, adsUrl: s, baseURL: d }) {
-  const f = d || "https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.5.0", b = (await Kr.getInstance({ uri: Rn(f, "/build/dist/sigma-cspm.wasm") || "https://localhost:4222/sigma-cspm.wasm" })).createSession();
+async function yu({ video: t, adContainer: o, adsUrl: s, baseURL: d }) {
+  const f = d || "https://cdn.jsdelivr.net/gh/sigmaott/sigma-ssai-web-sdk@v1.5.1", b = (await Yr.getInstance({ uri: Zr(f, "/build/dist/sigma-cspm.wasm") || "https://localhost:4222/sigma-cspm.wasm" })).createSession();
   function w() {
   }
-  const { onEventTracking: S, destroy: C, videojsHelper: E, hlsHelper: D, shakaPlayerHelper: N, getLog: se } = vc({
+  const { onEventTracking: S, destroy: C, videojsHelper: E, hlsHelper: D, shakaPlayerHelper: N, getLog: se } = vu({
     video: t,
     adContainer: o,
     trackingUrl: "",
     startSession: w,
     sdk: b,
     domain: f
-  }), ue = qt(), Ge = qt();
+  }), ce = qt(), Ge = qt();
   function p(Z) {
-    Z.config.loader = oa({ adsUrl: s, sdk: b, loader: Hls.DefaultConfig.loader }), ue.value = Z;
+    Z.config.loader = oa({ adsUrl: s, sdk: b, loader: Hls.DefaultConfig.loader }), ce.value = Z;
     const Pe = D.createHlsFragChanged(), ae = D.createHlsFragParsingMetadata();
     Z.on("hlsFragChanged", Pe), Z.on("hlsFragParsingMetadata", ae), Z.on(Hls.Events.ERROR, (L, B) => {
       console.error("HLS Error:", L, B), B.type === window.Hls.ErrorTypes.NETWORK_ERROR ? console.error("Network Error:", B.details) : B.type === window.Hls.ErrorTypes.MEDIA_ERROR ? console.error("Media Error:", B.details) : console.error("Other Error:", B.details);
@@ -6804,7 +6804,7 @@ async function yc({ video: t, adContainer: o, adsUrl: s, baseURL: d }) {
     Z.config = {
       ...Pe,
       loader: oa({ adsUrl: s, sdk: b, loader: SigmaManager.DefaultConfig.loader })
-    }, ue.value = Z;
+    }, ce.value = Z;
     const ae = D.createHlsFragChanged(), L = D.createHlsFragParsingMetadata();
     Z.on("hlsFragChanged", ae), Z.on("hlsFragParsingMetadata", L), Z.on(SigmaManager == null ? void 0 : SigmaManager.Events.ERROR, (B, X) => {
       console.error("HLS Error:", B, X), X.type === (SigmaManager == null ? void 0 : SigmaManager.ErrorTypes.NETWORK_ERROR) ? console.error("Network Error:", X.details) : X.type === (SigmaManager == null ? void 0 : SigmaManager.ErrorTypes.MEDIA_ERROR) ? console.error("Media Error:", X.details) : console.error("Other Error:", X.details);
@@ -6848,7 +6848,7 @@ async function yc({ video: t, adContainer: o, adsUrl: s, baseURL: d }) {
   }
   function Ae() {
     var Z, Pe;
-    C(), (Z = Ge.value) == null || Z.call(Ge), (Pe = Y.value) == null || Pe.call(Y), ue.value = null, q.value = null, Ge.value = null, Y.value = null;
+    C(), (Z = Ge.value) == null || Z.call(Ge), (Pe = Y.value) == null || Pe.call(Y), ce.value = null, q.value = null, Ge.value = null, Y.value = null;
   }
   return {
     onEventTracking: S,
@@ -6865,7 +6865,7 @@ async function yc({ video: t, adContainer: o, adsUrl: s, baseURL: d }) {
   };
 }
 const aa = window == null ? void 0 : window.videojs;
-function wc(t) {
+function wu(t) {
   if ((t == null ? void 0 : t.VERSION) === "7.10.2") {
     let o = t.Vhs.PlaylistLoader.prototype.setupInitialPlaylist;
     t != null && t.originalSetupInitialPlaylist ? o = t.originalSetupInitialPlaylist : t.originalSetupInitialPlaylist = o, t.Vhs.PlaylistLoader.prototype.setupInitialPlaylist = async function(f) {
@@ -7053,8 +7053,8 @@ function wc(t) {
   }
   return t;
 }
-aa && wc(aa);
-function Ec(t) {
+aa && wu(aa);
+function Eu(t) {
   const o = "https://dai.sigma.video/api/proxy-ads/ads/", s = mo(t), d = `${s.protocol}//${s.host}${s.pathname}`;
   if (!s.search)
     return { playerUrl: t, adsUrl: null };
@@ -7065,12 +7065,18 @@ function Ec(t) {
   for (const [C, E] of Object.entries(f))
     C.startsWith("sigma.dai") ? C !== "sigma.dai.adsEndpoint" && (b[C.replace("sigma.dai.", "")] = E) : w[C] = E;
   return {
-    playerUrl: bn(d, w),
-    adsUrl: bn(Rn(o, m), b)
+    playerUrl: Jr(d, w),
+    adsUrl: Jr(Zr(o, m), b)
+  };
+}
+function bu(t, o) {
+  return {
+    adsUrl: Jr(Zr("https://dai.sigma.video/api/proxy-ads/ads/", t), o)
   };
 }
 export {
-  yc as createSigmaDai,
-  Ec as processURL,
-  wc as videojsForCSPM
+  yu as createSigmaDai,
+  bu as getAdsURL,
+  Eu as processURL,
+  wu as videojsForCSPM
 };
